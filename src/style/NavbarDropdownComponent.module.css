@@ -1,0 +1,37 @@
+.ulDropdown {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  list-style: none;
+  position: absolute;
+  right: 1.2rem;
+  top: 4.5rem;
+  background-color: #fff;
+
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+}
+.ulDropdown::before {
+  content: "";
+  position: absolute;
+  top: -0.7rem;
+  right: 1.1rem;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background: #fff;
+  border-left: 1px solid rgba(0, 0, 0, 0.7);
+  border-top: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.liDropdown {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.liDropdown:hover {
+  color: #db3748;
+}
+.liDropdown:last-child {
+  border-bottom: none;
+}
