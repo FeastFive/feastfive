@@ -1,0 +1,40 @@
+.mainContainer {
+  display: flex;
+  gap: 0;
+  height: 100vh;
+  align-items: center;
+}
+.singupPhoto {
+  width: 60%;
+}
+
+.signupForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+}
+.backIcon {
+  position: absolute;
+  color: #fff;
+  top: 15px;
+  left: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.backIcon:hover {
+  top: 12px;
+}
+.homeIcon {
+  position: absolute;
+  color: #db3748;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.homeIcon:hover {
+  top: 12px;
+}
