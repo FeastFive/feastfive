@@ -6,6 +6,7 @@
 }
 .singupPhoto {
   width: 60%;
+  height: 100%;
 }
 
 .signupForm {
@@ -37,4 +38,40 @@
 }
 .homeIcon:hover {
   top: 12px;
+}
+.mobilPhotoContainer {
+  display: none;
+}
+@media (max-width: 1230px) {
+  .mainContainer {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .homeIcon {
+    color: #f0f0f0;
+  }
+
+  .singupPhoto {
+    display: none;
+  }
+  .mobilPhotoContainer {
+    display: block;
+    background-color: #db3748;
+    height: 15rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    margin-bottom: 20px;
+  }
+  .mobilPhoto {
+    width: 200px;
+  }
+
+  .signupForm {
+    width: 100%;
+  }
 }

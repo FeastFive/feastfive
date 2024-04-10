@@ -58,6 +58,20 @@ const Navbar = () => {
           <img src={navIcon} alt="" className={styles.navMobilIcon} />
         </div>
         <div className={styles.mobileButtonContainer}>
+          <div className={styles.mobilRegistrationContainer}>
+            <button
+              className={styles.mobilLoginButton}
+              onClick={() => navigate("/Login")}
+            >
+              {menuButtons.loginButton.title}
+            </button>
+            <button
+              className={styles.mobilSingupButton}
+              onClick={() => navigate("/SignUp")}
+            >
+              {menuButtons.singupButton.title}
+            </button>
+          </div>
           <button className={styles.navMobileButton}>
             {menuButtons.button1.title}
           </button>

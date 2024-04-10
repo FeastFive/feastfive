@@ -94,22 +94,22 @@
   color: #f0f0f0;
 }
 
-/* Responsive */
+.registrationContainer {
+  position: absolute;
+  right: 1.5rem;
+
+  display: flex;
+  gap: 8px;
+}
+
 @media (max-width: 700px) {
-  .buttonContainer {
-    width: 80%;
-  }
-}
-@media (max-width: 530px) {
-  .buttonContainer {
-    width: 90%;
-  }
-}
-@media (max-width: 455px) {
   .buttonContainer {
     width: 90%;
   }
   .navButton {
+    display: none;
+  }
+  .registrationContainer {
     display: none;
   }
   .responsiveDropdown {
@@ -146,7 +146,7 @@
 }
 
 .navMobilIcon {
-  height: 150px;
+  height: 190px;
   margin-top: -50px;
 }
 .mobileButtonContainer {
@@ -166,4 +166,46 @@
 }
 .navMobileButton:hover {
   color: #fff;
+}
+
+.mobilRegistrationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.mobilLoginButton {
+  cursor: pointer;
+  border: none;
+  /* padding: 4px 10px; */
+  width: 7rem;
+  height: 2.3rem;
+  background-color: transparent;
+  color: #f0f0f0;
+  border: #f0f0f0 solid 1.5px;
+  font-size: 24px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.mobilLoginButton:hover {
+  background-color: #f0f0f0;
+  color: #db3748;
+}
+
+.mobilSingupButton {
+  cursor: pointer;
+  border: none;
+  background-color: #f0f0f0;
+  border: #f0f0f0 solid 1.5px;
+  /* padding: 4px 10px; */
+  width: 7rem;
+  height: 2.3rem;
+  color: #db3748;
+  font-size: 24px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.mobilSingupButton:hover {
+  background-color: #db3748;
+  color: #f0f0f0;
 }
