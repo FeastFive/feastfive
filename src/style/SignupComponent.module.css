@@ -1,0 +1,92 @@
+.formContainer {
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 15px;
+}
+.nameLabel {
+  display: flex;
+  gap: 15px;
+}
+.inputLabel {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.inputTitle {
+  font-size: 18px;
+}
+.dropdown {
+  border: 2px solid #000;
+  /* border-radius: 5px; */
+  height: 37px;
+  line-height: normal;
+  color: #282828;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: auto;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  outline: none;
+}
+.dropdown:focus {
+  border: 2px solid #db3748;
+}
+.dropdown:active {
+  border: 2px solid #db3748;
+}
+
+.inputFill {
+  all: unset;
+  border: 2px solid #000;
+  /* border-radius: 5px; */
+  height: 37px;
+  line-height: normal;
+  color: #282828;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: auto;
+  font-size: 12px;
+
+  padding-left: 8px;
+  cursor: text;
+}
+.inputFill:focus {
+  border-color: #db3748;
+}
+.subbmitButton {
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: #db3748;
+  color: #f0f0f0;
+  padding: 9px 32px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+
+  transition: transform 200ms, background 200ms;
+}
+.subbmitButton:hover {
+  transform: translateY(-2px);
+  background: #0f0f0f;
+  color: #f0f0f0;
+}
+.otherOptions {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #808080;
+}
+.otherOptions:hover {
+  color: #0f0f0f;
+}
+@media (max-width: 1000px) {
+  .formContainer {
+    justify-content: center;
+  }
+}

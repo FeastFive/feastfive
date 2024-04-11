@@ -1,0 +1,77 @@
+.mainContainer {
+  display: flex;
+  gap: 0;
+  height: 100vh;
+  align-items: center;
+}
+.singupPhoto {
+  width: 60%;
+  height: 100%;
+}
+
+.signupForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+}
+.backIcon {
+  position: absolute;
+  color: #fff;
+  top: 15px;
+  left: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.backIcon:hover {
+  top: 12px;
+}
+.homeIcon {
+  position: absolute;
+  color: #db3748;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.homeIcon:hover {
+  top: 12px;
+}
+.mobilPhotoContainer {
+  display: none;
+}
+@media (max-width: 1230px) {
+  .mainContainer {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .homeIcon {
+    color: #f0f0f0;
+  }
+
+  .singupPhoto {
+    display: none;
+  }
+  .mobilPhotoContainer {
+    display: block;
+    background-color: #db3748;
+    height: 15rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    margin-bottom: 20px;
+  }
+  .mobilPhoto {
+    width: 200px;
+  }
+
+  .signupForm {
+    width: 100%;
+  }
+}

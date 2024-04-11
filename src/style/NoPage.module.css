@@ -1,0 +1,43 @@
+.pageContainer {
+  font-family: "Open Sans", sans-serif;
+  height: 100vh;
+  background-color: #db3748;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+.logo {
+  width: 12rem;
+}
+.notFound {
+  color: #f0f0f0;
+  font-size: 42px;
+  font-weight: 600;
+}
+.homeIcon {
+  position: absolute;
+  color: #f0f0f0;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.homeIcon:hover {
+  top: 12px;
+}
+@media (max-width: 440px) {
+  .homeIcon {
+    font-size: 40px;
+  }
+  .notFound {
+    font-size: 34px;
+  }
+}
+@media (max-width: 360px) {
+  .notFound {
+    font-size: 26px;
+  }
+}
