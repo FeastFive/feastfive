@@ -9,18 +9,23 @@ const connectDB = require("./config/db");
 var cors = require("cors");
 require("dotenv").config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    link: "*",
+    origin: "*",
   })
 );
 
 connectDB();
+
+//Routes
+
+//for user
+app.use("/api/users", require("./routes/userRoutes"));
 
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
