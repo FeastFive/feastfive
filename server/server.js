@@ -1,27 +1,31 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const path = require("path");
 const express = require("express");
 const app = express();
 const http = require("http");
-const bodyParser = require("body-parser");
+const path = require("path");
+const cors = require("cors");
+const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-var cors = require("cors");
-require("dotenv").config();
+const bodyParser = require("body-parser");
 
-const port = process.env.PORT || 3000;
+dotenv.config();
 
+const port = process.env.PORT || 4000;
+
+//Middlewares
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(
-  cors({
-    link: "*",
-  })
-);
+app.use(bodyParser.json());
+app.use(express.static(path.resolve(__dirname, "../build")));
 
+//DB connection
 connectDB();
 
-const server = app.listen(port, () => {
+// Routes
+app.use("/api/users", require("./routes/userRoutes"));
+
+//Server
+const server = http.createServer(app);
+
+server.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
