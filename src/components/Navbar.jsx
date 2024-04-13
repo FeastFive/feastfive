@@ -14,8 +14,8 @@ const Navbar = () => {
     button2: { title: "Button2" },
     button3: { title: "Button3" },
     button4: { title: "Button4" },
-    loginButton: { title: "LogIn" },
-    singupButton: { title: "SignUp" },
+    loginButton: { title: "Log In" },
+    singupButton: { title: "Sign Up" },
   };
 
   const mobileDropdownAnimationVars = {

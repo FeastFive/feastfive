@@ -42,7 +42,7 @@
 .mobilPhotoContainer {
   display: none;
 }
-@media (max-width: 1230px) {
+@media (max-width: 930px) {
   .mainContainer {
     flex-direction: column;
     height: 100%;
