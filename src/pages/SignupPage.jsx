@@ -5,6 +5,7 @@ import imageRed from "../images/logo-color.png";
 import imageMobil from "../images/logo-no-background.png";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+
 const SignupPage = () => {
   const navigate = useNavigate();
   return (

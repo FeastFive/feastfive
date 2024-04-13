@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const bodyParser = require("body-parser");
 
 dotenv.config();
 
@@ -12,14 +13,14 @@ const port = process.env.PORT || 4000;
 
 //Middlewares
 app.use(cors({ origin: "*" }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
 
 //DB connection
 connectDB();
 
-//Routes
+// Routes
 app.use("/api/users", require("./routes/userRoutes"));
 
 //Server
