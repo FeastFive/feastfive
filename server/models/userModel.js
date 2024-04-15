@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    activated: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
