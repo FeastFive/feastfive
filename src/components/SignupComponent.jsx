@@ -1,30 +1,93 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { register } from "../utils/registerUser/register";
+import ShowAlert from "./alert/ShowAlert";
 
 import styles from "../style/SignupComponent.module.css";
 
 const SignupComponent = () => {
   const navigate = useNavigate();
+  const [readyPassword, setReadyPassword] = useState(true);
+  const [inputsMissingName, setInputsMissingName] = useState(false);
+  const [inputsMissingSurname, setInputsMissingSurname] = useState(false);
+  const [readyEmail, setReadyEmail] = useState(true);
+  const [inputsMissingEmail, setInputsMissingEmail] = useState(false);
+  const [inputsMissingPassword, setInputsMissingPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
     name: "",
     surname: "",
-    gender: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
+  const checkPassword = (pass) => {
+    if (
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pass) &&
+      pass.length >= 8
+    ) {
+      setReadyPassword(false);
+      return true;
+    } else {
+      setReadyPassword(true);
+      return false;
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      if (
+        formData.name &&
+        formData.surname &&
+        formData.email &&
+        formData.password
+      ) {
+        const checkMailRE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!checkMailRE.test(formData.email)) {
+          // invalid email, maybe show an error to the user.
+          setReadyEmail(false);
+          setInputsMissingEmail(true);
+          ShowAlert(3, "Invalid Email!");
+        } else if (!checkPassword(formData.password)) {
+          //invalid password
+          setReadyPassword(false);
+          setInputsMissingPassword(true);
+          ShowAlert(
+            3,
+            `Invalid password! Your password must be at least 8 characters long
+            and include at least one uppercase letter, one lowercase letter,
+            and one number for security purposes.`
+          );
+        } else {
+          setReadyEmail(true);
+          const response = await register(formData);
+          if (response.status === 201) {
+            ShowAlert(1, "Successfully Registered");
+            navigate("/login");
+          }
+          //user already exists
+          else if (response.status === 401) {
+            ShowAlert(2, "User already exist.");
+          }
+        }
+      }
+      //fill all credentials
+      else {
+        ShowAlert(2, "Lütfen tüm boş alanları doldurunuz.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
+    <form onSubmit={handleSignup} className={styles.formContainer}>
       <div className={styles.nameLabel}>
         <label className={styles.inputLabel}>
           <div className={styles.inputTitle}>Name:</div>
@@ -48,30 +111,11 @@ const SignupComponent = () => {
         </label>
       </div>
       <label className={styles.inputLabel}>
-        <div className={styles.inputTitle}>Gender:</div>
-        <select
-          className={styles.dropdown}
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-        >
-          <option className={styles.option} value="other">
-            Other
-          </option>
-          <option className={styles.option} value="male">
-            Male
-          </option>
-          <option className={styles.option} value="female">
-            Female
-          </option>
-        </select>
-      </label>
-      <label className={styles.inputLabel}>
         <div className={styles.inputTitle}>Email:</div>
         <input
           type="text"
-          name="username"
-          value={formData.username}
+          name="email"
+          value={formData.email}
           onChange={handleChange}
           className={styles.inputFill}
         />
@@ -86,13 +130,12 @@ const SignupComponent = () => {
           className={styles.inputFill}
         />
       </label>
-
       <input type="submit" value="Signup" className={styles.subbmitButton} />
       <div className={styles.otherOptionsContainer}>
         <button
           className={styles.otherOptions}
           onClick={() => {
-            navigate("/Login");
+            navigate("/login");
           }}
         >
           Do You Already Have An Account?

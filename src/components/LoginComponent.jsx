@@ -48,7 +48,7 @@ const LoginComponent = () => {
         <button
           className={styles.otherOptions}
           onClick={() => {
-            navigate("/SignUp");
+            navigate("/signUp");
           }}
         >
           Don`t you have an account?
