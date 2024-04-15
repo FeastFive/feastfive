@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../utils/registerUser/register";
-import ShowAlert from "./alert/ShowAlert";
+import { ShowAlert } from "./alert/ShowAlert";
 
 import styles from "../style/SignupComponent.module.css";
 
@@ -68,6 +68,7 @@ const SignupComponent = () => {
           setReadyEmail(true);
           const response = await register(formData);
           if (response.status === 201) {
+            console.log("sikinti");
             ShowAlert(1, "Successfully Registered");
             navigate("/login");
           }
@@ -79,7 +80,7 @@ const SignupComponent = () => {
       }
       //fill all credentials
       else {
-        ShowAlert(2, "Lütfen tüm boş alanları doldurunuz.");
+        ShowAlert(2, "Please fill in all blank fields.");
       }
     } catch (error) {
       console.error(error);
@@ -87,7 +88,7 @@ const SignupComponent = () => {
   };
 
   return (
-    <form onSubmit={handleSignup} className={styles.formContainer}>
+    <div className={styles.formContainer}>
       <div className={styles.nameLabel}>
         <label className={styles.inputLabel}>
           <div className={styles.inputTitle}>Name:</div>
@@ -130,7 +131,9 @@ const SignupComponent = () => {
           className={styles.inputFill}
         />
       </label>
-      <input type="submit" value="Signup" className={styles.subbmitButton} />
+      <button className={styles.subbmitButton} onClick={handleSignup}>
+        Sign Up
+      </button>
       <div className={styles.otherOptionsContainer}>
         <button
           className={styles.otherOptions}
@@ -141,7 +144,7 @@ const SignupComponent = () => {
           Do You Already Have An Account?
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 

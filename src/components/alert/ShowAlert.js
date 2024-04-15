@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-function ShowAlert(type, message) {
+export function ShowAlert(type, message) {
   console.log("SHOW ALERT : ", type, message);
   switch (type) {
     case 1:
@@ -43,5 +43,3 @@ function ShowAlert(type, message) {
       break;
   }
 }
-
-export default ShowAlert;

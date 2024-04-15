@@ -10,8 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
-      <ToastContainer style={{ zIndex: "928273690" }}></ToastContainer>
       <BrowserRouter>
+        <ToastContainer style={{ zIndex: "928273690" }} />
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
