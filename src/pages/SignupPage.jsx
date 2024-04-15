@@ -19,7 +19,7 @@ const SignupPage = () => {
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {
-          navigate("/Home");
+          navigate("/home");
         }}
       />
       <img className={styles.singupPhoto} src={imageRed} alt="" />

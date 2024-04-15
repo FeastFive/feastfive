@@ -20,7 +20,7 @@ const LoginPage = () => {
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {
-          navigate("/Home");
+          navigate("/home");
         }}
       />
       <div className={styles.loginCartImage}>

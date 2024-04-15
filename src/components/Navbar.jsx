@@ -61,13 +61,13 @@ const Navbar = () => {
           <div className={styles.mobilRegistrationContainer}>
             <button
               className={styles.mobilLoginButton}
-              onClick={() => navigate("/Login")}
+              onClick={() => navigate("/login")}
             >
               {menuButtons.loginButton.title}
             </button>
             <button
               className={styles.mobilSingupButton}
-              onClick={() => navigate("/SignUp")}
+              onClick={() => navigate("/signUp")}
             >
               {menuButtons.singupButton.title}
             </button>
@@ -110,13 +110,13 @@ const Navbar = () => {
         <div className={styles.registrationContainer}>
           <button
             className={styles.loginButton}
-            onClick={() => navigate("/Login")}
+            onClick={() => navigate("/login")}
           >
             {menuButtons.loginButton.title}
           </button>
           <button
             className={styles.singupButton}
-            onClick={() => navigate("/SignUp")}
+            onClick={() => navigate("/signUp")}
           >
             {menuButtons.singupButton.title}
           </button>

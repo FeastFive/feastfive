@@ -11,7 +11,7 @@ const NoPage = () => {
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {
-          navigate("/Home");
+          navigate("/home");
         }}
       />
       <img src={imageLogo} alt="" className={styles.logo} />
