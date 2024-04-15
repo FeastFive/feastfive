@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styles from "../style/LoginComponent.module.css";
 import { useNavigate } from "react-router-dom";
+import { login } from "../utils/registerUser/register";
+
+import { ShowAlert } from "./alert/ShowAlert";
 
 const LoginComponent = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -14,13 +18,33 @@ const LoginComponent = () => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
+  const handleLogin = async () => {
+    try {
+      const response = await login(user);
+      const result = await response.json();
+
+      if (user.email && user.password) {
+        if (response.status === 200) {
+          // dispatch(setActiveUser(result));
+          ShowAlert(1, "Logged in successfully");
+          navigate("/home");
+        } else {
+          ShowAlert(3, "Incorrect email address or password");
+        }
+      } else if (user.password) {
+        ShowAlert(2, "Enter your email address");
+      } else if (user.email) {
+        ShowAlert(2, "Enter your password");
+      } else {
+        ShowAlert(2, "Please fill in the blanks");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
+    <div className={styles.formContainer}>
       <label className={styles.inputLabel}>
         <div className={styles.inputTitle}>Email:</div>
         <input
@@ -42,7 +66,9 @@ const LoginComponent = () => {
         />
       </label>
 
-      <input type="submit" value="Login" className={styles.subbmitButton} />
+      <button onClick={handleLogin} className={styles.subbmitButton}>
+        Log In
+      </button>
       <div className={styles.otherOptionsContainer}>
         <button className={styles.otherOptions}>Forgot your password?</button>
         <button
@@ -54,7 +80,7 @@ const LoginComponent = () => {
           Don`t you have an account?
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 export default LoginComponent;
