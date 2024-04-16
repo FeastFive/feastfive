@@ -68,7 +68,6 @@ const SignupComponent = () => {
           setReadyEmail(true);
           const response = await register(formData);
           if (response.status === 201) {
-            console.log("sikinti");
             ShowAlert(1, "Successfully Registered");
             navigate("/login");
           }

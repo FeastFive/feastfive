@@ -1,32 +1,33 @@
 const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
 
 const sendMail = (mailAddress, subject, mailBody) => {
   return new Promise((resolve, reject) => {
     if (!mailAddress) {
       console.error("Alıcı adresi belirtilmemiş.");
+      reject(new Error("Alıcı adresi belirtilmemiş."));
+      return;
     }
-    //Create a transporter
+
+    // Create a transporter
     const transporter = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 25,
+      host: "smtp.gmail.com",
+      port: 587,
       secure: false,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.PASS,
       },
-      tls: { rejectUnauthorized: false },
     });
 
-    //Defining the mail options
+    // Define mail options
     const mailOptions = {
-      from: "noreply@feastfive.com",
+      from: "feasfive5@gmail.com",
       to: mailAddress,
       subject: subject,
       html: mailBody,
     };
 
-    //Sending the email
+    // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("E-posta gönderme hatası:", error);
@@ -43,15 +44,17 @@ const sendActivationEmail = (mailAddress) => {
   const mailBody = `
   <!DOCTYPE html>
   <html>
-  <head><title>FeastFive Activation</title>
+  <head>
+    <title>FeastFive Activation</title>
   </head>
   <body>
-  <div> 
-  <h3>Monterey Account Activation</h3>
-  <p>This e-mail is sent to upon your FeastFive account registration.</p>
-  <p></p>
-  <p>Thanks!</p><b>FeastFive</b>
-  </div>
+    <div> 
+      <h3>FeastFive Account Activation</h3>
+      <p>This e-mail is sent to you upon your FeastFive account registration.</p>
+      <p></p>
+      <p>Thanks!</p>
+      <b>FeastFive</b>
+    </div>
   </body>
   </html>`;
 

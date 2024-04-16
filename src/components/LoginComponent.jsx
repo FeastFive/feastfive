@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../style/LoginComponent.module.css";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utils/registerUser/register";
+import { login } from "../utils/loginUser/login";
 
 import { ShowAlert } from "./alert/ShowAlert";
 
