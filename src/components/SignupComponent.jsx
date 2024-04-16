@@ -8,8 +8,8 @@ import styles from "../style/SignupComponent.module.css";
 const SignupComponent = () => {
   const navigate = useNavigate();
   const [readyPassword, setReadyPassword] = useState(true);
-  const [inputsMissingName, setInputsMissingName] = useState(false);
-  const [inputsMissingSurname, setInputsMissingSurname] = useState(false);
+  // const [inputsMissingName, setInputsMissingName] = useState(false);
+  // const [inputsMissingSurname, setInputsMissingSurname] = useState(false);
   const [readyEmail, setReadyEmail] = useState(true);
   const [inputsMissingEmail, setInputsMissingEmail] = useState(false);
   const [inputsMissingPassword, setInputsMissingPassword] = useState(false);
