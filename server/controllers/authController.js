@@ -2,6 +2,7 @@ const User = require("./../models/userModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { sendActivationEmail } = require("./mailer");
 
 // register a new user
 // route /api/users
@@ -34,6 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    sendActivationEmail(user.email);
     res.status(201).json({
       _id: user._id,
       name: user.name,

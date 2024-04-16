@@ -1,5 +1,5 @@
 const register = async (user) => {
-  const url = "http://127.0.0.1:4000/api/users/login";
+  const url = "http://127.0.0.1:4000/api/users/";
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -9,4 +9,4 @@ const register = async (user) => {
   });
   return response;
 };
-export { login };
+export { register };

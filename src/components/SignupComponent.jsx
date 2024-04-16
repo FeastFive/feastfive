@@ -8,8 +8,8 @@ import styles from "../style/SignupComponent.module.css";
 const SignupComponent = () => {
   const navigate = useNavigate();
   const [readyPassword, setReadyPassword] = useState(true);
-  const [inputsMissingName, setInputsMissingName] = useState(false);
-  const [inputsMissingSurname, setInputsMissingSurname] = useState(false);
+  // const [inputsMissingName, setInputsMissingName] = useState(false);
+  // const [inputsMissingSurname, setInputsMissingSurname] = useState(false);
   const [readyEmail, setReadyEmail] = useState(true);
   const [inputsMissingEmail, setInputsMissingEmail] = useState(false);
   const [inputsMissingPassword, setInputsMissingPassword] = useState(false);
@@ -68,7 +68,6 @@ const SignupComponent = () => {
           setReadyEmail(true);
           const response = await register(formData);
           if (response.status === 201) {
-            console.log("sikinti");
             ShowAlert(1, "Successfully Registered");
             navigate("/login");
           }

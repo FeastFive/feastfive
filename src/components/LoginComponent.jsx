@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import styles from "../style/LoginComponent.module.css";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utils/registerUser/register";
-
+import { login } from "../utils/loginUser/login";
 import { ShowAlert } from "./alert/ShowAlert";
 
 const LoginComponent = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -20,26 +17,24 @@ const LoginComponent = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await login(user);
-      const result = await response.json();
+      if (!formData.email || !formData.password) {
+        ShowAlert(2, "Please fill in all fields");
+        return;
+      }
 
-      if (user.email && user.password) {
-        if (response.status === 200) {
-          // dispatch(setActiveUser(result));
-          ShowAlert(1, "Logged in successfully");
-          navigate("/home");
-        } else {
-          ShowAlert(3, "Incorrect email address or password");
-        }
-      } else if (user.password) {
-        ShowAlert(2, "Enter your email address");
-      } else if (user.email) {
-        ShowAlert(2, "Enter your password");
+      const response = await login(formData);
+
+      if (response.status === 200) {
+        const result = await response.json();
+        // dispatch(setActiveUser(result));
+        ShowAlert(1, "Logged in successfully");
+        navigate("/home");
       } else {
-        ShowAlert(2, "Please fill in the blanks");
+        ShowAlert(3, "Incorrect email address or password");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Login error:", error);
+      ShowAlert(3, "An error occurred while logging in");
     }
   };
 
@@ -49,8 +44,8 @@ const LoginComponent = () => {
         <div className={styles.inputTitle}>Email:</div>
         <input
           type="text"
-          name="username"
-          value={formData.username}
+          name="email"
+          value={formData.email}
           onChange={handleChange}
           className={styles.inputFill}
         />
@@ -66,9 +61,10 @@ const LoginComponent = () => {
         />
       </label>
 
-      <button onClick={handleLogin} className={styles.subbmitButton}>
+      <button onClick={handleLogin} className={styles.submitButton}>
         Log In
       </button>
+
       <div className={styles.otherOptionsContainer}>
         <button className={styles.otherOptions}>Forgot your password?</button>
         <button
@@ -77,10 +73,11 @@ const LoginComponent = () => {
             navigate("/signUp");
           }}
         >
-          Don`t you have an account?
+          Don't you have an account?
         </button>
       </div>
     </div>
   );
 };
+
 export default LoginComponent;
