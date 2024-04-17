@@ -1,20 +1,99 @@
+.mainContainer {
+  display: flex;
+  gap: 0;
+  height: 100vh;
+  align-items: center;
+  width: 100%;
+}
+.singupPhoto {
+  width: 56%;
+  height: 100%;
+}
+
+.signupForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.backIcon {
+  position: absolute;
+  color: #fff;
+  top: 15px;
+  left: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.backIcon:hover {
+  top: 12px;
+}
+.homeIcon {
+  position: absolute;
+  color: #db3748;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.homeIcon:hover {
+  top: 12px;
+}
+.mobilPhotoContainer {
+  display: none;
+}
+@media (max-width: 930px) {
+  .mainContainer {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .homeIcon {
+    color: #f0f0f0;
+  }
+
+  .singupPhoto {
+    display: none;
+  }
+  .mobilPhotoContainer {
+    display: block;
+    background-color: #db3748;
+    height: 15rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    margin-bottom: 20px;
+  }
+  .mobilPhoto {
+    width: 200px;
+  }
+}
+
+/* Signup Component */
+
 .formContainer {
   font-family: "Open Sans", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  justify-content: center;
+  width: 100%;
+  margin: 0 6rem;
   gap: 15px;
 }
 .nameLabel {
   display: flex;
   gap: 15px;
-  width: 80%;
+  width: 100%;
 }
 .inputLabel {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
 }
 .inputTitle {
   font-size: 18px;
@@ -65,7 +144,7 @@
   cursor: pointer;
   background: #db3748;
   color: #f0f0f0;
-  padding: 9px 32px;
+  padding: 9px 35px;
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
