@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import NoPage from "./pages/NoPage";
+import LoginPage from "./pages/loginPage/LoginPage";
+import SignupPage from "./pages/registerPage/SignupPage";
+import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
