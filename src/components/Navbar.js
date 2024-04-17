@@ -6,15 +6,17 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaCircleUser } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/slices/userSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [navDropdownOpen, setNavDropdownOpen] = useState(false);
   const [navProfileDropdownOpen, setNavProfileDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  console.log(user.name);
+  console.log(user);
 
   const menuButtons = {
     button1: { title: "Button1" },
@@ -46,6 +48,10 @@ const Navbar = () => {
     },
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   const MobileDropdown = () => {
     return (
       <motion.div
@@ -66,7 +72,7 @@ const Navbar = () => {
         </div>
         <div className={styles.mobileButtonContainer}>
           <div className={styles.mobilRegistrationContainer}>
-            {user.name ? (
+            {user.isLogin ? (
               <button className={styles.mobilProfileBtn}>Profile</button>
             ) : (
               <>
@@ -98,7 +104,9 @@ const Navbar = () => {
             {menuButtons.button4.title}
           </button>
           {user.name ? (
-            <button className={styles.navMobileButton}>Log Out</button>
+            <button onClick={handleLogout} className={styles.navMobileButton}>
+              Log Out
+            </button>
           ) : (
             <></>
           )}
@@ -126,7 +134,7 @@ const Navbar = () => {
           {menuButtons.button4.title}
         </button>
         <div className={styles.registrationContainer}>
-          {user.name ? (
+          {user.isLogin ? (
             <div className={styles.registeredUserContainer}>
               <button className={styles.registeredUserButton}>
                 <FaCircleUser
