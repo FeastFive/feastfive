@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import styles from "./LoginPage.module.css";
 import imageBlack from "../../images/logo-white.png";
 import imageWhite from "../../images/logo-black.png";
+import { useDispatch } from "react-redux";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/loginUser/login";
 import { ShowAlert } from "../../components/alert/ShowAlert";
+import { setActiveUser } from "../../store/slices/userSlice";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,7 +32,7 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         const result = await response.json();
-        // dispatch(setActiveUser(result));
+        dispatch(setActiveUser(result));
         ShowAlert(1, "Logged in successfully");
         navigate("/home");
       } else {

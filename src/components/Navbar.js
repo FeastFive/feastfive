@@ -4,10 +4,13 @@ import navIcon from "../images/logo-color.png";
 import { BsJustify } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [navDropdownOpen, setNavDropdownOpen] = useState(false);
+  const user = useSelector((state) => state.user);
+  console.log(user.isLogin);
 
   const menuButtons = {
     button1: { title: "Button1" },
@@ -59,18 +62,24 @@ const Navbar = () => {
         </div>
         <div className={styles.mobileButtonContainer}>
           <div className={styles.mobilRegistrationContainer}>
-            <button
-              className={styles.mobilLoginButton}
-              onClick={() => navigate("/login")}
-            >
-              {menuButtons.loginButton.title}
-            </button>
-            <button
-              className={styles.mobilSingupButton}
-              onClick={() => navigate("/signUp")}
-            >
-              {menuButtons.singupButton.title}
-            </button>
+            {user.isLogin ? (
+              <p>Hello, {user.name}</p>
+            ) : (
+              <>
+                <button
+                  className={styles.mobilLoginButton}
+                  onClick={() => navigate("/login")}
+                >
+                  {menuButtons.loginButton.title}
+                </button>
+                <button
+                  className={styles.mobilSingupButton}
+                  onClick={() => navigate("/signUp")}
+                >
+                  {menuButtons.singupButton.title}
+                </button>
+              </>
+            )}
           </div>
           <button className={styles.navMobileButton}>
             {menuButtons.button1.title}
@@ -108,18 +117,24 @@ const Navbar = () => {
           {menuButtons.button4.title}
         </button>
         <div className={styles.registrationContainer}>
-          <button
-            className={styles.loginButton}
-            onClick={() => navigate("/login")}
-          >
-            {menuButtons.loginButton.title}
-          </button>
-          <button
-            className={styles.singupButton}
-            onClick={() => navigate("/signUp")}
-          >
-            {menuButtons.singupButton.title}
-          </button>
+          {user.isLogin ? (
+            <p>Hello, {user.name}</p>
+          ) : (
+            <>
+              <button
+                className={styles.loginButton}
+                onClick={() => navigate("/login")}
+              >
+                {menuButtons.loginButton.title}
+              </button>
+              <button
+                className={styles.singupButton}
+                onClick={() => navigate("/signUp")}
+              >
+                {menuButtons.singupButton.title}
+              </button>
+            </>
+          )}
         </div>
 
         <div className={styles.responsiveDropdown}>
