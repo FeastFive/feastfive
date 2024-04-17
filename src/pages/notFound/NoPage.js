@@ -1,8 +1,8 @@
 import React from "react";
-import imageLogo from "../images/logo-no-background.png";
+import imageLogo from "../../images/logo-no-background.png";
 import { IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import styles from "../style/NoPage.module.css";
+import styles from "./NoPage.module.css";
 
 const NoPage = () => {
   const navigate = useNavigate();
