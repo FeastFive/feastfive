@@ -24,8 +24,10 @@ const userSlice = createSlice({
       state.created_at = action.payload.createdAt;
       state.loginDate = action.payload.loginDate;
       state.role = action.payload.role;
-      state.activated = action.payload.activated;
+      state.favorites = action.payload.favorites;
+      state.orders = action.payload.orders;
       state.logs = action.payload.logs;
+      state.activated = action.payload.activated;
     },
     logout: () => initialState,
   },
