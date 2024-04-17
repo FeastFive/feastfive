@@ -90,7 +90,14 @@ const LoginPage = () => {
         </button>
 
         <div className={styles.otherOptionsContainer}>
-          <button className={styles.otherOptions}>Forgot your password?</button>
+          <button
+            className={styles.otherOptions}
+            onClick={() => {
+              navigate("/forgotPassword");
+            }}
+          >
+            Forgot your password?
+          </button>
           <button
             className={styles.otherOptions}
             onClick={() => {
