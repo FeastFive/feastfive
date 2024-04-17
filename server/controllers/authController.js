@@ -67,7 +67,9 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       createdAt: user.createdAt,
       loginDate: user.loginDate,
+      role: user.role,
       logs: user.logs,
+      activated: user.activated,
     });
 
     // } else {

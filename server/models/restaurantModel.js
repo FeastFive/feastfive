@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const restaurantSchema = new mongoose.Schema(
   {
-    name: {
+    restaurantName: {
       type: String,
-      required: [true, "Please provide a name"],
+      required: [true, "Please provide restaurant name"],
     },
-    surname: {
+    ownerName: {
       type: String,
-      required: [true, "Please provide a surname"],
+      required: [true, "Please provide restaurant name"],
+    },
+    ownerSurname: {
+      type: String,
+      required: [true, "Please provide restaurant name"],
+    },
+    address: {
+      type: String,
     },
     email: {
       type: String,
@@ -25,10 +32,10 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ["restaurant"],
+      default: "restaurant",
     },
-    favorites: {
+    meals: {
       type: Array,
       default: [],
     },
@@ -36,7 +43,7 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    logs: {
+    labels: {
       type: Array,
       default: [],
     },
@@ -47,7 +54,4 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+const Restaurant = mongoose.model("Restaurant", restaurantSchema);
