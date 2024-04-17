@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "../style/Navbar.module.css";
 import navIcon from "../images/logo-color.png";
 import { BsJustify } from "react-icons/bs";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { FaCircleUser } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -9,8 +11,10 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const navigate = useNavigate();
   const [navDropdownOpen, setNavDropdownOpen] = useState(false);
+  const [navProfileDropdownOpen, setNavProfileDropdownOpen] = useState(false);
+
   const user = useSelector((state) => state.user);
-  console.log(user.isLogin);
+  console.log(user.name);
 
   const menuButtons = {
     button1: { title: "Button1" },
@@ -62,8 +66,8 @@ const Navbar = () => {
         </div>
         <div className={styles.mobileButtonContainer}>
           <div className={styles.mobilRegistrationContainer}>
-            {user.isLogin ? (
-              <p>Hello, {user.name}</p>
+            {user.name ? (
+              <button className={styles.mobilProfileBtn}>Profile</button>
             ) : (
               <>
                 <button
@@ -93,6 +97,11 @@ const Navbar = () => {
           <button className={styles.navMobileButton}>
             {menuButtons.button4.title}
           </button>
+          {user.name ? (
+            <button className={styles.navMobileButton}>Log Out</button>
+          ) : (
+            <></>
+          )}
         </div>
       </motion.div>
     );
@@ -117,8 +126,23 @@ const Navbar = () => {
           {menuButtons.button4.title}
         </button>
         <div className={styles.registrationContainer}>
-          {user.isLogin ? (
-            <p>Hello, {user.name}</p>
+          {user.name ? (
+            <div className={styles.registeredUserContainer}>
+              <button className={styles.registeredUserButton}>
+                <FaCircleUser
+                  className={styles.userDropdownProfileIcon}
+                  onClick={() => {
+                    setNavProfileDropdownOpen(!navProfileDropdownOpen);
+                  }}
+                />
+                <div className={styles.userDropdownContainer}>
+                  <p className={styles.userDropdownText}>Hello, {user.name}</p>
+                  <MdKeyboardArrowDown
+                    className={styles.userDropdownArrowIcon}
+                  />
+                </div>
+              </button>
+            </div>
           ) : (
             <>
               <button
