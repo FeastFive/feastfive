@@ -102,6 +102,40 @@
   gap: 8px;
 }
 
+.registeredUserContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.registeredUserButton {
+  text-decoration: none;
+  background-color: transparent;
+  border-radius: 75px;
+  border: none;
+  cursor: pointer;
+}
+.userDropdownProfileIcon {
+  color: #f0f0f0;
+  width: 30px;
+  height: 30px;
+}
+.userDropdownContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
+}
+.userDropdownText {
+  color: #f0f0f0;
+  font-weight: 400;
+}
+.userDropdownArrowIcon {
+  color: #f0f0f0;
+  width: 20px;
+  height: 20px;
+}
+
 @media (max-width: 700px) {
   .buttonContainer {
     width: 90%;
@@ -164,6 +198,23 @@
   font-weight: 500;
   transition: all 0.3s ease;
 }
+.mobilProfileBtn {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #f0f0f0;
+  font-size: 28px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: #f0f0f0 solid 3px;
+  padding: 7px 12px;
+  border-radius: 3px;
+}
+.mobilProfileBtn:hover {
+  background-color: #f0f0f0;
+  color: #db3748;
+}
+
 .navMobileButton:hover {
   color: #fff;
 }
