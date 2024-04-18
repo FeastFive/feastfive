@@ -17,7 +17,6 @@ const LoginPage = () => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-
   const handleLogin = async () => {
     try {
       if (!formData.email || !formData.password) {
