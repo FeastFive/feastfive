@@ -2,7 +2,7 @@ import React from 'react'
 import tabak from "../../images/tabak.png";
 export default function HomeEntry() {
   return (
-    <div className="w-screen h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between px-12 md:px-15 lg:px-40 pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
+    <div className="w-screen px-12 sm:px-24 h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between  pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
     <div className="flex flex-col text-center md:text-left justify-center">
       <h2 className="text-5xl font-semibold text-[#db3748]">Hungry ? </h2>
       <h2 className="text-4xl pt-3  text-[#db3748]">Lets Order food</h2>

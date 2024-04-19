@@ -4,6 +4,11 @@ import makarna from "../../images/makarna.png";
 import styles from "./HomeSlider.module.css";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+
 export default function HomeSlier() {
     const [windowDimensions, setWindowDimensions] = useState(0);
     const [slideToShow, setSlideToShow] = useState(6);
@@ -44,18 +49,20 @@ export default function HomeSlier() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
-    <div className={`h-full ${styles.slider} pt-12`}>
-    <h3 className="pb-8 pl-4 text-4xl font-semibold">Kitchens</h3>
-      <Swiper
+    <div className={`h-full w-full pt-12`}>
+    <h3 className="pb-8 text-4xl font-semibold">Kitchens</h3>
+       <Swiper
         // install Swiper modules
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={50}
       slidesPerView={slideToShow}
-      navigation
+      navigation={true}
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log('slide change')}
+
+       className={``}
       >
         {categories.map((category) => (
           <SwiperSlide key={category} className=" ">
@@ -65,7 +72,8 @@ export default function HomeSlier() {
             <p className="text-center font-semibold pt-1 text-slate-900">{category}</p>
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> 
+
     </div>
   );
 }
