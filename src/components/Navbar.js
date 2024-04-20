@@ -149,7 +149,9 @@ const Navbar = () => {
       >
         <button className={styles.iconDropdownBtn}>Profile</button>
         <button className={styles.iconDropdownBtn}>Help</button>
-        <button className={styles.iconDropdownBtn}>Log Out</button>
+        <button className={styles.iconDropdownBtn} onClick={handleLogout}>
+          Log Out
+        </button>
       </motion.div>
     );
   };

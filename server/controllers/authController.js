@@ -35,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    sendActivationEmail(user.email);
+    sendActivationEmail(user._id, user.email, generateToken(user._id));
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -79,14 +79,35 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(401).json({ state: "fail", message: "Invalid credential" });
   }
 });
+const activateAccount = asyncHandler(async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    const user = await User.findOne({ token: token });
+
+    if (user) {
+      user.activated = true;
+      await user.save();
+
+      return res.redirect("/login");
+    } else {
+      return res.status(404).json({ error: "User with provided ID not found" });
+    }
+  } catch (error) {
+    console.error("Error activating account:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 //Generating a token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
+    expiresIn: "90d",
   });
 };
 
 module.exports = {
   registerUser,
   loginUser,
+  activateAccount,
 };
