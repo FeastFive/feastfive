@@ -60,31 +60,29 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    // if (user.activated) {
-    user.loginDate = new Date();
-    await user.save();
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      createdAt: user.createdAt,
-      loginDate: user.loginDate,
-      role: user.role,
-      logs: user.logs,
-      activated: user.activated,
-    });
-
-    // } else {
-    //   res.status(403).json({ state: "fail", message: "Non activated account" });
-    // }
+    if (user.activated) {
+      user.loginDate = new Date();
+      await user.save();
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        createdAt: user.createdAt,
+        loginDate: user.loginDate,
+        role: user.role,
+        logs: user.logs,
+        activated: user.activated,
+      });
+    } else {
+      res.status(403).json({ state: "fail", message: "Non activated account" });
+    }
   } else {
     res.status(401).json({ state: "fail", message: "Invalid credential" });
   }
 });
 
 const activateAccount = asyncHandler(async (req, res) => {
-  console.log("heliiisis2");
   try {
     const { uniqueId } = req.params;
 
@@ -95,8 +93,8 @@ const activateAccount = asyncHandler(async (req, res) => {
     if (user) {
       user.activated = true;
       await user.save();
-
-      return res.redirect("/login");
+      console.log(user);
+      return res.redirect("http://localhost:3000/login");
     } else {
       return res.status(404).json({ error: "User with provided ID not found" });
     }
