@@ -82,7 +82,9 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(401).json({ state: "fail", message: "Invalid credential" });
   }
 });
+
 const activateAccount = asyncHandler(async (req, res) => {
+  console.log("heliiisis2");
   try {
     const { uniqueId } = req.params;
 

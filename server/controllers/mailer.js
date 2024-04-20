@@ -40,6 +40,7 @@ const sendMail = (mailAddress, subject, mailBody) => {
   });
 };
 
+//SOURCE CODE: https://safwan-du16.medium.com/email-verification-with-node-js-and-nodemailer-3a6363b31060
 const sendActivationEmail = (uniqueId, mailAddress) => {
   const mailBody = `
   <!DOCTYPE html>
@@ -51,7 +52,7 @@ const sendActivationEmail = (uniqueId, mailAddress) => {
   <div> 
     <h3>FeastFive Account Activation</h3>
     <p>This e-mail is sent to you upon your FeastFive account registration.</p>
-    <p>Press <a href="http://localhost:3000/verify/${uniqueId}">here</a> to verify your account.</p>
+    <p>Press <a href="http://localhost:4000/verify/${uniqueId}">here</a> to verify your account.</p>
     <p></p>
     <p>Thanks!</p>
     <b>FeastFive</b>
