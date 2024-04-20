@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/homePage/HomePage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import SignupPage from "./pages/registerPage/SignupPage";
 import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
 import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "./App.css"
 function App() {
   return (
     <>
