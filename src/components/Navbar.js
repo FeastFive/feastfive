@@ -19,10 +19,10 @@ const Navbar = () => {
   console.log(user);
 
   const menuButtons = {
-    button1: { title: "Button1" },
-    button2: { title: "Button2" },
-    button3: { title: "Button3" },
-    button4: { title: "Button4" },
+    button1: { title: "Home" },
+    button2: { title: "Restaurants" },
+    button3: { title: "Cuisine" },
+    button4: { title: "Campaign" },
     loginButton: { title: "Log In" },
     singupButton: { title: "Sign Up" },
   };
