@@ -20,6 +20,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User already exists");
   }
+  const uniqueId = randString();
   //Hash
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -31,17 +32,19 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     loginDate: new Date(),
     password: hashedPassword,
+    uniqueId: uniqueId,
     role: "user",
   });
 
   if (user) {
-    sendActivationEmail(user._id, user.email, generateToken(user._id));
+    sendActivationEmail(user.uniqueId, user.email);
     res.status(201).json({
       _id: user._id,
       name: user.name,
       surname: user.surname,
       email: user.email,
       loginDate: user.loginDate,
+      uniqueId: user.uniqueId,
       token: generateToken(user._id),
       activated: false,
     });
@@ -81,9 +84,11 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 const activateAccount = asyncHandler(async (req, res) => {
   try {
-    const { token } = req.params;
+    const { uniqueId } = req.params;
 
-    const user = await User.findOne({ token: token });
+    console.log("Activation code, uniqueId:", uniqueId);
+
+    const user = await User.findOne({ uniqueId: uniqueId });
 
     if (user) {
       user.activated = true;
@@ -98,6 +103,16 @@ const activateAccount = asyncHandler(async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+const randString = () => {
+  const len = 8;
+  let randStr = "";
+  for (let i = 0; i < len; i++) {
+    const ch = Math.floor(Math.random() * 10) + 1;
+    randStr += ch;
+  }
+  return randStr;
+};
 
 //Generating a token
 const generateToken = (id) => {

@@ -40,8 +40,7 @@ const sendMail = (mailAddress, subject, mailBody) => {
   });
 };
 
-const sendActivationEmail = (_id, mailAddress) => {
-  console.log(token);
+const sendActivationEmail = (uniqueId, mailAddress) => {
   const mailBody = `
   <!DOCTYPE html>
 <html>
@@ -52,7 +51,7 @@ const sendActivationEmail = (_id, mailAddress) => {
   <div> 
     <h3>FeastFive Account Activation</h3>
     <p>This e-mail is sent to you upon your FeastFive account registration.</p>
-    <p>Press <a href="http://localhost:3000/verify/${token}">here</a> to verify your account.</p>
+    <p>Press <a href="http://localhost:3000/verify/${uniqueId}">here</a> to verify your account.</p>
     <p></p>
     <p>Thanks!</p>
     <b>FeastFive</b>

@@ -8,6 +8,6 @@ const {
 } = require("../controllers/authController");
 router.post("/", registerUser);
 router.post("/login", loginUser);
-router.get("/verify/:_id", activateAccount);
+router.get("/verify/:uniqueId", activateAccount);
 
 module.exports = router;
