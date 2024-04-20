@@ -34,8 +34,10 @@ const LoginPage = () => {
         dispatch(setActiveUser(result));
         ShowAlert(1, "Logged in successfully");
         navigate("/home");
+      } else if (response.status === 403) {
+        ShowAlert(3, "Check your email to activate your account.");
       } else {
-        ShowAlert(3, "Incorrect email address or password");
+        ShowAlert(3, "Invalid email address or password");
       }
     } catch (error) {
       console.error("Login error:", error);
