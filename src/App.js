@@ -8,14 +8,20 @@ import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css"
+import FoodHome from "./pages/homePage/FoodHome.js/FoodHome";
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <>
       <BrowserRouter>
         <ToastContainer style={{ zIndex: "928273690" }} />
+        <Navbar></Navbar>
+
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/food" element={<FoodHome />} />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signUp" element={<SignupPage />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />

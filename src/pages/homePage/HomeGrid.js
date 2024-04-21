@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import salata from "../../images/salata.png";
 
-export default function HomeGrid() {
-    const[list,setist] = useState([1,2,3,4])
+export default function HomeGrid({ list }) {
+    const[foods,sedFoods] = useState([1,2,3,4])
   return (
-    <div className=' pt-12 '>
-<h1 className='text-3xl font-semibold text-[#db3748]'>Popular Restaurants</h1>
+    <div>
 
-    <div className=' pt-6 flex flex-row flex-wrap place-items-center pt-3 justify-left gap-8 justify-center'>
-
-{list.map((element) =>(
+    <div className=' pt-6 flex flex-row flex-wrap place-items-center pt-3 justify-left gap-8 justify-left'>
+{(list ?? foods).map((element) =>(
       <div key={element} className='w-[460px] md:w-[260px] h-[270px] md:h-[200px] mt-4 rounded-md shadow-md flex flex-col cursor-pointer duration-200  hover:scale-[103%]'>
             <div className='w-full h-[69%] md:h-[60%] bg-red-400  overflow-hidden rounded-md'>
                 <img src={"https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"} className='object-cover  mt-[-10px] bg-red-400  overflow-hidden rounded-md' ></img>
