@@ -107,14 +107,6 @@ const LoginPage = () => {
           >
             Don't you have an account?
           </button>
-          <button
-            className={styles.otherOptions}
-            onClick={() => {
-              navigate("/restaurantSignUp");
-            }}
-          >
-            Do you have a restaurant? Let`s join us!
-          </button>
         </div>
       </div>
     </div>

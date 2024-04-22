@@ -3,6 +3,7 @@ import styles from "./SignupPage.module.css";
 import imageRed from "../../images/logo-color.png";
 import imageMobil from "../../images/logo-no-background.png";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
+import { FaStore } from "react-icons/fa";
 import { register } from "../../utils/registerUser/register";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
@@ -95,6 +96,12 @@ const SignupPage = () => {
           navigate(-1);
         }}
       />
+      <FaStore
+        className={styles.storeIcon}
+        onClick={() => {
+          navigate("/restaurantSignUp");
+        }}
+      />
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {
@@ -163,6 +170,14 @@ const SignupPage = () => {
             >
               Do You Already Have An Account?
             </button>
+            {/* <button
+              className={styles.otherOptions}
+              onClick={() => {
+                navigate("/restaurantSignUp");
+              }}
+            >
+              Do you have a restaurant? Let`s join us!
+            </button> */}
           </div>
         </div>
       </div>
