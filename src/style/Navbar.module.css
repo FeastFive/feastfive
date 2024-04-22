@@ -55,13 +55,7 @@
   color: #fff;
   z-index: +1;
 }
-.registrationContainer {
-  position: absolute;
-  right: 1.5rem;
 
-  display: flex;
-  gap: 8px;
-}
 .loginButton {
   cursor: pointer;
   border: none;
@@ -98,8 +92,8 @@
 .registrationContainer {
   position: absolute;
   right: 1.5rem;
-
   display: flex;
+
   gap: 8px;
 }
 
@@ -107,7 +101,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .registeredUserButton {
   text-decoration: none;
@@ -115,6 +109,8 @@
   border-radius: 75px;
   border: none;
   cursor: pointer;
+  display: flex;
+  gap: 1rem;
 }
 .userDropdownProfileIcon {
   color: #f0f0f0;
