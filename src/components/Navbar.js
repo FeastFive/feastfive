@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../style/Navbar.module.css";
 import navIcon from "../images/logo-color.png";
+import navIconNoBack from "../images/logo-no-background.png";
 import { BsJustify } from "react-icons/bs";
 import { MdKeyboardArrowDown, MdOpacity } from "react-icons/md";
 import { FaCircleUser } from "react-icons/fa6";
@@ -166,7 +167,7 @@ const Navbar = () => {
           {menuButtons.button2.title}
         </button>
         <div className={styles.iconContainer}>
-          <img src={navIcon} alt="" className={styles.navIcon} />
+          <img src={navIconNoBack} alt="" className={styles.navIcon} />
         </div>
         <button className={styles.navButton}>
           {menuButtons.button3.title}

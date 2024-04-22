@@ -19,11 +19,18 @@
 }
 
 .iconContainer {
-  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  width: 80px;
 }
 
 .navIcon {
-  height: 80px;
+  width: 100%;
+  margin-bottom: 15px;
+  overflow: hidden;
 }
 
 .buttonContainer {
@@ -37,7 +44,7 @@
   border: none;
   background-color: transparent;
   color: #f9a49d;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   transition: all 0.3s ease;
 }
@@ -55,13 +62,7 @@
   color: #fff;
   z-index: +1;
 }
-.registrationContainer {
-  position: absolute;
-  right: 1.5rem;
 
-  display: flex;
-  gap: 8px;
-}
 .loginButton {
   cursor: pointer;
   border: none;
@@ -98,8 +99,8 @@
 .registrationContainer {
   position: absolute;
   right: 1.5rem;
-
   display: flex;
+
   gap: 8px;
 }
 
@@ -107,7 +108,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .registeredUserButton {
   text-decoration: none;
@@ -115,6 +116,10 @@
   border-radius: 75px;
   border: none;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 .userDropdownProfileIcon {
   color: #f0f0f0;
@@ -137,6 +142,11 @@
   height: 20px;
 }
 
+@media (max-width: 900px) {
+  .buttonContainer {
+    width: 52%;
+  }
+}
 @media (max-width: 700px) {
   .buttonContainer {
     width: 90%;

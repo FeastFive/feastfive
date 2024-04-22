@@ -5,9 +5,17 @@
   align-items: center;
   width: 100%;
 }
-.singupPhoto {
-  width: 56%;
+.singupPhotoContainer {
+  width: 120%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f0f0f;
+  padding: 2rem;
+}
+.singupPhoto {
+  width: 75%;
 }
 
 .signupForm {
@@ -28,21 +36,21 @@
 .backIcon:hover {
   top: 12px;
 }
-.storeIcon {
+.userIcon {
   position: absolute;
-  color: #db3748;
+  color: #0f0f0f;
   top: 15px;
   right: 60px;
   font-size: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.storeIcon:hover {
+.userIcon:hover {
   top: 12px;
 }
 .homeIcon {
   position: absolute;
-  color: #db3748;
+  color: #0f0f0f;
   top: 15px;
   right: 15px;
   font-size: 30px;
@@ -154,18 +162,18 @@
   outline: 0;
   border: 0;
   cursor: pointer;
-  background: #db3748;
-  color: #f0f0f0;
   padding: 9px 35px;
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
+  background: #0f0f0f;
+  color: #f0f0f0;
 
   transition: transform 200ms, background 200ms;
 }
 .subbmitButton:hover {
   transform: translateY(-2px);
-  background: #0f0f0f;
+  background: #db3748;
   color: #f0f0f0;
 }
 .otherOptionsContainer {

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import styles from "./SignupPage.module.css";
-import imageRed from "../../images/logo-color.png";
+import styles from "./RestaurantSignup.module.css";
 import imageMobil from "../../images/logo-no-background.png";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
-import { FaStore } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa";
 import { register } from "../../utils/registerUser/register";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
 
-const SignupPage = () => {
+const RestaurantSignup = () => {
   const navigate = useNavigate();
   const [readyPassword, setReadyPassword] = useState(true);
   // const [inputsMissingName, setInputsMissingName] = useState(false);
@@ -43,51 +42,6 @@ const SignupPage = () => {
     }
   };
 
-  const handleSignup = async () => {
-    try {
-      if (
-        formData.name &&
-        formData.surname &&
-        formData.email &&
-        formData.password
-      ) {
-        const checkMailRE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!checkMailRE.test(formData.email)) {
-          // invalid email, maybe show an error to the user.
-          setReadyEmail(false);
-          setInputsMissingEmail(true);
-          ShowAlert(3, "Invalid Email!");
-        } else if (!checkPassword(formData.password)) {
-          //invalid password
-          setReadyPassword(false);
-          setInputsMissingPassword(true);
-          ShowAlert(
-            3,
-            `Invalid password! Your password must be at least 8 characters long
-            and include at least one uppercase letter, one lowercase letter,
-            and one number for security purposes.`
-          );
-        } else {
-          setReadyEmail(true);
-          const response = await register(formData);
-          if (response.status === 201) {
-            ShowAlert(1, "Successfully Registered");
-            navigate("/login");
-          }
-          //user already exists
-          else if (response.status === 401) {
-            ShowAlert(2, "User already exist.");
-          }
-        }
-      }
-      //fill all credentials
-      else {
-        ShowAlert(2, "Please fill in all blank fields.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <div className={styles.mainContainer}>
       <IoArrowBack
@@ -96,10 +50,11 @@ const SignupPage = () => {
           navigate(-1);
         }}
       />
-      <FaStore
-        className={styles.storeIcon}
+
+      <FaUserPlus
+        className={styles.userIcon}
         onClick={() => {
-          navigate("/restaurantSignUp");
+          navigate("/signUp");
         }}
       />
       <IoHomeSharp
@@ -108,7 +63,10 @@ const SignupPage = () => {
           navigate("/home");
         }}
       />
-      <img className={styles.singupPhoto} src={imageRed} alt="" />
+      <div className={styles.singupPhotoContainer}>
+        <img className={styles.singupPhoto} src={imageMobil} alt="" />
+      </div>
+
       <div className={styles.mobilPhotoContainer}>
         <img className={styles.mobilPhoto} src={imageMobil} alt="" />
       </div>
@@ -118,7 +76,7 @@ const SignupPage = () => {
         <div className={styles.formContainer}>
           <div className={styles.nameLabel}>
             <label className={styles.inputLabel}>
-              <div className={styles.inputTitle}>Name:</div>
+              <div className={styles.inputTitle}>Owner Name:</div>
               <input
                 type="text"
                 name="name"
@@ -128,7 +86,7 @@ const SignupPage = () => {
               />
             </label>
             <label className={styles.inputLabel}>
-              <div className={styles.inputTitle}>Surname:</div>
+              <div className={styles.inputTitle}>Owner Surname:</div>
               <input
                 type="text"
                 name="surname"
@@ -138,6 +96,26 @@ const SignupPage = () => {
               />
             </label>
           </div>
+          <label className={styles.inputLabel}>
+            <div className={styles.inputTitle}>Restaurant Name:</div>
+            <input
+              type="text"
+              name="rName"
+              value={formData.email}
+              onChange={handleChange}
+              className={styles.inputFill}
+            />
+          </label>
+          <label className={styles.inputLabel}>
+            <div className={styles.inputTitle}>Restaurant Address:</div>
+            <input
+              type="text"
+              name="address"
+              value={formData.email}
+              onChange={handleChange}
+              className={styles.inputFill}
+            />
+          </label>
           <label className={styles.inputLabel}>
             <div className={styles.inputTitle}>Email:</div>
             <input
@@ -158,7 +136,7 @@ const SignupPage = () => {
               className={styles.inputFill}
             />
           </label>
-          <button className={styles.subbmitButton} onClick={handleSignup}>
+          <button className={styles.subbmitButton} onClick={() => {}}>
             Sign Up
           </button>
           <div className={styles.otherOptionsContainer}>
@@ -170,14 +148,6 @@ const SignupPage = () => {
             >
               Do You Already Have An Account?
             </button>
-            {/* <button
-              className={styles.otherOptions}
-              onClick={() => {
-                navigate("/restaurantSignUp");
-              }}
-            >
-              Do you have a restaurant? Let`s join us!
-            </button> */}
           </div>
         </div>
       </div>
@@ -185,4 +155,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default RestaurantSignup;
