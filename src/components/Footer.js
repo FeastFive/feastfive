@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../style/Footer.module.css";
 
+// footer
 const Footer = () => {
   const menuButtons = {
     button1: { title: "Home" },
