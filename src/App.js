@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css"
 import FoodHome from "./pages/homePage/FoodHome.js/FoodHome";
 import Navbar from "./components/Navbar";
+import Menu from "./pages/restaurant/menu/Menu";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/food" element={<FoodHome />} />
+          <Route path="/menu" element={<Menu />} />
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signUp" element={<SignupPage />} />
