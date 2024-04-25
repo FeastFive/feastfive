@@ -7,19 +7,21 @@ import makarna from "../../images/makarna.png";
 import HomeEntry from "./HomeEntry";
 import HomeSlier from "./HomeSlier";
 import HomeGrid from "./HomeGrid";
+import Footer from "../../components/Footer";
 
 const HomePage = () => {
   return (
-    <div className="pb-24">
-      <Navbar />
-      <HomeEntry></HomeEntry>
+    <div>
+      <div className="pb-24">
+        <Navbar />
+        <HomeEntry></HomeEntry>
 
-      <div className="px-12 sm:px-24">
-      <HomeSlier></HomeSlier>
-      <HomeGrid></HomeGrid>
-
+        <div className="px-12 sm:px-24">
+          <HomeSlier></HomeSlier>
+          <HomeGrid></HomeGrid>
+        </div>
       </div>
-
+      <Footer />
     </div>
   );
 };
