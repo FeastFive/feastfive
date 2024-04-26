@@ -1,24 +1,16 @@
-.loginCartForm {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  height: 100vh;
-  align-items: center;
-}
-.loginCartImage {
-  height: 100vh;
-  width: 65%;
-}
 .backIcon {
   position: absolute;
-  color: #fff;
+  color: #0f0f0f;
   top: 15px;
   left: 15px;
   font-size: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.storeIcon {
+.backIcon:hover {
+  top: 12px;
+}
+.userIcon {
   position: absolute;
   color: #0f0f0f;
   top: 15px;
@@ -27,64 +19,52 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.storeIcon:hover {
+.userIcon:hover {
   top: 12px;
 }
 .homeIcon {
   position: absolute;
-  color: #000;
+  color: #0f0f0f;
   top: 15px;
   right: 15px;
   font-size: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.imageBlack {
-  width: 100%;
-  height: 100%;
-}
-.backIcon:hover {
-  top: 12px;
-}
 .homeIcon:hover {
   top: 12px;
 }
-.imageWhite {
-  display: none;
-}
-@media (max-width: 1000px) {
-  .loginCartForm {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .loginCartImage {
-    display: none;
-  }
-  .loginComponent {
-    height: 100vh;
-  }
-  .backIcon {
-    color: #000;
-  }
-  .imageWhite {
-    display: block;
-    width: 20rem;
 
-    margin: -4rem 0;
-  }
+.mainContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
 }
+.backgroundIcon {
+  color: rgba(219, 55, 72, 1);
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  filter: blur(2px);
+}
+.loginCart {
+  z-index: +1;
 
-/* Login Component */
-.formContainer {
-  font-family: "Open Sans", sans-serif;
+  background-color: #fff;
+
+  width: 22rem;
+  height: 30rem;
+  -webkit-box-shadow: 3px 7px 13px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 7px 13px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 7px 13px 0px rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  width: 50%;
+  justify-content: space-between;
+  padding: 7rem 0;
 }
-
 .inputLabel {
   display: flex;
   flex-direction: column;
@@ -123,7 +103,7 @@
   cursor: pointer;
   background: #fff;
   color: #000;
-  padding: 9px 35px;
+  padding: 9px 25px;
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -134,26 +114,4 @@
   transform: translateY(-2px);
   background: #000;
   color: #fff;
-}
-.otherOptionsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.otherOptions {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: #808080;
-}
-.otherOptions:hover {
-  color: #0f0f0f;
-}
-@media (max-width: 1000px) {
-  .formContainer {
-    justify-content: center;
-  }
-  .inputLabel {
-    width: 100%;
-  }
 }

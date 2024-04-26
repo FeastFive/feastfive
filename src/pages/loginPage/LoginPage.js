@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./LoginPage.module.css";
 import imageBlack from "../../images/logo-white.png";
 import imageWhite from "../../images/logo-black.png";
+import { FaStore } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +52,12 @@ const LoginPage = () => {
         className={styles.backIcon}
         onClick={() => {
           navigate(-1);
+        }}
+      />
+      <FaStore
+        className={styles.storeIcon}
+        onClick={() => {
+          navigate("/restaurantLogin");
         }}
       />
       <IoHomeSharp

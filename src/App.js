@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/homePage/HomePage";
 import LoginPage from "./pages/loginPage/LoginPage";
+import ResaturantLogin from "./pages/restaurantLogin/ResaturantLogin";
 import SignupPage from "./pages/registerPage/SignupPage";
 import RestaurantSignup from "./pages/restaurantRegistiration/RestaurantSignup";
 import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/restaurantLogin" element={<ResaturantLogin />} />
           <Route path="/signUp" element={<SignupPage />} />
           <Route path="/restaurantSignUp" element={<RestaurantSignup />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
