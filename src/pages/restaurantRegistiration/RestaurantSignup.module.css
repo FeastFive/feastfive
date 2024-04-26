@@ -63,7 +63,10 @@
 .mobilPhotoContainer {
   display: none;
 }
-@media (max-width: 930px) {
+@media (max-width: 1116px) {
+  .singupPhotoContainer {
+    display: none;
+  }
   .mainContainer {
     flex-direction: column;
     height: 100%;
@@ -72,6 +75,9 @@
     justify-content: center;
   }
   .homeIcon {
+    color: #f0f0f0;
+  }
+  .userIcon {
     color: #f0f0f0;
   }
 
