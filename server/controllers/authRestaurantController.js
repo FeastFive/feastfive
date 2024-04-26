@@ -1,11 +1,11 @@
-const Restaurant = require("./../models/restaurantModel");
+const Restaurant = require("../models/restaurantModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { sendActivationEmail } = require("./mailer");
 
 //register as a new restaurant
-// route api/users/resRegister
+// route api/restaurant/
 const registerRestaurant = asyncHandler(async (req, res) => {
   const { restaurantName, ownerName, ownerSurname, email, password } = req.body;
 
@@ -38,14 +38,16 @@ const registerRestaurant = asyncHandler(async (req, res) => {
   });
 
   if (restaurant) {
-    sendActivationEmail(restaurant.email);
+    console.log(restaurant.email);
+    // sendActivationEmail(restaurant._id, restaurant.email);
     res.status(201).json({
       _id: restaurant._id,
       restaurantName: restaurant.restaurantName,
       ownerName: restaurant.ownerName,
+      ownerSurname: restaurant.ownerSurname,
       email: restaurant.email,
       loginDate: restaurant.loginDate,
-      token: generateToken(user._id),
+      token: generateToken(restaurant._id),
       activated: false,
     });
   } else {
@@ -54,13 +56,14 @@ const registerRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
+// route api/restaurant/login
 const loginRestaurant = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   //find restaurant
   const restaurant = await Restaurant.findOne({ email });
 
-  if (restaurant && (await bcrypt.compare(password, user.password))) {
+  if (restaurant && (await bcrypt.compare(password, restaurant.password))) {
     //if(restauran.activated)
     restaurant.loginDate = new Date();
     await restaurant.save();
@@ -71,11 +74,11 @@ const loginRestaurant = asyncHandler(async (req, res) => {
       email: restaurant.email,
       createdAt: restaurant.createdAt,
       loginDate: restaurant.loginDate,
-      role: user.role,
+      role: restaurant.role,
       meals: restaurant.meals,
       orders: restaurant.orders,
       labels: restaurant.labels,
-      activated: user.activated,
+      activated: restaurant.activated,
     });
   } else {
     res.status(401).json({ state: "fail", message: "Invalid credential" });
