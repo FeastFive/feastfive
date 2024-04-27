@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
 
 export default function Menu() {
-  const [food, setFood] = useState([]);
   const [optionList, setOptionList] = useState([]);
   const [option, setOption] = useState("");
   const [elem, setElem] = useState([]);
 
+  const [file, setFile] = useState()
   const [foodName, setFoodname] = useState("");
   const [foodDesc, setFoodDesc] = useState("");
   const [foodPrice, setfoodPrice] = useState("");
-
+  const [amount, setAmount] = useState("")
   function addFood() {
-    let obj = {"food":foodName, "description":foodDesc,"price":foodPrice, "options":optionList}
+    let obj = {"food":foodName, "description":foodDesc,"image":file," price":foodPrice, "options":optionList}
     console.log(obj)
   }
+
+
   function addOption() {
     if (option.trim() != "") {
-      setOptionList([...optionList, { option: option, elements: [] }]);
-      setElem([...elem, { option: option, state: "" }]);
-
+      setOptionList([...optionList, { option: option, elements: [] , quantity:amount}]);
+      setElem([...elem, { option: option, state: "" ,price:0 }]);  
+      setAmount("")
       setOption("");
     }
   }
+
+
+  
+
   function adInnerOption(_option) {
-    let newItem = elem.find((a) => a.option == _option).state;
+    let newItem = {"name":elem.find((a) => a.option == _option).state, "price":elem.find((a) => a.option == _option).price};
 
     setOptionList((prevOptionList) => {
       return prevOptionList.map((option) => {
@@ -53,19 +59,18 @@ export default function Menu() {
       });
     });
   }
-  useEffect(() => {
-    console.log(elem);
-  }, [elem]);
+
   return (
-    <div className="flex flex-col place-items-center pt-12 w-[25%] m-auto py-12 gap-1 pb-12">
+    <div className="flex flex-col place-items-center pt-12 px-16  sm:px-0 sm:w-[60%] md:w-[50%] lg:w-[30%] m-auto py-12 gap-1 pb-12">
       <p className="w-full col-span-4">Food name:</p>
       <div className=" w-full flex flex-row">
         <input
-          onChange={(e) => setFood(e.target.value)}
+          onChange={(e) => setFoodname(e.target.value)}
           placeholder="Enter the food name"
           className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-md w-full"
         ></input>
       </div>
+
 
       <p className="w-full col-span-4 pt-3">Food Description:</p>
       <div className=" w-full">
@@ -75,6 +80,7 @@ export default function Menu() {
           class="resize-y border-2 border-slate-200 shadow-md px-4 py-3 h-16  focus:outline-none rounded-md w-full"
         ></textarea>
       </div>
+
 
       <p className="w-full col-span-4 pt-2">Food Immage:</p>
       <div className=" w-full">
@@ -89,31 +95,46 @@ export default function Menu() {
       file:bg-[#db3748] file:bg-opacity-20 file:text-[#db3748] file:duration-200
       hover:file:bg-opacity-40
     "
+    onChange={(event)=> setFile(event.target.files[0])}
           />
         </label>
       </div>
+
+
 
       <p className="w-full col-span-4">Food Price:</p>
       <div className=" w-[40%] mr-auto flex flex-row">
         <input
           onChange={(e) => setfoodPrice(e.target.value)}
-          placeholder="...$"
+          placeholder="100 $"
           className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-md w-full"
         ></input>
         <span className="pt-1 text-lg font-semibold pl-3">$</span>
       </div>
 
+
       <p className="w-full pt-4">Food Options:</p>
-      <div className="flex flex-row  w-full">
+      <div className="flex flex-row  w-full shadow-md">
         <input
-          placeholder="Enter the food name"
+          placeholder="Enter the option"
           onChange={(e) => setOption(e.target.value)}
           value={option}
-          className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-l-md w-full"
+          className="border-2 border-slate-200 px-4 py-3 h-10  focus:outline-none rounded-l-md w-[80%] h-full "
         ></input>
+          <div className="px-4 w-auto flex flex-col bg-[#db3748] bg-opacity-25 justify-center">
+          <div className="flex flex-row ">
+          <input type="radio" name="opt" value="more" class="checked:bg-red-600"  onClick={(e)=> setAmount("single")}/>
+          <label className="text-sm text-[#db3748] pl-1 ">Single</label>
+          </div>
+          <div className="flex flex-row">
+          <input type="radio" name="opt" value="more" class="checked:bg-red-600"  onClick={(e)=> setAmount("multiple")}/>
+            <label className="text-sm text-[#db3748] pl-1 " >Multiple</label>
+          </div>
+
+          </div>
 
         <button
-          className="w-[35%] bg-red-400 shadow-md rounded-r-md bg-[#db3748] bg-opacity-25 cursor-pointer text-[#db3748] duration-200 hover:bg-opacity-40 "
+          className="w-[35%]  border-l-2 rounded-r-md bg-[#db3748] bg-opacity-25 cursor-pointer text-[#db3748] duration-200 hover:bg-opacity-40 "
           onClick={() => addOption()}
         >
           Add
@@ -121,6 +142,8 @@ export default function Menu() {
       </div>
       <h3 className="w-full pt-2">Options</h3>
 
+
+      {/* OPTİONLAR BURADA LİSTELİ (HAMUR,SOS) GİBİ*/}
       <div className="w-full pt-2  flex flex-row gap-3 flex-wrap">
         {optionList.map((optionElement) => (
           <button
@@ -152,14 +175,16 @@ export default function Menu() {
         ))}
       </div>
 
+
+
       {optionList.map((optionElement) => (
-        <div className="w-full pt-2">
-          <h3>{optionElement.option}</h3>
+        <div key={optionElement} className="w-full pt-2">
+          <h3>{optionElement.option} <span className="text-sm text-slate-400">({optionElement.quantity})</span></h3>
 
           <div className="flex flex-row  w-full">
             <input
               placeholder="Option"
-              className="border-2 border-slate-200 shadow-md px-4 py-3 h-10 focus:outline-none rounded-l-md w-full"
+              className="border-2 border-slate-200 shadow-md px-4 py-3 h-10 focus:outline-none w-full"
               onChange={(e) => {
                 const newValue = e.target.value;
                 setElem((prevState) => {
@@ -173,7 +198,28 @@ export default function Menu() {
                 });
               }}
             />
+          <div className="w-[40%]">
+          <input
+              placeholder="Price"
+              className="border-2 border-l-0 border-slate-200 shadow-md px-4 py-3 h-10 focus:outline-none w-full"
+              onChange={(e) => {
+                const newValue = e.target.value;
+                setElem((prevState) => {
+                  const updatedElem = prevState.map((item) => {
+                    if (item.option === optionElement.option) {
+                      return { ...item, price: newValue };
+                    }
+                    return item;
+                  });
+                  return updatedElem;
+                });
+              }}
+            /> 
+          <span className="absolute w-[1px] ml-[-13px] mt-[8px]">$</span>
 
+          </div>
+        
+              
             <button
               className="w-[35%] bg-red-400 shadow-md rounded-r-md bg-[#db3748] bg-opacity-25 cursor-pointer text-[#db3748] duration-200 hover:bg-opacity-40 "
               onClick={() => adInnerOption(optionElement.option)}
@@ -181,7 +227,7 @@ export default function Menu() {
               Add
             </button>
           </div>
-
+          {/* HER INNER OPTION BURADA LISTELİ */}
           <div className="w-full pt-2 flex flex-row gap-3 flex-wrap">
             {optionElement.elements.map((element, index) => (
               <div className="" key={index}>
@@ -189,7 +235,7 @@ export default function Menu() {
                   className="w-auto px-4  py-2 bg-red-400 shadow-md rounded-md bg-[#db3748] bg-opacity-25 cursor-pointer text-[#db3748] duration-200 hover:bg-opacity-40 flex flex-row"
                   onClick={() => handleDeleteElement(optionElement, index)}
                 >
-                  {element}
+                  {element.name}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
