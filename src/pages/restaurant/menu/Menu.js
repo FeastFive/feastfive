@@ -61,7 +61,7 @@ export default function Menu() {
   }
 
   return (
-    <div className="flex flex-col place-items-center pt-12 px-16  sm:px-0 sm:w-[60%] md:w-[50%] lg:w-[30%] m-auto py-12 gap-1 pb-12">
+    <div className="flex flex-col place-items-center pt-12 px-8  sm:px-0 sm:w-[60%] md:w-[50%] lg:w-[30%] m-auto py-12 gap-1 pb-12">
       <p className="w-full col-span-4">Food name:</p>
       <div className=" w-full flex flex-row">
         <input
