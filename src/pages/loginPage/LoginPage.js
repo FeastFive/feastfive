@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./LoginPage.module.css";
 import imageBlack from "../../images/logo-white.png";
 import imageWhite from "../../images/logo-black.png";
+import { FaStore } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -34,8 +35,10 @@ const LoginPage = () => {
         dispatch(setActiveUser(result));
         ShowAlert(1, "Logged in successfully");
         navigate("/home");
+      } else if (response.status === 403) {
+        ShowAlert(3, "Check your email to activate your account.");
       } else {
-        ShowAlert(3, "Incorrect email address or password");
+        ShowAlert(3, "Invalid email address or password");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -49,6 +52,12 @@ const LoginPage = () => {
         className={styles.backIcon}
         onClick={() => {
           navigate(-1);
+        }}
+      />
+      <FaStore
+        className={styles.storeIcon}
+        onClick={() => {
+          navigate("/restaurantLogin");
         }}
       />
       <IoHomeSharp

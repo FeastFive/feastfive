@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../style/Navbar.module.css";
 import navIcon from "../images/logo-color.png";
+import navIconNoBack from "../images/logo-no-background.png";
 import { BsJustify } from "react-icons/bs";
 import { MdKeyboardArrowDown, MdOpacity } from "react-icons/md";
 import { FaCircleUser } from "react-icons/fa6";
@@ -19,10 +20,10 @@ const Navbar = () => {
   console.log(user);
 
   const menuButtons = {
-    button1: { title: "Button1" },
-    button2: { title: "Button2" },
-    button3: { title: "Button3" },
-    button4: { title: "Button4" },
+    button1: { title: "Home" },
+    button2: { title: "Restaurants" },
+    button3: { title: "Cuisine" },
+    button4: { title: "Campaign" },
     loginButton: { title: "Log In" },
     singupButton: { title: "Sign Up" },
   };
@@ -149,7 +150,9 @@ const Navbar = () => {
       >
         <button className={styles.iconDropdownBtn}>Profile</button>
         <button className={styles.iconDropdownBtn}>Help</button>
-        <button className={styles.iconDropdownBtn}>Log Out</button>
+        <button className={styles.iconDropdownBtn} onClick={handleLogout}>
+          Log Out
+        </button>
       </motion.div>
     );
   };
@@ -164,7 +167,7 @@ const Navbar = () => {
           {menuButtons.button2.title}
         </button>
         <div className={styles.iconContainer}>
-          <img src={navIcon} alt="" className={styles.navIcon} />
+          <img src={navIconNoBack} alt="" className={styles.navIcon} />
         </div>
         <button className={styles.navButton}>
           {menuButtons.button3.title}

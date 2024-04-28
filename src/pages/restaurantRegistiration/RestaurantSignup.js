@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import styles from "./SignupPage.module.css";
-import imageRed from "../../images/logo-color.png";
+import styles from "./RestaurantSignup.module.css";
 import imageMobil from "../../images/logo-no-background.png";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
-import { FaStore } from "react-icons/fa";
-import { register } from "../../utils/registerUser/register";
+import { FaUserPlus } from "react-icons/fa";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
+import { registerRes } from "../../utils/registerRestaurant/registerRes";
 
-const SignupPage = () => {
+const RestaurantSignup = () => {
   const navigate = useNavigate();
   const [readyPassword, setReadyPassword] = useState(true);
   // const [inputsMissingName, setInputsMissingName] = useState(false);
@@ -17,8 +16,9 @@ const SignupPage = () => {
   const [inputsMissingEmail, setInputsMissingEmail] = useState(false);
   const [inputsMissingPassword, setInputsMissingPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
+    ownerName: "",
+    ownerSurname: "",
+    restaurantName: "",
     email: "",
     password: "",
   });
@@ -46,8 +46,9 @@ const SignupPage = () => {
   const handleSignup = async () => {
     try {
       if (
-        formData.name &&
-        formData.surname &&
+        formData.ownerName &&
+        formData.ownerSurname &&
+        formData.restaurantName &&
         formData.email &&
         formData.password
       ) {
@@ -69,7 +70,7 @@ const SignupPage = () => {
           );
         } else {
           setReadyEmail(true);
-          const response = await register(formData);
+          const response = await registerRes(formData);
           if (response.status === 201) {
             ShowAlert(1, "Successfully Registered");
             navigate("/login");
@@ -88,6 +89,7 @@ const SignupPage = () => {
       console.error(error);
     }
   };
+
   return (
     <div className={styles.mainContainer}>
       <IoArrowBack
@@ -96,10 +98,11 @@ const SignupPage = () => {
           navigate(-1);
         }}
       />
-      <FaStore
-        className={styles.storeIcon}
+
+      <FaUserPlus
+        className={styles.userIcon}
         onClick={() => {
-          navigate("/restaurantSignUp");
+          navigate("/signUp");
         }}
       />
       <IoHomeSharp
@@ -108,7 +111,10 @@ const SignupPage = () => {
           navigate("/home");
         }}
       />
-      <img className={styles.singupPhoto} src={imageRed} alt="" />
+      <div className={styles.singupPhotoContainer}>
+        <img className={styles.singupPhoto} src={imageMobil} alt="" />
+      </div>
+
       <div className={styles.mobilPhotoContainer}>
         <img className={styles.mobilPhoto} src={imageMobil} alt="" />
       </div>
@@ -118,26 +124,46 @@ const SignupPage = () => {
         <div className={styles.formContainer}>
           <div className={styles.nameLabel}>
             <label className={styles.inputLabel}>
-              <div className={styles.inputTitle}>Name:</div>
+              <div className={styles.inputTitle}>Owner Name:</div>
               <input
                 type="text"
-                name="name"
-                value={formData.name}
+                name="ownerName"
+                value={formData.ownerName}
                 onChange={handleChange}
                 className={styles.inputFill}
               />
             </label>
             <label className={styles.inputLabel}>
-              <div className={styles.inputTitle}>Surname:</div>
+              <div className={styles.inputTitle}>Owner Surname:</div>
               <input
                 type="text"
-                name="surname"
-                value={formData.surname}
+                name="ownerSurname"
+                value={formData.ownerSurname}
                 onChange={handleChange}
                 className={styles.inputFill}
               />
             </label>
           </div>
+          <label className={styles.inputLabel}>
+            <div className={styles.inputTitle}>Restaurant Name:</div>
+            <input
+              type="text"
+              name="restaurantName"
+              value={formData.restaurantName}
+              onChange={handleChange}
+              className={styles.inputFill}
+            />
+          </label>
+          {/* <label className={styles.inputLabel}>
+            <div className={styles.inputTitle}>Restaurant Address:</div>
+            <input
+              type="text"
+              name="address"
+              value={formData.email}
+              onChange={handleChange}
+              className={styles.inputFill}
+            />
+          </label> */}
           <label className={styles.inputLabel}>
             <div className={styles.inputTitle}>Email:</div>
             <input
@@ -170,14 +196,6 @@ const SignupPage = () => {
             >
               Do You Already Have An Account?
             </button>
-            {/* <button
-              className={styles.otherOptions}
-              onClick={() => {
-                navigate("/restaurantSignUp");
-              }}
-            >
-              Do you have a restaurant? Let`s join us!
-            </button> */}
           </div>
         </div>
       </div>
@@ -185,4 +203,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default RestaurantSignup;

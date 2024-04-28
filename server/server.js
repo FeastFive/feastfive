@@ -22,6 +22,7 @@ connectDB();
 
 // Routes
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/restaurants", require("./routes/restaurantRoutes"));
 
 //Server
 const server = http.createServer(app);
