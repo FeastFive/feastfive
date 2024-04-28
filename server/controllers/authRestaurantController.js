@@ -2,7 +2,7 @@ const Restaurant = require("../models/restaurantModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { sendActivationEmail } = require("./mailer");
+const { sendActivationRestaurantEmail } = require("./mailer");
 
 //register as a new restaurant
 // route api/restaurant/
@@ -23,6 +23,7 @@ const registerRestaurant = asyncHandler(async (req, res) => {
     throw new Error("Restaurant already exists");
   }
 
+  const uniqueId = randString();
   // Hash
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -33,19 +34,21 @@ const registerRestaurant = asyncHandler(async (req, res) => {
     ownerName,
     ownerSurname,
     email,
+    uniqueId: uniqueId,
     loginDate: new Date(),
     password: hashedPassword,
   });
 
   if (restaurant) {
     console.log(restaurant.email);
-    // sendActivationEmail(restaurant._id, restaurant.email);
+    sendActivationRestaurantEmail(restaurant.uniqueId, restaurant.email);
     res.status(201).json({
       _id: restaurant._id,
       restaurantName: restaurant.restaurantName,
       ownerName: restaurant.ownerName,
       ownerSurname: restaurant.ownerSurname,
       email: restaurant.email,
+      uniqueId: restaurant.uniqueId,
       loginDate: restaurant.loginDate,
       token: generateToken(restaurant._id),
       activated: false,
@@ -64,26 +67,61 @@ const loginRestaurant = asyncHandler(async (req, res) => {
   const restaurant = await Restaurant.findOne({ email });
 
   if (restaurant && (await bcrypt.compare(password, restaurant.password))) {
-    //if(restauran.activated)
-    restaurant.loginDate = new Date();
-    await restaurant.save();
-    res.status(200).json({
-      _id: restaurant._id,
-      restaurantName: restaurant.restaurantName,
-      ownerName: restaurant.ownerName,
-      email: restaurant.email,
-      createdAt: restaurant.createdAt,
-      loginDate: restaurant.loginDate,
-      role: restaurant.role,
-      meals: restaurant.meals,
-      orders: restaurant.orders,
-      labels: restaurant.labels,
-      activated: restaurant.activated,
-    });
+    if (restaurant.activated) {
+      restaurant.loginDate = new Date();
+      await restaurant.save();
+      res.status(200).json({
+        _id: restaurant._id,
+        restaurantName: restaurant.restaurantName,
+        ownerName: restaurant.ownerName,
+        email: restaurant.email,
+        uniqueId: restaurant.uniqueId,
+        createdAt: restaurant.createdAt,
+        loginDate: restaurant.loginDate,
+        role: restaurant.role,
+        meals: restaurant.meals,
+        orders: restaurant.orders,
+        labels: restaurant.labels,
+        activated: restaurant.activated,
+      });
+    } else {
+      res.status(403).json({ state: "fail", message: "Non activated account" });
+    }
   } else {
     res.status(401).json({ state: "fail", message: "Invalid credential" });
   }
 });
+
+const activateRestaurantAccount = asyncHandler(async (req, res) => {
+  try {
+    const { uniqueId } = req.params;
+    console.log("Activation code, uniqueId:", uniqueId);
+
+    const restaurant = await Restaurant.findOne({ uniqueId: uniqueId });
+
+    if (restaurant) {
+      restaurant.activated = true;
+      await restaurant.save();
+      console.log(restaurant);
+      return res.redirect("http://localhost:3000/restaurantLogin");
+    } else {
+      return res.status(404).json({ error: "User with provided ID not found" });
+    }
+  } catch (error) {
+    console.error("Error activating account:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const randString = () => {
+  const len = 8;
+  let randStr = "";
+  for (let i = 0; i < len; i++) {
+    const ch = Math.floor(Math.random() * 10) + 1;
+    randStr += ch;
+  }
+  return randStr;
+};
 
 //Generating a token
 const generateToken = (id) => {
@@ -95,4 +133,5 @@ const generateToken = (id) => {
 module.exports = {
   registerRestaurant,
   loginRestaurant,
+  activateRestaurantAccount,
 };

@@ -65,7 +65,32 @@ const sendActivationEmail = (uniqueId, mailAddress) => {
   return sendMail(mailAddress, subject, mailBody);
 };
 
+const sendActivationRestaurantEmail = (uniqueId, mailAddress) => {
+  const mailBody = `
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>FeastFive Activation</title>
+</head>
+<body>
+  <div> 
+    <h3>FeastFive Account Activation</h3>
+    <p>This e-mail is sent to you upon your FeastFive account registration.</p>
+    <p>Press <a href="http://localhost:4000/api/restaurants/verify/${uniqueId}">here</a> to verify your account.</p>
+    <p></p>
+    <p>Thanks!</p>
+    <b>FeastFive</b>
+  </div>
+</body>
+</html>
+`;
+  const subject = "FeastFive Account Activation";
+
+  return sendMail(mailAddress, subject, mailBody);
+};
+
 module.exports = {
   sendMail,
   sendActivationEmail,
+  sendActivationRestaurantEmail,
 };
