@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../style/Navbar.module.css";
 import navIcon from "../images/logo-color.png";
 import navIconNoBack from "../images/logo-no-background.png";
@@ -9,24 +9,43 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/slices/userSlice";
+import { restaurantLogout } from "../store/slices/restaurantSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [navDropdownOpen, setNavDropdownOpen] = useState(false);
   const [navProfileDropdownOpen, setNavProfileDropdownOpen] = useState(false);
+  const [checkUserRole, setCheckUserRole] = useState("");
+  const [menu, setMenu] = useState({});
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  //console.log(user);
+  // console.log(user);
+  const restaurant = useSelector((state) => state.restaurant);
+  // console.log(restaurant);
 
-  const menuButtons = {
-    button1: { title: "Home" },
-    button2: { title: "Restaurants" },
-    button3: { title: "Cuisine" },
-    button4: { title: "Campaign" },
-    loginButton: { title: "Log In" },
-    singupButton: { title: "Sign Up" },
-  };
+  useEffect(() => {
+    if (user.role === "user") {
+      setCheckUserRole("user");
+      setMenu({
+        button1: "Home",
+        button2: "Restaurants",
+        button3: "Cuisine",
+        button4: "Campaign",
+      });
+    } else if (restaurant.role === "restaurant") {
+      setCheckUserRole("restaurant");
+      setMenu({
+        button1: "Home",
+        button2: "Menu",
+        button3: "Orders",
+        button4: "Campaign",
+      });
+    } else {
+      setCheckUserRole("");
+      setMenu({});
+    }
+  }, [user, restaurant]);
 
   const mobileDropdownAnimationVars = {
     initial: {
@@ -73,7 +92,11 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    if (checkUserRole === "user") {
+      dispatch(logout());
+    } else if (checkUserRole === "restaurant") {
+      dispatch(restaurantLogout());
+    }
   };
 
   const MobileDropdown = () => {
@@ -96,7 +119,7 @@ const Navbar = () => {
         </div>
         <div className={styles.mobileButtonContainer}>
           <div className={styles.mobilRegistrationContainer}>
-            {user.isLogin ? (
+            {user.isLogin || restaurant.isLogin ? (
               <button className={styles.mobilProfileBtn}>Profile</button>
             ) : (
               <>
@@ -104,30 +127,22 @@ const Navbar = () => {
                   className={styles.mobilLoginButton}
                   onClick={() => navigate("/login")}
                 >
-                  {menuButtons.loginButton.title}
+                  Login
                 </button>
                 <button
                   className={styles.mobilSingupButton}
                   onClick={() => navigate("/signUp")}
                 >
-                  {menuButtons.singupButton.title}
+                  SignUp
                 </button>
               </>
             )}
           </div>
-          <button className={styles.navMobileButton}>
-            {menuButtons.button1.title}
-          </button>
-          <button className={styles.navMobileButton}>
-            {menuButtons.button2.title}
-          </button>
-          <button className={styles.navMobileButton}>
-            {menuButtons.button3.title}
-          </button>
-          <button className={styles.navMobileButton}>
-            {menuButtons.button4.title}
-          </button>
-          {user.name ? (
+          <button className={styles.navMobileButton}>{menu.button1}</button>
+          <button className={styles.navMobileButton}>{menu.button2}</button>
+          <button className={styles.navMobileButton}>{menu.button3}</button>
+          <button className={styles.navMobileButton}></button>
+          {user || restaurant ? (
             <button onClick={handleLogout} className={styles.navMobileButton}>
               Log Out
             </button>
@@ -160,23 +175,15 @@ const Navbar = () => {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.buttonContainer}>
-        <button className={styles.navButton}>
-          {menuButtons.button1.title}
-        </button>
-        <button className={styles.navButton}>
-          {menuButtons.button2.title}
-        </button>
+        <button className={styles.navButton}>{menu.button1}</button>
+        <button className={styles.navButton}>{menu.button2}</button>
         <div className={styles.iconContainer}>
           <img src={navIconNoBack} alt="" className={styles.navIcon} />
         </div>
-        <button className={styles.navButton}>
-          {menuButtons.button3.title}
-        </button>
-        <button className={styles.navButton}>
-          {menuButtons.button4.title}
-        </button>
+        <button className={styles.navButton}>{menu.button3}</button>
+        <button className={styles.navButton}>{menu.button4}</button>
         <div className={styles.registrationContainer}>
-          {user.isLogin ? (
+          {user.isLogin || restaurant.isLogin ? (
             <div className={styles.registeredUserContainer}>
               <button
                 className={styles.registeredUserButton}
@@ -186,7 +193,16 @@ const Navbar = () => {
               >
                 <FaCircleUser className={styles.userDropdownProfileIcon} />
                 <div className={styles.userDropdownContainer}>
-                  <p className={styles.userDropdownText}>Hello, {user.name}</p>
+                  {checkUserRole === "user" ? (
+                    <p className={styles.userDropdownText}>
+                      Hello, {user.name}
+                    </p>
+                  ) : (
+                    <p className={styles.userDropdownText}>
+                      Hello, {restaurant.restaurantName}
+                    </p>
+                  )}
+
                   <MdKeyboardArrowDown
                     className={styles.userDropdownArrowIcon}
                   />
@@ -202,13 +218,13 @@ const Navbar = () => {
                 className={styles.loginButton}
                 onClick={() => navigate("/login")}
               >
-                {menuButtons.loginButton.title}
+                Login
               </button>
               <button
                 className={styles.singupButton}
                 onClick={() => navigate("/signUp")}
               >
-                {menuButtons.singupButton.title}
+                SignUp
               </button>
             </>
           )}
