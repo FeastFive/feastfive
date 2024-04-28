@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import styles from "./RestaurantLogin.module.css";
-import { useNavigate } from "react-router-dom";
-import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
-import { FaUserPlus } from "react-icons/fa";
+import imageBlack from "../../images/Restaurant.png";
+import imageWhite from "../../images/logo-black.png";
 import { FaStore } from "react-icons/fa";
 import { loginRes } from "../../utils/loginRestaurant/loginRes";
-import { ShowAlert } from "../../components/alert/ShowAlert";
 import { setActiveRestaurant } from "../../store/slices/restaurantSlice";
+import { FaUserPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../utils/loginUser/login";
+import { ShowAlert } from "../../components/alert/ShowAlert";
+
 const ResaturantLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,7 +23,7 @@ const ResaturantLogin = () => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const handleLogin = async () => {
+   const handleLogin = async () => {
     try {
       if (!formData.email && !formData.password) {
         ShowAlert(2, "Please fill in all fields");
@@ -42,16 +46,15 @@ const ResaturantLogin = () => {
     }
   };
   return (
-    <div className={styles.mainContainer}>
+    <div className={styles.loginCartForm}>
       <IoArrowBack
         className={styles.backIcon}
         onClick={() => {
           navigate(-1);
         }}
       />
-
       <FaUserPlus
-        className={styles.userIcon}
+        className={styles.storeIcon}
         onClick={() => {
           navigate("/login");
         }}
@@ -62,8 +65,13 @@ const ResaturantLogin = () => {
           navigate("/home");
         }}
       />
-
-      <div className={styles.loginCart}>
+      <div className={styles.loginCartImage}>
+        <img src={imageBlack} alt="" className={styles.imageBlack} />
+      </div>
+      <img src={imageWhite} alt="" className={styles.imageWhite} />
+      {/* <LoginComponent className={styles.loginComponent} /> */}
+      <div className={styles.formContainer}>
+        <div className={styles.title}>Restaurant Login</div>
         <label className={styles.inputLabel}>
           <div className={styles.inputTitle}>Email:</div>
           <input
@@ -88,9 +96,20 @@ const ResaturantLogin = () => {
         <button onClick={handleLogin} className={styles.subbmitButton}>
           Log In
         </button>
+
+        <div className={styles.otherOptionsContainer}>
+          <button
+            className={styles.otherOptions}
+            onClick={() => {
+              navigate("/restaurantSignUp");
+            }}
+          >
+            Don't you have an account?
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ResaturantLogin;
+export default LoginPage;

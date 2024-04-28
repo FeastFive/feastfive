@@ -116,6 +116,7 @@ const SignupPage = () => {
       <div className={styles.signupForm}>
         {/* <SignupComponent /> */}
         <div className={styles.formContainer}>
+          <div className={styles.title}>SignUp</div>
           <div className={styles.nameLabel}>
             <label className={styles.inputLabel}>
               <div className={styles.inputTitle}>Name:</div>

@@ -122,6 +122,7 @@ const RestaurantSignup = () => {
       <div className={styles.signupForm}>
         {/* <SignupComponent /> */}
         <div className={styles.formContainer}>
+          <div className={styles.title}>Restaurant SignUp</div>
           <div className={styles.nameLabel}>
             <label className={styles.inputLabel}>
               <div className={styles.inputTitle}>Owner Name:</div>
