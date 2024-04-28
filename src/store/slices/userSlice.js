@@ -12,7 +12,6 @@ const initialState = {
   favorites: [],
   orders: [],
   logs: [],
-  activated: false,
 };
 
 const userSlice = createSlice({
@@ -31,7 +30,6 @@ const userSlice = createSlice({
       state.favorites = action.payload.favorites;
       state.orders = action.payload.orders;
       state.logs = action.payload.logs;
-      state.activated = action.payload.activated;
     },
     logout: () => initialState,
   },
