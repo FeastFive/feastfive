@@ -37,7 +37,7 @@ const ResaturantLogin = () => {
           navigate("/home");
         }}
       />
-      <FaStore className={styles.backgroundIcon} />
+      {/* <FaStore className={styles.backgroundIcon} /> */}
 
       <div className={styles.loginCart}>
         <label className={styles.inputLabel}>
