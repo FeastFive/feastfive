@@ -11,7 +11,8 @@ import Footer from "../../components/Footer";
 
 const HomePage = () => {
   return (
-    <div className="pb-24">
+    <div>
+   <div className="pb-24 overflow-x-hidden">
       <Navbar></Navbar>
       <HomeEntry></HomeEntry>
 
@@ -22,13 +23,13 @@ const HomePage = () => {
         </h1>
 
         <HomeGrid></HomeGrid>
-        <div className="px-12 sm:px-24">
-          <HomeSlier></HomeSlier>
-          <HomeGrid></HomeGrid>
-        </div>
+        
       </div>
-      <Footer />
     </div>
+<Footer />
+
+    </div>
+ 
   );
 };
 

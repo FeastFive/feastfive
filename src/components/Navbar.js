@@ -17,7 +17,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  console.log(user);
+  //console.log(user);
 
   const menuButtons = {
     button1: { title: "Home" },
