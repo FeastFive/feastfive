@@ -27,23 +27,27 @@ export default function HomeSlier() {
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(window.innerWidth);
+      if(window.innerWidth > 1400){
+        setSlideToShow(6);
+      }
       if(window.innerWidth > 1200){
         setSlideToShow(5);
       }
-      else if(window.innerWidth < 1200 && window.innerWidth > 900){
+      else if(window.innerWidth < 1200 && window.innerWidth > 1000){
         setSlideToShow(4);
 
       }
-      else if(window.innerWidth < 900 && window.innerWidth > 600){
+      else if(window.innerWidth < 1000 && window.innerWidth > 750){
         setSlideToShow(3);
 
       }
-      else if(window.innerWidth < 600 && window.innerWidth > 200){
+      else if(window.innerWidth < 750 && window.innerWidth > 200){
         setSlideToShow(2);
 
       }
       console.log(window.innerWidth)
     }
+    handleResize();
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -54,7 +58,7 @@ export default function HomeSlier() {
        <Swiper
         // install Swiper modules
       modules={[Navigation, Pagination, Scrollbar, A11y]}
-      spaceBetween={50}
+      spaceBetween={slideToShow > 3 ? 40 :30}
       slidesPerView={slideToShow}
       navigation={true}
       pagination={{ clickable: true }}
@@ -62,11 +66,11 @@ export default function HomeSlier() {
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log('slide change')}
 
-       className={``}
+       className={`px-12 `}
       >
         {categories.map((category) => (
           <SwiperSlide key={category} className=" ">
-            <div className="w-32 h-32 rounded-full overflow-hidden  m-auto shadow-xl">
+            <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-full overflow-hidden  m-auto shadow-xl">
               <img className="object-cover w-full h-full" src={makarna}></img>
             </div>
             <p className="text-center font-semibold pt-1 text-slate-900">{category}</p>

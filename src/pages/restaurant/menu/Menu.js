@@ -29,7 +29,6 @@ export default function Menu() {
         { option: option, elements: [], quantity: amount },
       ]);
       setElem([...elem, { option: option, state: "", price: 0 }]);
-      setAmount("");
       setOption("");
     }
   }
