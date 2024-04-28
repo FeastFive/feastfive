@@ -23,7 +23,7 @@ const ResaturantLogin = () => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-   const handleLogin = async () => {
+  const handleLogin = async () => {
     try {
       if (!formData.email && !formData.password) {
         ShowAlert(2, "Please fill in all fields");
@@ -112,4 +112,4 @@ const ResaturantLogin = () => {
   );
 };
 
-export default LoginPage;
+export default ResaturantLogin;
