@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import styles from "./RestaurantLogin.module.css";
 import imageBlack from "../../images/Restaurant.png";
 import imageWhite from "../../images/logo-black.png";
-import { FaStore } from "react-icons/fa";
+// import { FaStore } from "react-icons/fa";
 import { loginRes } from "../../utils/loginRestaurant/loginRes";
 import { setActiveRestaurant } from "../../store/slices/restaurantSlice";
 import { FaUserPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../utils/loginUser/login";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 
 const ResaturantLogin = () => {
@@ -35,6 +34,7 @@ const ResaturantLogin = () => {
         const result = await response.json();
         dispatch(setActiveRestaurant(result));
         ShowAlert(1, "Logged in successfully");
+        navigate("/home");
       } else if (response.status === 403) {
         ShowAlert(3, "Check your email to activate your account.");
       } else {
