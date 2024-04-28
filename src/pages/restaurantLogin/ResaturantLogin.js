@@ -3,15 +3,16 @@ import styles from "./RestaurantLogin.module.css";
 import imageBlack from "../../images/Restaurant.png";
 import imageWhite from "../../images/logo-black.png";
 import { FaStore } from "react-icons/fa";
+import { loginRes } from "../../utils/loginRestaurant/loginRes";
+import { setActiveRestaurant } from "../../store/slices/restaurantSlice";
 import { FaUserPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/loginUser/login";
 import { ShowAlert } from "../../components/alert/ShowAlert";
-import { setActiveUser } from "../../store/slices/userSlice";
 
-const LoginPage = () => {
+const ResaturantLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -22,31 +23,28 @@ const LoginPage = () => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const handleLogin = async () => {
+   const handleLogin = async () => {
     try {
-      if (!formData.email || !formData.password) {
+      if (!formData.email && !formData.password) {
         ShowAlert(2, "Please fill in all fields");
         return;
       }
-
-      const response = await login(formData);
+      const response = await loginRes(formData);
 
       if (response.status === 200) {
         const result = await response.json();
-        dispatch(setActiveUser(result));
+        dispatch(setActiveRestaurant(result));
         ShowAlert(1, "Logged in successfully");
-        navigate("/home");
       } else if (response.status === 403) {
         ShowAlert(3, "Check your email to activate your account.");
       } else {
         ShowAlert(3, "Invalid email address or password");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      ShowAlert(3, "An error occurred while logging in");
+      console.log("Login error", error);
+      ShowAlert(3, "An error occured while logging in");
     }
   };
-
   return (
     <div className={styles.loginCartForm}>
       <IoArrowBack

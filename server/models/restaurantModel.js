@@ -30,6 +30,9 @@ const restaurantSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    uniqueId: {
+      type: String,
+    },
     role: {
       type: String,
       enum: ["restaurant"],
