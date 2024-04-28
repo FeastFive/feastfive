@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
 import { FaStore } from "react-icons/fa";
+import { loginRes } from "../../utils/loginRestaurant/loginRes";
+import { ShowAlert } from "../../components/alert/ShowAlert";
 const ResaturantLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -15,6 +17,29 @@ const ResaturantLogin = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+  const handleLogin = async () => {
+    try {
+      if (!formData.email && !formData.password) {
+        ShowAlert(2, "Please fill in all fields");
+        return;
+      }
+      const response = await loginRes(formData);
+      console.log(response);
+
+      if (response.status === 200) {
+        const result = await response.json();
+        console.log(result);
+        ShowAlert(1, "Logged in successfully");
+      } else if (response.status === 403) {
+        ShowAlert(3, "Check your email to activate your account.");
+      } else {
+        ShowAlert(3, "Invalid email address or password");
+      }
+    } catch (error) {
+      console.log("Login error", error);
+      ShowAlert(3, "An error occured while logging in");
+    }
   };
   return (
     <div className={styles.mainContainer}>
@@ -37,7 +62,6 @@ const ResaturantLogin = () => {
           navigate("/home");
         }}
       />
-      {/* <FaStore className={styles.backgroundIcon} /> */}
 
       <div className={styles.loginCart}>
         <label className={styles.inputLabel}>
@@ -61,7 +85,7 @@ const ResaturantLogin = () => {
           />
         </label>
 
-        <button onClick={() => {}} className={styles.subbmitButton}>
+        <button onClick={handleLogin} className={styles.subbmitButton}>
           Log In
         </button>
       </div>
