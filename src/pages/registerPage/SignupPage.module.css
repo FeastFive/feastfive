@@ -16,6 +16,10 @@
   justify-content: center;
   width: 100%;
 }
+.title {
+  font-size: 36px;
+  font-weight: 600;
+}
 .backIcon {
   position: absolute;
   color: #fff;

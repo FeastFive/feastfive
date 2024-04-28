@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import styles from "./RestaurantLogin.module.css";
-import { useNavigate } from "react-router-dom";
-import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
-import { FaUserPlus } from "react-icons/fa";
+import imageBlack from "../../images/Restaurant.png";
+import imageWhite from "../../images/logo-black.png";
 import { FaStore } from "react-icons/fa";
-const ResaturantLogin = () => {
+import { FaUserPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { IoArrowBack, IoHomeSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../utils/loginUser/login";
+import { ShowAlert } from "../../components/alert/ShowAlert";
+import { setActiveUser } from "../../store/slices/userSlice";
+
+const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -16,17 +22,41 @@ const ResaturantLogin = () => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
+  const handleLogin = async () => {
+    try {
+      if (!formData.email || !formData.password) {
+        ShowAlert(2, "Please fill in all fields");
+        return;
+      }
+
+      const response = await login(formData);
+
+      if (response.status === 200) {
+        const result = await response.json();
+        dispatch(setActiveUser(result));
+        ShowAlert(1, "Logged in successfully");
+        navigate("/home");
+      } else if (response.status === 403) {
+        ShowAlert(3, "Check your email to activate your account.");
+      } else {
+        ShowAlert(3, "Invalid email address or password");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      ShowAlert(3, "An error occurred while logging in");
+    }
+  };
+
   return (
-    <div className={styles.mainContainer}>
+    <div className={styles.loginCartForm}>
       <IoArrowBack
         className={styles.backIcon}
         onClick={() => {
           navigate(-1);
         }}
       />
-
       <FaUserPlus
-        className={styles.userIcon}
+        className={styles.storeIcon}
         onClick={() => {
           navigate("/login");
         }}
@@ -37,9 +67,13 @@ const ResaturantLogin = () => {
           navigate("/home");
         }}
       />
-      {/* <FaStore className={styles.backgroundIcon} /> */}
-
-      <div className={styles.loginCart}>
+      <div className={styles.loginCartImage}>
+        <img src={imageBlack} alt="" className={styles.imageBlack} />
+      </div>
+      <img src={imageWhite} alt="" className={styles.imageWhite} />
+      {/* <LoginComponent className={styles.loginComponent} /> */}
+      <div className={styles.formContainer}>
+        <div className={styles.title}>Restaurant Login</div>
         <label className={styles.inputLabel}>
           <div className={styles.inputTitle}>Email:</div>
           <input
@@ -61,12 +95,23 @@ const ResaturantLogin = () => {
           />
         </label>
 
-        <button onClick={() => {}} className={styles.subbmitButton}>
+        <button onClick={handleLogin} className={styles.subbmitButton}>
           Log In
         </button>
+
+        <div className={styles.otherOptionsContainer}>
+          <button
+            className={styles.otherOptions}
+            onClick={() => {
+              navigate("/restaurantSignUp");
+            }}
+          >
+            Don't you have an account?
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ResaturantLogin;
+export default LoginPage;

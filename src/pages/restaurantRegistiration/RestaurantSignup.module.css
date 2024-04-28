@@ -63,6 +63,10 @@
 .mobilPhotoContainer {
   display: none;
 }
+.title {
+  font-size: 36px;
+  font-weight: 600;
+}
 @media (max-width: 1116px) {
   .singupPhotoContainer {
     display: none;
