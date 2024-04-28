@@ -10,15 +10,24 @@ import ChangePassword from "./pages/changePassword/ChangePassword";
 import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./App.css";
+import "./App.css"
+import FoodHome from "./pages/homePage/FoodHome.js/FoodHome";
+import Navbar from "./components/Navbar";
+import Menu from "./pages/restaurant/menu/Menu";
+
 function App() {
   return (
     <>
       <BrowserRouter>
         <ToastContainer style={{ zIndex: "928273690" }} />
+        <Navbar></Navbar>
+
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/food" element={<FoodHome />} />
+          <Route path="/menu" element={<Menu />} />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/restaurantLogin" element={<ResaturantLogin />} />
           <Route path="/signUp" element={<SignupPage />} />

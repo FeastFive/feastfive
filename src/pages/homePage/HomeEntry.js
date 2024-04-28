@@ -4,9 +4,13 @@ export default function HomeEntry() {
   return (
     <div className="w-screen px-12 sm:px-24 h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between  pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
     <div className="flex flex-col text-center md:text-left justify-center">
-      <h2 className="text-5xl font-semibold text-[#db3748]">Hungry ? </h2>
-      <h2 className="text-4xl pt-3  text-[#db3748]">Lets Order food</h2>
-      <div className="inputGroup flex flex-row  mt-3 flex sm:justify-center md:justiy-left py-4 sm:py-8 md:py-2">
+      <h2 className="text-5xl font-semibold text-[#db3748] b">Hungry ? </h2>
+      <a href='/food' className="text-4xl pt-3  text-[#db3748] w-fit pr-6 flex flex-row border-b-2 border-[#db3748] border-opacity-40 cursor-pointer	  pb-2 hover:text-orange-500 duration-200">Lets Order food <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 pt-1 pl-3">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+</svg>
+</a>
+
+      <div className="inputGroup flex flex-row  mt-S3 flex sm:justify-center md:justiy-left py-4 sm:py-8 md:py-2">
         <input
           placeholder="Type some food"
           className="pl-4 h-12 w-[300px]  md:w-[240px] lg:w-[300px] rounded-l-md focus:outline-none shadow-sm border-2 border-slate-100"
