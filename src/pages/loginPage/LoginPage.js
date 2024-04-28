@@ -72,6 +72,7 @@ const LoginPage = () => {
       <img src={imageWhite} alt="" className={styles.imageWhite} />
       {/* <LoginComponent className={styles.loginComponent} /> */}
       <div className={styles.formContainer}>
+        <div className={styles.title}>Login</div>
         <label className={styles.inputLabel}>
           <div className={styles.inputTitle}>Email:</div>
           <input
