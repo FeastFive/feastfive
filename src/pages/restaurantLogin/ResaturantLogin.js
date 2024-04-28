@@ -7,6 +7,7 @@ import { FaUserPlus } from "react-icons/fa";
 import { FaStore } from "react-icons/fa";
 import { loginRes } from "../../utils/loginRestaurant/loginRes";
 import { ShowAlert } from "../../components/alert/ShowAlert";
+import { setActiveRestaurant } from "../../store/slices/restaurantSlice";
 const ResaturantLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,11 +26,10 @@ const ResaturantLogin = () => {
         return;
       }
       const response = await loginRes(formData);
-      console.log(response);
 
       if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
+        dispatch(setActiveRestaurant(result));
         ShowAlert(1, "Logged in successfully");
       } else if (response.status === 403) {
         ShowAlert(3, "Check your email to activate your account.");

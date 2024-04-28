@@ -67,23 +67,26 @@ const loginRestaurant = asyncHandler(async (req, res) => {
   const restaurant = await Restaurant.findOne({ email });
 
   if (restaurant && (await bcrypt.compare(password, restaurant.password))) {
-    //if(restauran.activated)
-    restaurant.loginDate = new Date();
-    await restaurant.save();
-    res.status(200).json({
-      _id: restaurant._id,
-      restaurantName: restaurant.restaurantName,
-      ownerName: restaurant.ownerName,
-      email: restaurant.email,
-      uniqueId: restaurant.uniqueId,
-      createdAt: restaurant.createdAt,
-      loginDate: restaurant.loginDate,
-      role: restaurant.role,
-      meals: restaurant.meals,
-      orders: restaurant.orders,
-      labels: restaurant.labels,
-      activated: restaurant.activated,
-    });
+    if (restaurant.activated) {
+      restaurant.loginDate = new Date();
+      await restaurant.save();
+      res.status(200).json({
+        _id: restaurant._id,
+        restaurantName: restaurant.restaurantName,
+        ownerName: restaurant.ownerName,
+        email: restaurant.email,
+        uniqueId: restaurant.uniqueId,
+        createdAt: restaurant.createdAt,
+        loginDate: restaurant.loginDate,
+        role: restaurant.role,
+        meals: restaurant.meals,
+        orders: restaurant.orders,
+        labels: restaurant.labels,
+        activated: restaurant.activated,
+      });
+    } else {
+      res.status(403).json({ state: "fail", message: "Non activated account" });
+    }
   } else {
     res.status(401).json({ state: "fail", message: "Invalid credential" });
   }
