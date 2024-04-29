@@ -13,7 +13,7 @@ export default function Menu() {
   const [amount, setAmount] = useState("");
   function addFood() {
     let obj = {
-      food: foodName,
+      name: foodName,
       description: foodDesc,
       image: file,
       " price": foodPrice,

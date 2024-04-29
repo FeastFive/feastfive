@@ -23,6 +23,7 @@ connectDB();
 // Routes
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/restaurants", require("./routes/restaurantRoutes"));
+app.use("/api/meals", require("./routes/mealRoutes"));
 
 //Server
 const server = http.createServer(app);
