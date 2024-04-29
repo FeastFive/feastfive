@@ -7,7 +7,14 @@ const RestaurantPanelMenu = (props) => {
   const menu = props.item; // Fixed here
   return (
     <li className={styles.menuListItems} key={menu.menuName}>
-      <div className={styles.liMenuName}>{menu.menuName}</div>
+      <img src={menu.image} alt="" className={styles.menuImage} />
+      <div className={styles.liMenuName}>
+        <div>{menu.menuName}</div>
+        <div className={styles.price}>
+          {menu.price}
+          <span>$</span>
+        </div>
+      </div>
       <div className={styles.liButtonContainer}>
         <button className={styles.editButton}>
           <FaRegEdit />

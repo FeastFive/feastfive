@@ -4,6 +4,8 @@ import Navbar from "../../components/Navbar";
 import { FaPlus } from "react-icons/fa6";
 
 import foodPhoto1 from "../../images/tabak.png";
+import foodPhoto2 from "../../images/makarna.png";
+import foodPhoto3 from "../../images/salata.png";
 import RestaurantPanelMenu from "../../components/RestaurantPanelMenu";
 
 const RestaurantPanelPage = () => {
@@ -47,6 +49,7 @@ const RestaurantPanelPage = () => {
       {
         menuName: "Feast Pasta",
         price: 15,
+        image: foodPhoto2,
         options: [
           {
             optionName: "Souce",
@@ -79,6 +82,7 @@ const RestaurantPanelPage = () => {
       {
         menuName: "Feast Salat",
         price: 15,
+        image: foodPhoto3,
         options: [
           {
             optionName: "Souce",

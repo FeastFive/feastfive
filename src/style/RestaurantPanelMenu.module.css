@@ -7,14 +7,25 @@
 
 .menuListItems {
   margin: 15px 5px;
-  padding: 1rem;
-
+  padding-bottom: 1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
+.menuImage {
+  height: 12rem;
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
 .liMenuName {
   font-size: 18px;
+  display: flex;
+  gap: 10rem;
+}
+.price {
+  font-weight: 600;
 }
 .liButtonContainer {
   display: flex;
