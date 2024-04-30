@@ -27,7 +27,7 @@ export default function Menu() {
       price: foodPrice,
       options: optionList,
     };
-    console.log(obj);
+    // console.log(obj);
     try {
       if (
         !obj.name &&
@@ -39,7 +39,7 @@ export default function Menu() {
         return;
       }
       const response = await addMeal(obj);
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         const result = await response.json();
         ShowAlert(1, "Added in successfully");
@@ -81,7 +81,7 @@ export default function Menu() {
       });
     });
   }
-
+  // https://stackoverflow.com/questions/54716914/413-payload-too-large-for-base64-string-after-adjusting-size-in-express
   const handleFileInputChange = (event) => {
     const file = event.target.files[0];
     if (file) {
