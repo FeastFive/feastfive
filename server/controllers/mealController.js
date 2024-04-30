@@ -3,16 +3,24 @@ const Restaurant = require("./../models/restaurantModel");
 const asyncHandler = require("express-async-handler");
 
 const addMeal = asyncHandler(async (req, res) => {
-  const { restaurantId, name, price, description, image, options } = req.body;
-
-  if (!name || !price || !description || !image) {
+  const {
+    restaurantName,
+    restaurantEmail,
+    name,
+    price,
+    description,
+    image,
+    options,
+  } = req.body;
+  // if (!name || !price || !description || !image) {
+  if (!name || !price) {
     res.status(400).json({ message: "Please include all fields" });
     return;
   }
 
   let restaurant;
   try {
-    restaurant = await Restaurant.findById(restaurantId);
+    restaurant = await Restaurant.findOne({ email: restaurantEmail });
   } catch (err) {
     console.error("Error finding restaurant:", err);
     res.status(500).json({ message: "Internal server error" });
@@ -24,7 +32,15 @@ const addMeal = asyncHandler(async (req, res) => {
     return;
   }
 
-  const newMeal = { name, price, description, image, options };
+  const newMeal = {
+    restaurantName,
+    restaurantEmail,
+    name,
+    price,
+    description,
+    image,
+    options,
+  };
   restaurant.meals.push(newMeal);
 
   try {
@@ -38,8 +54,8 @@ const addMeal = asyncHandler(async (req, res) => {
   let meal;
   try {
     meal = await Meal.create({
-      restaurantName: restaurant.name,
-      restaurantId: restaurant.id,
+      restaurantName,
+      restaurantEmail,
       name,
       price,
       description,
@@ -56,4 +72,4 @@ const addMeal = asyncHandler(async (req, res) => {
   res.status(201).json(meal);
 });
 
-module.exports = addMeal;
+module.exports = { addMeal };

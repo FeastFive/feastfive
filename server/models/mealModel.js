@@ -4,12 +4,15 @@ const mealSchema = new mongoose.Schema(
   {
     restaurantName: {
       type: String,
-      required: [true, "Please provide restaurant name"],
     },
-    restaurantId: {
-      type: Object,
-      required: [true, "Id is required"],
-      unique: true,
+    // restaurantId: {
+    //   type: String,
+    //   required: [true, "Id is required"],
+    //   unique: true,
+    // },
+    restaurantEmail: {
+      type: String,
+      required: [true, "Email is required"],
     },
     name: {
       type: String,
@@ -17,6 +20,7 @@ const mealSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
+      required: [true, "Please provide price"],
     },
     description: {
       type: String,

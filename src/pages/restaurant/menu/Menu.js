@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
+import { addMeal } from "../../../utils/meal/addMeal";
+import { ShowAlert } from "../../../components/alert/ShowAlert";
+import { useSelector } from "react-redux";
 
 export default function Menu() {
+  const restaurant = useSelector((state) => state.restaurant);
   const [optionList, setOptionList] = useState([]);
   const [option, setOption] = useState("");
   const [elem, setElem] = useState([]);
@@ -11,16 +15,41 @@ export default function Menu() {
   const [foodDesc, setFoodDesc] = useState("");
   const [foodPrice, setfoodPrice] = useState("");
   const [amount, setAmount] = useState("");
-  function addFood() {
+
+  const addFood = async () => {
     let obj = {
+      restaurantName: restaurant.restaurantName,
+      restaurantEmail: restaurant.email,
       name: foodName,
       description: foodDesc,
       image: file,
-      " price": foodPrice,
+      price: foodPrice,
       options: optionList,
     };
     console.log(obj);
-  }
+    try {
+      if (
+        !obj.name &&
+        !obj.price &&
+        !obj.restaurantName &&
+        !obj.restaurantEmail
+      ) {
+        ShowAlert(2, "Please fill required fields");
+        return;
+      }
+      const response = await addMeal(obj);
+      console.log(response);
+      if (response.status === 201) {
+        const result = await response.json();
+        ShowAlert(1, "Added in successfully");
+      } else {
+        ShowAlert(3, "Invalid data");
+      }
+    } catch (err) {
+      console.log("Add meal error", err);
+      ShowAlert(3, "An error occured while adding meal");
+    }
+  };
 
   function addOption() {
     if (option.trim() != "") {
@@ -275,7 +304,7 @@ export default function Menu() {
 
         <button
           className="bg-[#db3748] text-slate-800 bg-opacity-40 w-full h-10 rounded-md shadow-md mt-2 py-1 px-2 font-semibold text-md mt-4 duration-200 hover:bg-opacity-60"
-          onClick={() => addFood()}
+          onClick={addFood}
         >
           Save
         </button>
