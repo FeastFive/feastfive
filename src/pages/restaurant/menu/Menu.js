@@ -10,7 +10,8 @@ export default function Menu() {
   const [option, setOption] = useState("");
   const [elem, setElem] = useState([]);
 
-  const [file, setFile] = useState();
+  // const [file, setFile] = useState();
+  const [base64Image, setBase64Image] = useState("");
   const [foodName, setFoodname] = useState("");
   const [foodDesc, setFoodDesc] = useState("");
   const [foodPrice, setfoodPrice] = useState("");
@@ -22,7 +23,7 @@ export default function Menu() {
       restaurantEmail: restaurant.email,
       name: foodName,
       description: foodDesc,
-      image: file,
+      image: base64Image,
       price: foodPrice,
       options: optionList,
     };
@@ -81,6 +82,17 @@ export default function Menu() {
     });
   }
 
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setBase64Image(reader.result);
+      };
+    }
+  };
+
   function handleDeleteElement(optionElement, indexToDelete) {
     setOptionList((prevOptionList) => {
       return prevOptionList.map((option) => {
@@ -133,7 +145,7 @@ export default function Menu() {
       file:bg-[#db3748] file:bg-opacity-20 file:text-[#db3748] file:duration-200
       hover:file:bg-opacity-40
     "
-              onChange={(event) => setFile(event.target.files[0])}
+              onChange={handleFileInputChange}
             />
           </label>
         </div>
