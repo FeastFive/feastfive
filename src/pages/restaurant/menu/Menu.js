@@ -1,26 +1,56 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
+import { addMeal } from "../../../utils/meal/addMeal";
+import { ShowAlert } from "../../../components/alert/ShowAlert";
+import { useSelector } from "react-redux";
 
 export default function Menu() {
+  const restaurant = useSelector((state) => state.restaurant);
   const [optionList, setOptionList] = useState([]);
   const [option, setOption] = useState("");
   const [elem, setElem] = useState([]);
 
-  const [file, setFile] = useState();
+  // const [file, setFile] = useState();
+  const [base64Image, setBase64Image] = useState("");
   const [foodName, setFoodname] = useState("");
   const [foodDesc, setFoodDesc] = useState("");
   const [foodPrice, setfoodPrice] = useState("");
   const [amount, setAmount] = useState("");
-  function addFood() {
+
+  const addFood = async () => {
     let obj = {
+      restaurantName: restaurant.restaurantName,
+      restaurantEmail: restaurant.email,
       name: foodName,
       description: foodDesc,
-      image: file,
-      " price": foodPrice,
+      image: base64Image,
+      price: foodPrice,
       options: optionList,
     };
-    console.log(obj);
-  }
+    // console.log(obj);
+    try {
+      if (
+        !obj.name &&
+        !obj.price &&
+        !obj.restaurantName &&
+        !obj.restaurantEmail
+      ) {
+        ShowAlert(2, "Please fill required fields");
+        return;
+      }
+      const response = await addMeal(obj);
+      // console.log(response);
+      if (response.status === 200) {
+        const result = await response.json();
+        ShowAlert(1, "Added in successfully");
+      } else {
+        ShowAlert(3, "Invalid data");
+      }
+    } catch (err) {
+      console.log("Add meal error", err);
+      ShowAlert(3, "An error occured while adding meal");
+    }
+  };
 
   function addOption() {
     if (option.trim() != "") {
@@ -51,6 +81,17 @@ export default function Menu() {
       });
     });
   }
+  // https://stackoverflow.com/questions/54716914/413-payload-too-large-for-base64-string-after-adjusting-size-in-express
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setBase64Image(reader.result);
+      };
+    }
+  };
 
   function handleDeleteElement(optionElement, indexToDelete) {
     setOptionList((prevOptionList) => {
@@ -95,6 +136,7 @@ export default function Menu() {
           <label class="block">
             <input
               type="file"
+              accept="image/*"
               class="block w-full text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200
       file:mr-4 file:py-2 file:px-4
       file:cursor-pointer
@@ -103,7 +145,7 @@ export default function Menu() {
       file:bg-[#db3748] file:bg-opacity-20 file:text-[#db3748] file:duration-200
       hover:file:bg-opacity-40
     "
-              onChange={(event) => setFile(event.target.files[0])}
+              onChange={handleFileInputChange}
             />
           </label>
         </div>
@@ -275,7 +317,7 @@ export default function Menu() {
 
         <button
           className="bg-[#db3748] text-slate-800 bg-opacity-40 w-full h-10 rounded-md shadow-md mt-2 py-1 px-2 font-semibold text-md mt-4 duration-200 hover:bg-opacity-60"
-          onClick={() => addFood()}
+          onClick={addFood}
         >
           Save
         </button>
