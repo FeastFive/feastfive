@@ -5,11 +5,11 @@ const mealSchema = new mongoose.Schema(
     restaurantName: {
       type: String,
     },
-    // restaurantId: {
-    //   type: String,
-    //   required: [true, "Id is required"],
-    //   unique: true,
-    // },
+    restaurantId: {
+      type: String,
+      required: [true, "Id is required"],
+      unique: true,
+    },
     restaurantEmail: {
       type: String,
       required: [true, "Email is required"],

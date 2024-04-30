@@ -45,31 +45,34 @@ const addMeal = asyncHandler(async (req, res) => {
 
   try {
     await restaurant.save();
+    res.status(200).json({
+      meals: restaurant.meals,
+    });
   } catch (err) {
     console.error("Error saving restaurant:", err);
     res.status(500).json({ message: "Internal server error" });
     return;
   }
 
-  let meal;
-  try {
-    meal = await Meal.create({
-      restaurantName,
-      restaurantEmail,
-      name,
-      price,
-      description,
-      image,
-      options,
-      additionDate: new Date(),
-    });
-  } catch (err) {
-    console.error("Error creating meal:", err);
-    res.status(500).json({ message: "Internal server error" });
-    return;
-  }
+  // let meal;
+  // try {
+  //   meal = await Meal.create({
+  //     restaurantName,
+  //     restaurantEmail,
+  //     name,
+  //     price,
+  //     description,
+  //     image,
+  //     options,
+  //     additionDate: new Date(),
+  //   });
+  // } catch (err) {
+  //   console.error("Error creating meal:", err);
+  //   res.status(500).json({ message: "Internal server error" });
+  //   return;
+  // }
 
-  res.status(201).json(meal);
+  // res.status(201).json(meal);
 });
 
 module.exports = { addMeal };
