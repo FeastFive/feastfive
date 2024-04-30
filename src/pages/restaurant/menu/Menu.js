@@ -124,6 +124,7 @@ export default function Menu() {
           <label class="block">
             <input
               type="file"
+              accept="image/*"
               class="block w-full text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200
       file:mr-4 file:py-2 file:px-4
       file:cursor-pointer
