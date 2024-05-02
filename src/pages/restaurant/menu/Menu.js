@@ -127,17 +127,17 @@ export default function Menu() {
           <textarea
             onChange={(e) => setFoodDesc(e.target.value)}
             placeholder="Enter the food description"
-            class="resize-y border-2 border-slate-200 shadow-md px-4 py-3 h-16  focus:outline-none rounded-md w-full"
+            className="resize-y border-2 border-slate-200 shadow-md px-4 py-3 h-16  focus:outline-none rounded-md w-full"
           ></textarea>
         </div>
 
         <p className="w-full col-span-4 pt-2">Food Immage:</p>
         <div className=" w-full">
-          <label class="block">
+          <label className="block">
             <input
               type="file"
               accept="image/*"
-              class="block w-full text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200
+              className="block w-full text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200
       file:mr-4 file:py-2 file:px-4
       file:cursor-pointer
       file:rounded-md file:border-0
@@ -174,7 +174,7 @@ export default function Menu() {
                 type="radio"
                 name="opt"
                 value="more"
-                class="checked:bg-red-600"
+                className="checked:bg-red-600"
                 onClick={(e) => setAmount("single")}
               />
               <label className="text-sm text-[#db3748] pl-1 ">Single</label>
@@ -184,7 +184,7 @@ export default function Menu() {
                 type="radio"
                 name="opt"
                 value="more"
-                class="checked:bg-red-600"
+                className="checked:bg-red-600"
                 onClick={(e) => setAmount("multiple")}
               />
               <label className="text-sm text-[#db3748] pl-1 ">Multiple</label>
@@ -218,13 +218,13 @@ export default function Menu() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-5 h-5 mr-[-8px] ml-[3px] mt-[-4px]"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M6 18 18 6M6 6l12 12"
                 />
               </svg>

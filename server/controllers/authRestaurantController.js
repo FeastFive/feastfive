@@ -79,9 +79,9 @@ const loginRestaurant = asyncHandler(async (req, res) => {
         createdAt: restaurant.createdAt,
         loginDate: restaurant.loginDate,
         role: restaurant.role,
-        meals: restaurant.meals,
-        orders: restaurant.orders,
-        labels: restaurant.labels,
+        // meals: restaurant.meals,
+        // orders: restaurant.orders,
+        // labels: restaurant.labels,
         activated: restaurant.activated,
       });
     } else {
