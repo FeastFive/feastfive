@@ -15,6 +15,8 @@ const port = process.env.PORT || 4000;
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: false }));
 app.use(bodyParser.json({ limit: "100mb" }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
 
 //DB connection

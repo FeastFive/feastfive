@@ -46,7 +46,8 @@ const addMeal = asyncHandler(async (req, res) => {
   try {
     await restaurant.save();
     res.status(200).json({
-      meals: restaurant.meals,
+      // meals: restaurant.meals,
+      state: "success",
     });
   } catch (err) {
     console.error("Error saving restaurant:", err);
