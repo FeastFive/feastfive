@@ -1,60 +1,80 @@
 .menuListItems {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   -webkit-box-shadow: 0px 10px 38px -15px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 10px 38px -15px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 10px 38px -15px rgba(0, 0, 0, 0.75);
   border-radius: 3px;
 }
-
-.menuListItems {
-  margin: 15px 5px;
-  padding-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
 .menuImage {
-  height: 12rem;
-  width: 100%;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  height: 15rem;
+  width: 19rem;
+  border-radius: 3px;
 }
 .liMenuName {
-  font-size: 18px;
-  display: flex;
-  gap: 10rem;
+  width: 55%;
 }
-.price {
-  font-weight: 600;
+.divManuName {
+  font-weight: 700;
+  font-size: 20px;
 }
+
 .liButtonContainer {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 1rem;
+  margin-right: 1rem;
 }
 .editButton {
   display: flex;
-  gap: 5px;
   align-items: center;
-  color: #f0f0f0;
+  gap: 5px;
   padding: 5px;
+  color: #737373;
+  border: 2px solid #737373;
   transition: all 0.3s ease;
-  background-color: #007bff;
-  border-radius: 3px;
 }
 .editButton:hover {
-  background-color: #0067d5;
+  background-color: #737373;
+  color: #f0f0f0;
 }
 .deleteButton {
   display: flex;
-  gap: 5px;
   align-items: center;
+  gap: 5px;
   padding: 5px;
+  color: #db3748;
+  border: 2px solid #db3748;
   transition: all 0.3s ease;
-  background-color: #dc3545;
-  color: #f0f0f0;
-  border-radius: 3px;
 }
 .deleteButton:hover {
-  background-color: #ae2b38;
+  background-color: #db3748;
+  color: #f0f0f0;
+}
+
+@media (max-width: 1378px) {
+  .liMenuName {
+    width: 45%;
+  }
+}
+@media (max-width: 1223px) {
+  .liMenuName {
+    width: 35%;
+  }
+}
+@media (max-width: 668px) {
+  .menuListItems {
+    flex-direction: column;
+  }
+  .liButtonContainer {
+    flex-direction: row;
+    margin-bottom: 1rem;
+  }
+  .menuListItems {
+    width: fit-content;
+  }
+  .liMenuName {
+    width: 100%;
+  }
 }
