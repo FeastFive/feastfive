@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../style/RestaurantPanelMenu.module.css";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 
 const RestaurantPanelMenu = (props) => {
   const menu = props.item; // Fixed here
@@ -9,7 +10,7 @@ const RestaurantPanelMenu = (props) => {
     <li className={styles.menuListItems} key={menu.menuName}>
       <img src={menu.image} alt="" className={styles.menuImage} />
       <div className={styles.liMenuName}>
-        <div>{menu.menuName}</div>
+        <div className={styles.divManuName}>{menu.menuName}</div>
         <div className={styles.price}>
           {menu.price}
           <span>$</span>
