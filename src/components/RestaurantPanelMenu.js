@@ -10,7 +10,7 @@ const RestaurantPanelMenu = (props) => {
     <li className={styles.menuListItems} key={menu.menuName}>
       <img src={menu.image} alt="" className={styles.menuImage} />
       <div className={styles.liMenuName}>
-        <div className={styles.divManuName}>{menu.menuName}</div>
+        <div className={styles.divManuName}>{menu.name}</div>
         <div className={styles.price}>
           {menu.price}
           <span>$</span>
