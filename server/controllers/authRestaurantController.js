@@ -113,6 +113,29 @@ const activateRestaurantAccount = asyncHandler(async (req, res) => {
   }
 });
 
+//get restaurant
+// route api/restaurant/getRestaurant
+const getRestaurant = asyncHandler(async (req, res) => {
+  try {
+    const rest = await Restaurant.find();
+    console.log(rest);
+
+    if (!rest || rest.length === 0) {
+      res.status(404).json({ message: "No kitchens found" });
+      return;
+    }
+
+    const restaurants = Object.values(rest);
+
+    res.status(200).json({
+      restaurants: restaurants,
+    });
+  } catch (error) {
+    console.error("Error retrieving restaurants from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const randString = () => {
   const len = 8;
   let randStr = "";
@@ -134,4 +157,5 @@ module.exports = {
   registerRestaurant,
   loginRestaurant,
   activateRestaurantAccount,
+  getRestaurant,
 };
