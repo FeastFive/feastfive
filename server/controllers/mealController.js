@@ -1,6 +1,28 @@
 const Meal = require("./../models/mealModel");
 const Restaurant = require("./../models/restaurantModel");
 const asyncHandler = require("express-async-handler");
+const Kitchen = require("./../models/kithcensModel");
+
+const getKitchens = asyncHandler(async (req, res) => {
+  try {
+    const getKitchens = await Kitchen.find();
+    console.log(getKitchens);
+
+    if (!getKitchens || getKitchens.length === 0) {
+      res.status(404).json({ message: "No kitchens found" });
+      return;
+    }
+
+    const kitchens = Object.values(getKitchens);
+
+    res.status(200).json({
+      kitchens: kitchens,
+    });
+  } catch (error) {
+    console.error("Error retrieving kitchens from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 const addMeal = asyncHandler(async (req, res) => {
   const {
@@ -76,4 +98,4 @@ const addMeal = asyncHandler(async (req, res) => {
   // res.status(201).json(meal);
 });
 
-module.exports = { addMeal };
+module.exports = { addMeal, getKitchens };
