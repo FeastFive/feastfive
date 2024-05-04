@@ -3,8 +3,12 @@ import Navbar from "../../../components/Navbar";
 import { addMeal } from "../../../utils/meal/addMeal";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { IoArrowBack } from "react-icons/io5";
+import styles from "../Menu.module.css";
 
 export default function Menu() {
+  const navigate = useNavigate();
   const restaurant = useSelector((state) => state.restaurant);
   const [optionList, setOptionList] = useState([]);
   const [option, setOption] = useState("");
@@ -113,6 +117,12 @@ export default function Menu() {
     <>
       <Navbar></Navbar>
       <div className="flex flex-col place-items-center pt-12 px-8  sm:px-0 sm:w-[60%] md:w-[50%] lg:w-[30%] m-auto py-12 gap-1 pb-12">
+        <IoArrowBack
+          className={styles.backIcon}
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <p className="w-full col-span-4">Food name:</p>
         <div className=" w-full flex flex-row">
           <input

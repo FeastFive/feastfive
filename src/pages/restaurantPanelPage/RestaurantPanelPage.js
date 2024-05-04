@@ -1,122 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./RestaurantPanelPage.module.css";
 import Navbar from "../../components/Navbar";
 import { FaPlus } from "react-icons/fa6";
-
 import foodPhoto1 from "../../images/tabak.png";
 import foodPhoto2 from "../../images/makarna.png";
 import foodPhoto3 from "../../images/salata.png";
 import RestaurantPanelMenu from "../../components/RestaurantPanelMenu";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 const RestaurantPanelPage = () => {
   const restaurantData = useSelector((state) => state.restaurant);
   console.log(restaurantData.meals);
-  // const dummy_data = {
-  //   retaurantName: "Feast Good",
-  //   restaurantTags: ["Fastfood", "Pizza", "Fry"],
-  //   restaurantMenus: [
-  //     {
-  //       menuName: "Feast Pizza",
-  //       price: 15,
-  //       image: foodPhoto1,
-  //       options: [
-  //         {
-  //           optionName: "Souce",
-  //           optionIngreedients: [
-  //             {
-  //               optionIngreedient: "Ketçap",
-  //               optionIngreedientPrice: 2,
-  //             },
-  //             {
-  //               optionIngreedient: "Mayonez",
-  //               optionIngreedientPrice: 1,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           optionName: "Drink",
-  //           optionIngreedients: [
-  //             {
-  //               optionIngreedient: "Kola",
-  //               optionIngreedientPrice: 2,
-  //             },
-  //             {
-  //               optionIngreedient: "Fanta",
-  //               optionIngreedientPrice: 3,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       menuName: "Feast Pasta",
-  //       price: 15,
-  //       image: foodPhoto2,
-  //       options: [
-  //         {
-  //           optionName: "Souce",
-  //           optionIngreedients: [
-  //             {
-  //               optionIngreedient: "Pesto",
-  //               optionIngreedientPrice: 2,
-  //             },
-  //             {
-  //               optionIngreedient: "Krema",
-  //               optionIngreedientPrice: 1,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           optionName: "Drink",
-  //           optionIngreedients: [
-  //             {
-  //               optionIngreedient: "Kola",
-  //               optionIngreedientPrice: 2,
-  //             },
-  //             {
-  //               optionIngreedient: "Fanta",
-  //               optionIngreedientPrice: 3,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       menuName: "Feast Salat",
-  //       price: 15,
-  //       image: foodPhoto3,
-  //       options: [
-  //         {
-  //           optionName: "Souce",
-  //           optionIngreedients: [
-  //             {
-  //               optionIngreedient: "Oil",
-  //               optionIngreedientPrice: 2,
-  //             },
-  //             {
-  //               optionIngreedient: "Pomegranate Souce",
-  //               optionIngreedientPrice: 1,
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           optionName: "Drink",
-  //           optionIngreedients: [
-  //             {
-  //               optionIngreedient: "Kola",
-  //               optionIngreedientPrice: 2,
-  //             },
-  //             {
-  //               optionIngreedient: "Fanta",
-  //               optionIngreedientPrice: 3,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // };
+  const navigate = useNavigate();
+  const animatedComponents = makeAnimated();
+  const options = [
+    { value: "Pasta", label: "Pasta" },
+    { value: "Meat", label: "Meat" },
+    { value: "Chicken", label: "Chicken" },
+    { value: "Pizza", label: "Pizza" },
+    { value: "Kebap", label: "Kebap" },
+    { value: "Salad", label: "Salad" },
+    { value: "Burger", label: "Burger" },
+    { value: "Sushi", label: "Sushi" },
+    { value: "Homemade", label: "Homemade" },
+    { value: "Vegan", label: "Vegan" },
+    { value: "Desert", label: "Desert" },
+    { value: "Sandwich", label: "Sandwich" },
+    { value: "Drinks", label: "Drinks" },
+  ];
+  const dispatch = useDispatch();
+
+  // State to store selected options
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  // Function to handle select change
+  const handleSelectChange = (selectedOptions) => {
+    setSelectedOptions(selectedOptions);
+    dispatch({ type: "SET_SELECTED_OPTIONS", payload: selectedOptions }); // Dispatch action to update Redux store
+  };
+
+  console.log(selectedOptions);
+
   return (
     <div>
       <Navbar />
@@ -124,9 +51,23 @@ const RestaurantPanelPage = () => {
         <div className={styles.restaurantTitle}>
           {restaurantData.restaurantName}
         </div>
+        <Select
+          closeMenuOnSelect={false}
+          components={animatedComponents}
+          isMulti
+          options={options}
+          onChange={handleSelectChange}
+          value={selectedOptions}
+        />
+        <button className={styles.saveLableButton}>Save</button>
         <div className={styles.menusContainer}>
           <div className={styles.buttonContainer}>
-            <button className={styles.addMenuButton}>
+            <button
+              className={styles.addMenuButton}
+              onClick={() => {
+                navigate("/menu");
+              }}
+            >
               <FaPlus />
               <div>Add Menu</div>
             </button>

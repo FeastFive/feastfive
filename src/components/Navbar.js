@@ -180,10 +180,13 @@ const Navbar = () => {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.buttonContainer}>
-        <button className={styles.navButton} onClick={() => navigate("/menu")}>
-          {menu.button1}
+        <button className={styles.navButton}>{menu.button1}</button>
+        <button
+          className={styles.navButton}
+          onClick={() => navigate("/restaurantPanel")}
+        >
+          {menu.button2}
         </button>
-        <button className={styles.navButton}>{menu.button2}</button>
         <div className={styles.iconContainer}>
           <img src={navIconNoBack} alt="" className={styles.navIcon} />
         </div>
