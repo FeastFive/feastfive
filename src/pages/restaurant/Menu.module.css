@@ -1,0 +1,11 @@
+.backIcon {
+  position: absolute;
+  top: 120px;
+  left: 30px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.backIcon:hover {
+  top: 117px;
+}
