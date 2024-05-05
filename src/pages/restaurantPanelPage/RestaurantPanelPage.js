@@ -3,9 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./RestaurantPanelPage.module.css";
 import Navbar from "../../components/Navbar";
 import { FaPlus } from "react-icons/fa6";
-import foodPhoto1 from "../../images/tabak.png";
-import foodPhoto2 from "../../images/makarna.png";
-import foodPhoto3 from "../../images/salata.png";
 import RestaurantPanelMenu from "../../components/RestaurantPanelMenu";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -48,18 +45,22 @@ const RestaurantPanelPage = () => {
     <div>
       <Navbar />
       <div className={styles.mainContainer}>
-        <div className={styles.restaurantTitle}>
-          {restaurantData.restaurantName}
+        <div className={styles.headCont}>
+          <div className={styles.addLabelDiv}>Add Label</div>
+          <div className={styles.labelContainer}>
+            {/* {restaurantData.restaurantName} */}
+            <Select
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              isMulti
+              options={options}
+              onChange={handleSelectChange}
+              value={selectedOptions}
+              className={styles.multiSelect}
+            />
+            <button className={styles.saveLableButton}>Save</button>
+          </div>
         </div>
-        <Select
-          closeMenuOnSelect={false}
-          components={animatedComponents}
-          isMulti
-          options={options}
-          onChange={handleSelectChange}
-          value={selectedOptions}
-        />
-        <button className={styles.saveLableButton}>Save</button>
         <div className={styles.menusContainer}>
           <div className={styles.buttonContainer}>
             <button
