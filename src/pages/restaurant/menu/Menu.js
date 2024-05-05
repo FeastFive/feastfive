@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import styles from "../Menu.module.css";
+import { setMeal } from "../../../store/slices/restaurantSlice";
 
 export default function Menu() {
   const navigate = useNavigate();
@@ -43,9 +44,9 @@ export default function Menu() {
         return;
       }
       const response = await addMeal(obj);
-      // console.log(response);
       if (response.status === 200) {
         const result = await response.json();
+        setMeal(result.meals);
         ShowAlert(1, "Added in successfully");
       } else {
         ShowAlert(3, "Invalid data");
