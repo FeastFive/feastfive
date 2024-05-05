@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import { addMeal } from "../../../utils/meal/addMeal";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import styles from "../Menu.module.css";
 import { setMeal } from "../../../store/slices/restaurantSlice";
 
 export default function Menu() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const restaurant = useSelector((state) => state.restaurant);
   const [optionList, setOptionList] = useState([]);
@@ -46,7 +47,7 @@ export default function Menu() {
       const response = await addMeal(obj);
       if (response.status === 200) {
         const result = await response.json();
-        setMeal(result.meals);
+        dispatch(setMeal({ meals: result.meals }));
         ShowAlert(1, "Added in successfully");
       } else {
         ShowAlert(3, "Invalid data");
