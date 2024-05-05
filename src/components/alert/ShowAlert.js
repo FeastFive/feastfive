@@ -6,7 +6,7 @@ export function ShowAlert(type, message) {
     case 1:
       toast.success(`${message}`, {
         position: "bottom-right",
-        autoClose: 8000,
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -18,7 +18,7 @@ export function ShowAlert(type, message) {
     case 2:
       toast.warning(`${message}`, {
         position: "bottom-right",
-        autoClose: 8000,
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -30,7 +30,7 @@ export function ShowAlert(type, message) {
     case 3:
       toast.error(`${message}`, {
         position: "bottom-right",
-        autoClose: 8000,
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -39,6 +39,32 @@ export function ShowAlert(type, message) {
         theme: "light",
       });
       break;
+
+      case 4:
+        toast.success(`${message}`, {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        break;
+
+        case 5:
+          toast.warning(`${message}`, {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          break;
     default:
       break;
   }

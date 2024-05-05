@@ -16,7 +16,7 @@ import FoodHome from "./pages/homePage/FoodHome.js/FoodHome";
 import Navbar from "./components/Navbar";
 import Menu from "./pages/restaurant/menu/Menu";
 import { useSelector } from "react-redux";
-
+import RestaurantFoodList from "./pages/restaurant/restaurantFoodList/RestaurantFoods"
 function App() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
@@ -30,6 +30,8 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/food" element={<FoodHome />} />
+          <Route path="/restaurantFoods/:restaurandId" element={<RestaurantFoodList />} />
+
           <Route
             path={restaurant.isLogin ? "/menu" : "*"}
             element={restaurant.isLogin ? <Menu /> : <NoPage />}
