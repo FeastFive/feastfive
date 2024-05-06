@@ -15,7 +15,6 @@ import { setLabels } from "../../store/slices/restaurantSlice";
 const RestaurantPanelPage = () => {
   const restaurantData = useSelector((state) => state.restaurant);
   const dispatch = useDispatch();
-  console.log(restaurantData.labels);
   const navigate = useNavigate();
   const animatedComponents = makeAnimated();
   const [categories, setCategories] = useState();
