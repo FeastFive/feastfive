@@ -136,6 +136,32 @@ const getRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
+const updateRestaurant = asyncHandler(async (req, res) => {
+  const { id, updatedFields } = req.body;
+
+  try {
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res
+        .status(404)
+        .json({ state: "fail", message: "No restaurant found by id" });
+    }
+
+    Object.assign(restaurant, updatedFields);
+
+    await restaurant.save();
+
+    res.status(200).json({
+      state: "success",
+      message: "Restaurant updated successfully",
+      updatedRestaurant: restaurant,
+    });
+  } catch (error) {
+    console.error("Error updating restaurant from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const randString = () => {
   const len = 8;
   let randStr = "";
@@ -157,5 +183,6 @@ module.exports = {
   registerRestaurant,
   loginRestaurant,
   activateRestaurantAccount,
+  updateRestaurant,
   getRestaurant,
 };

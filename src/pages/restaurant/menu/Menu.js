@@ -25,8 +25,8 @@ export default function Menu() {
 
   const addFood = async () => {
     let obj = {
-      restaurantName: restaurant.restaurantName,
-      restaurantEmail: restaurant.email,
+      id: restaurant.id,
+      // restaurantEmail: restaurant.email,
       name: foodName,
       description: foodDesc,
       image: base64Image,
@@ -35,12 +35,7 @@ export default function Menu() {
     };
     // console.log(obj);
     try {
-      if (
-        !obj.name &&
-        !obj.price &&
-        !obj.restaurantName &&
-        !obj.restaurantEmail
-      ) {
+      if (!obj.name && !obj.price && !obj.id) {
         ShowAlert(2, "Please fill required fields");
         return;
       }
