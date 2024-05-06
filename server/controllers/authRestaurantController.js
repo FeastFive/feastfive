@@ -117,7 +117,11 @@ const activateRestaurantAccount = asyncHandler(async (req, res) => {
 // route api/restaurant/getRestaurant
 const getRestaurant = asyncHandler(async (req, res) => {
   try {
-    const rest = await Restaurant.find({}, { password: 0 });
+    const rest = await Restaurant.find(
+      {},
+      { password: 0, meals: 0, orders: 0 }
+    );
+
     console.log(rest);
 
     if (!rest || rest.length === 0) {

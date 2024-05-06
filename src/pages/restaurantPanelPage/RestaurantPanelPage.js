@@ -7,10 +7,12 @@ import { FaPlus } from "react-icons/fa6";
 import RestaurantPanelMenu from "../../components/RestaurantPanelMenu";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { getKitchen } from "../../utils/kitchen/getKitchen";
-import { updateLabel } from "../../utils/restaurant/updateLabel";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { setLabels } from "../../store/slices/restaurantSlice";
+// --------------------------------------------------------
+import { getKitchen } from "../../utils/kitchen/getKitchen";
+import { updateLabel } from "../../utils/restaurant/updateLabel";
+import { deleteMeal } from "../../utils/meal/deteleMeal";
 
 const RestaurantPanelPage = () => {
   const restaurantData = useSelector((state) => state.restaurant);
@@ -62,6 +64,30 @@ const RestaurantPanelPage = () => {
       const obj = {
         id: restaurantData.id,
         labels: selectedOptions,
+      };
+      const response = await updateLabel(obj);
+      if (response.status == 200) {
+        const result = await response.json();
+
+        dispatch(setLabels({ labels: obj.labels }));
+        ShowAlert(1, "Saved succesfully");
+      } else if (response.status == 404) {
+        ShowAlert(3, "An error occurred while fetching labels");
+      } else {
+        ShowAlert(3, "An error occurred while fetching labels");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      ShowAlert(3, "An error occurred while saving labels");
+    }
+  };
+
+  const handleDelete = async () => {
+    const mealIds = restaurantData.meals.map((meal) => meal.id);
+
+    try {
+      const obj = {
+        id: restaurantData.id,
       };
       const response = await updateLabel(obj);
       if (response.status == 200) {
