@@ -10,11 +10,12 @@ import makeAnimated from "react-select/animated";
 import { getKitchen } from "../../utils/kitchen/getKitchen";
 import { updateLabel } from "../../utils/restaurant/updateLabel";
 import { ShowAlert } from "../../components/alert/ShowAlert";
+import { setLabels } from "../../store/slices/restaurantSlice";
 
 const RestaurantPanelPage = () => {
   const restaurantData = useSelector((state) => state.restaurant);
   const dispatch = useDispatch();
-  // console.log(restaurantData.meals);
+  console.log(restaurantData.labels);
   const navigate = useNavigate();
   const animatedComponents = makeAnimated();
   const [categories, setCategories] = useState();
@@ -47,12 +48,14 @@ const RestaurantPanelPage = () => {
       }))
     : [];
   // State to store selected options
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(
+    restaurantData.labels || []
+  );
 
   // Function to handle select change
   const handleSelectChange = (selectedOptions) => {
     setSelectedOptions(selectedOptions);
-    dispatch({ type: "SET_SELECTED_OPTIONS", payload: selectedOptions }); // Dispatch action to update Redux store
+    dispatch({ type: "SET_SELECTED_OPTIONS", payload: selectedOptions });
   };
 
   const handleLabelSave = async () => {
@@ -64,6 +67,8 @@ const RestaurantPanelPage = () => {
       const response = await updateLabel(obj);
       if (response.status == 200) {
         const result = await response.json();
+
+        dispatch(setLabels({ labels: obj.labels }));
         ShowAlert(1, "Saved succesfully");
       } else if (response.status == 404) {
         ShowAlert(3, "An error occurred while fetching labels");

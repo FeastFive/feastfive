@@ -38,9 +38,12 @@ const restaurantSlice = createSlice({
     setMeal: (state, action) => {
       state.meals = action.payload.meals;
     },
+    setLabels: (state, action) => {
+      state.labels = action.payload.labels;
+    },
   },
 });
-export const { setActiveRestaurant, restaurantLogout, setMeal } =
+export const { setActiveRestaurant, restaurantLogout, setMeal, setLabels } =
   restaurantSlice.actions;
 
 export default restaurantSlice.reducer;
