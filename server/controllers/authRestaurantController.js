@@ -80,8 +80,8 @@ const loginRestaurant = asyncHandler(async (req, res) => {
         loginDate: restaurant.loginDate,
         role: restaurant.role,
         meals: restaurant.meals,
-        // orders: restaurant.orders,
-        // labels: restaurant.labels,
+        orders: restaurant.orders,
+        labels: restaurant.labels,
         activated: restaurant.activated,
       });
     } else {
@@ -136,6 +136,8 @@ const getRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
+//post restaurant
+// route api/restaurant/updateRestaurant
 const updateRestaurant = asyncHandler(async (req, res) => {
   const { id, updatedFields } = req.body;
 

@@ -11,8 +11,8 @@ const initialState = {
   loginDate: null,
   role: "",
   meals: [],
-  // orders: [],
-  // labels: [],
+  orders: [],
+  labels: [],
 };
 
 const restaurantSlice = createSlice({
@@ -30,8 +30,8 @@ const restaurantSlice = createSlice({
       state.loginDate = action.payload.loginDate;
       state.role = action.payload.role;
       state.meals = action.payload.meals;
-      // state.orders = action.payload.orders;
-      // state.labels = action.payload.labels;
+      state.orders = action.payload.orders;
+      state.labels = action.payload.labels;
     },
     restaurantLogout: () => initialState,
 
