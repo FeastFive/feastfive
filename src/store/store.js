@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";
 import userSlice from "./slices/userSlice";
 import restaurantSlice from "./slices/restaurantSlice";
+import cartSlice from "./slices/cartSlice";
 
 const persistConfig = {
   key: "root",
@@ -23,6 +24,7 @@ const persistConfig = {
 const reducer = combineReducers({
   user: userSlice,
   restaurant: restaurantSlice,
+  cart: cartSlice,
 });
 const persistedReducer = persistReducer(persistConfig, reducer);
 
