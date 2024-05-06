@@ -163,6 +163,28 @@ const updateRestaurant = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+const updateLabel = asyncHandler(async (req, res) => {
+  const { id, labels } = req.body;
+  try {
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res
+        .status(404)
+        .json({ state: "fail", message: "No restaurant found by id" });
+    } else {
+      restaurant.labels = labels;
+
+      await restaurant.save();
+
+      res
+        .status(200)
+        .json({ state: "success", message: "Labels updated successfully" });
+    }
+  } catch (error) {
+    console.error("Error updating restaurant label from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 const randString = () => {
   const len = 8;
@@ -186,5 +208,6 @@ module.exports = {
   loginRestaurant,
   activateRestaurantAccount,
   updateRestaurant,
+  updateLabel,
   getRestaurant,
 };

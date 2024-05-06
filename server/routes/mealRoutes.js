@@ -8,8 +8,8 @@ const {
   getKitchens,
 } = require("./../controllers/mealController");
 router.post("/addMeal", addMeal);
-router.get("/getKitchens", getKitchens);
 router.post("/updateMeal", updateMeal);
 router.post("/deleteMeal", deleteMeal);
+router.get("/getKitchens", getKitchens);
 
 module.exports = router;
