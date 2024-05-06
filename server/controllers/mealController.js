@@ -61,10 +61,43 @@ const updateMeal = asyncHandler(async (req, res) => {
   }
 });
 
-const deleteMeal = asyncHandler(async (req, res) => {
-  const { id, mealIndex } = req.body;
+// const updateMeal = asyncHandler(async (req, res) => {
+//   const { id, mealsId, updatedMealData } = req.body;
 
-  if (!id || !mealIndex) {
+//   if (!id || !mealsId || !updatedMealData) {
+//     res.status(400).json({ state: "fail", message: "Please include all fields" });
+//     return;
+//   }
+
+//   try {
+
+//     const restaurant = await Restaurant.findById(id);
+//     if (!restaurant) {
+//       res.status(404).json({ message: "Restaurant not found" });
+//       return;
+//     }
+
+//     const mealIndex = restaurant.meals.findIndex(meal => meal._id === mealsId);
+//     if (mealIndex === -1) {
+//       res.status(404).json({ message: "Meal not found" });
+//       return;
+//     }
+
+//     restaurant.meals[mealIndex] = { ...restaurant.meals[mealIndex], ...updatedMealData };
+
+//     await restaurant.save();
+
+//     res.status(200).json({ message: "Meal updated successfully" });
+//   } catch (err) {
+//     console.error("Error updating meal:", err);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+
+const deleteMeal = asyncHandler(async (req, res) => {
+  const { id, mealId } = req.body;
+
+  if (!id || !mealId) {
     res
       .status(400)
       .json({ state: "fail", message: "Please include all fields" });
@@ -78,7 +111,8 @@ const deleteMeal = asyncHandler(async (req, res) => {
       return;
     }
 
-    if (mealIndex < 0 || mealIndex >= restaurant.meals.length) {
+    const mealIndex = restaurant.meals.findIndex((meal) => meal.id === mealId);
+    if (mealIndex === -1) {
       res.status(404).json({ message: "Meal not found" });
       return;
     }
@@ -87,7 +121,9 @@ const deleteMeal = asyncHandler(async (req, res) => {
 
     await restaurant.save();
 
-    res.status(200).json({ message: "Meal deleted successfully" });
+    res
+      .status(200)
+      .json({ message: "Meal deleted successfully", meals: restaurant.meals });
   } catch (err) {
     console.error("Error deleting meal:", err);
     res.status(500).json({ message: "Internal server error" });

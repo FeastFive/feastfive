@@ -7,10 +7,11 @@ import { FaPlus } from "react-icons/fa6";
 import RestaurantPanelMenu from "../../components/RestaurantPanelMenu";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { getKitchen } from "../../utils/kitchen/getKitchen";
-import { updateLabel } from "../../utils/restaurant/updateLabel";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { setLabels } from "../../store/slices/restaurantSlice";
+// --------------------------------------------------------
+import { getKitchen } from "../../utils/kitchen/getKitchen";
+import { updateLabel } from "../../utils/restaurant/updateLabel";
 
 const RestaurantPanelPage = () => {
   const restaurantData = useSelector((state) => state.restaurant);
@@ -120,7 +121,7 @@ const RestaurantPanelPage = () => {
           <ul className={styles.listContainer}>
             {/* Menus */}
             {restaurantData.meals.map((meals) => (
-              <RestaurantPanelMenu item={meals} key={meals.name} />
+              <RestaurantPanelMenu item={meals} key={meals.id} />
             ))}
             {/* Menu Ends */}
           </ul>
