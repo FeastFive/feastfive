@@ -24,16 +24,13 @@ const getKitchens = asyncHandler(async (req, res) => {
   }
 });
 
+const updateMeal = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+});
+
 const addMeal = asyncHandler(async (req, res) => {
-  const {
-    restaurantName,
-    restaurantEmail,
-    name,
-    price,
-    description,
-    image,
-    options,
-  } = req.body;
+  const { restaurantEmail, name, price, description, image, options } =
+    req.body;
   // if (!name || !price || !description || !image) {
   if (!name || !price) {
     res.status(400).json({ message: "Please include all fields" });
@@ -55,8 +52,6 @@ const addMeal = asyncHandler(async (req, res) => {
   }
 
   const newMeal = {
-    restaurantName,
-    restaurantEmail,
     name,
     price,
     description,
@@ -76,7 +71,6 @@ const addMeal = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
     return;
   }
-
   // let meal;
   // try {
   //   meal = await Meal.create({
