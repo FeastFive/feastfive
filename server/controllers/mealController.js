@@ -61,6 +61,39 @@ const updateMeal = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteMeal = asyncHandler(async (req, res) => {
+  const { id, mealIndex } = req.body;
+
+  if (!id || !mealIndex) {
+    res
+      .status(400)
+      .json({ state: "fail", message: "Please include all fields" });
+    return;
+  }
+
+  try {
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      res.status(404).json({ message: "Restaurant not found" });
+      return;
+    }
+
+    if (mealIndex < 0 || mealIndex >= restaurant.meals.length) {
+      res.status(404).json({ message: "Meal not found" });
+      return;
+    }
+
+    restaurant.meals.splice(mealIndex, 1);
+
+    await restaurant.save();
+
+    res.status(200).json({ message: "Meal deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting meal:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 const addMeal = asyncHandler(async (req, res) => {
   const { id, name, price, description, image, options } = req.body;
   // if (!name || !price || !description || !image) {
@@ -126,4 +159,4 @@ const addMeal = asyncHandler(async (req, res) => {
   // res.status(201).json(meal);
 });
 
-module.exports = { addMeal, updateMeal, getKitchens };
+module.exports = { addMeal, updateMeal, deleteMeal, getKitchens };
