@@ -183,5 +183,6 @@ module.exports = {
   registerRestaurant,
   loginRestaurant,
   activateRestaurantAccount,
+  updateRestaurant,
   getRestaurant,
 };
