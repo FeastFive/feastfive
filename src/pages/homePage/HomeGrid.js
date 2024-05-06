@@ -3,7 +3,9 @@ import salata from "../../images/salata.png";
 import { getRestaurant } from "../../utils/restaurant/getRestaurant";
 import { useEffect } from "react";
 import {ShowAlert} from "../../components/alert/ShowAlert"
+import { useNavigate } from "react-router-dom";
 export default function HomeGrid({ list }) {
+  const navigate = useNavigate()
   const [restaurant, setRestaurant] = useState([]);
   const [foods, setFoods] = useState([]);
   useEffect(() => {
@@ -41,6 +43,7 @@ useEffect(()=>{
         <div
           key={index}
           className="w-full h-auto pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200  hover:scale-[103%] overflow-hidden"
+          onClick={()=> navigate(`/restaurantFoods/${index}`)}
         >
           <div className="w-full h-[69%] md:h-[60%] bg-red-400   mt-[-60px] overflow-hidden rounded-md">
             <img
