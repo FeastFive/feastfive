@@ -12,7 +12,6 @@ import { setLabels } from "../../store/slices/restaurantSlice";
 // --------------------------------------------------------
 import { getKitchen } from "../../utils/kitchen/getKitchen";
 import { updateLabel } from "../../utils/restaurant/updateLabel";
-import { deleteMeal } from "../../utils/meal/deteleMeal";
 
 const RestaurantPanelPage = () => {
   const restaurantData = useSelector((state) => state.restaurant);
@@ -82,30 +81,6 @@ const RestaurantPanelPage = () => {
     }
   };
 
-  const handleDelete = async () => {
-    const mealIds = restaurantData.meals.map((meal) => meal.id);
-
-    try {
-      const obj = {
-        id: restaurantData.id,
-      };
-      const response = await updateLabel(obj);
-      if (response.status == 200) {
-        const result = await response.json();
-
-        dispatch(setLabels({ labels: obj.labels }));
-        ShowAlert(1, "Saved succesfully");
-      } else if (response.status == 404) {
-        ShowAlert(3, "An error occurred while fetching labels");
-      } else {
-        ShowAlert(3, "An error occurred while fetching labels");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      ShowAlert(3, "An error occurred while saving labels");
-    }
-  };
-
   return (
     <div>
       <Navbar />
@@ -146,7 +121,7 @@ const RestaurantPanelPage = () => {
           <ul className={styles.listContainer}>
             {/* Menus */}
             {restaurantData.meals.map((meals) => (
-              <RestaurantPanelMenu item={meals} key={meals.name} />
+              <RestaurantPanelMenu item={meals} key={meals.id} />
             ))}
             {/* Menu Ends */}
           </ul>
