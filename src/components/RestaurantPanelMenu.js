@@ -23,7 +23,7 @@ const RestaurantPanelMenu = (props) => {
       if (response.status == 200) {
         const result = await response.json();
         dispatch(setMeal({ meals: result.meals }));
-        ShowAlert(1, "Saved succesfully");
+        ShowAlert(1, "Deleted succesfully");
       } else if (response.status == 404) {
         ShowAlert(3, "An error occurred while deleting meal");
       } else {
