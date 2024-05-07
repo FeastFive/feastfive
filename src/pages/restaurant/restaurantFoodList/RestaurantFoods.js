@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route, useParams, useNavigate } from "react-router-dom";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import Cart from "../../Cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { addFoodToCard,resetAll } from "../../../store/slices/cartSlice";
-
 export default function RestaurantFoods() {
   let { restaurandId } = useParams();
-
+  const navigate = useNavigate()
   const [choosedFood, setchoosedFood] = useState();
   const [foodList, setFoodList] = useState([
     {
@@ -65,7 +64,21 @@ export default function RestaurantFoods() {
   const [foodObject,setFoodObject] = useState({ foodName: "", price: 0, options: [], singleOption:null, count:1 });
   const [order, setOrder] = useState([]);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  console.log(user)
 
+  function chooseFood(food){
+    if(user.isLogin){
+      setchoosedFood((prew) => (prew = food))
+    }else{
+      console.log("a")
+      ShowAlert(5 , "You need to login !")
+      setTimeout(()=>{
+        navigate("/login")
+      },1500)
+    }
+
+  }
   function addFood(food) {
     console.log("sa");
     const existingFood = order.find((e) => e.id === food);
@@ -165,7 +178,7 @@ export default function RestaurantFoods() {
 
 
   useEffect(() => {
-    //console.log(choosedFood)
+    console.log(choosedFood)
     setFoodObject((prev) => ({
       ...prev,
       foodName: choosedFood ? choosedFood.name : "",
@@ -301,16 +314,12 @@ export default function RestaurantFoods() {
                 <div className="static z-100 mt-2">
                   {" "}
                   <button
-                    onClick={() => setchoosedFood((prew) => (prew = food))}
+                    onClick={() => chooseFood(food)}
                     className="bg-[#db3748] bg-opacity-35 px-[6px] pb-[2px]  rounded-sm shadow-sm text-sm aboslute z-100"
                   >
-                    +
+                    Add
                   </button>
-                  <span className="ml-[7px] mr-[7px] font-medium">
-                    {order.find((e) => e.id === food)
-                      ? order.find((e) => e.id === food).total
-                      : 0}
-                  </span>
+                  
                   {order.find((e) => e.id == food) ? (
                     <button
                       onClick={() => removeFood(food)}
