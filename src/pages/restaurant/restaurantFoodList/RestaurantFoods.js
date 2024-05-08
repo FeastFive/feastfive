@@ -175,7 +175,7 @@ export default function RestaurantFoods() {
 
   
   return (
-    <div className="w-full h-full  pb-24 overflow-x-hidden">
+    <div className="w-full pb-24 relative">
       <Cart></Cart>
 
       {choosedFood ? (
@@ -204,7 +204,7 @@ export default function RestaurantFoods() {
                           {optionElement.quantitiy == "multiple" ? (
                             <div className="flex flex-col">
                               {optionElement.elements.map((e) => (
-                                <div className="flex flex-row gap-2 w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 ">
+                                <div className="flex flex-row gap-2 w-[100%] sm:w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 ">
                                   <input
                                     name={e.name}
                                     type="checkbox"
@@ -221,7 +221,7 @@ export default function RestaurantFoods() {
                           ) : (
                             <div className="flex flex-col ">
                               {optionElement.elements.map((e, index) => (
-                                <div className="flex flex-row w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 " key={index}>
+                                <div className="flex flex-row w-[100%] sm:w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 " key={index}>
                                   <input
                                     type="radio"
                                     className="w-4 h-4 bg-opacity-0 border-none mt-[6px]"
@@ -246,14 +246,12 @@ export default function RestaurantFoods() {
                       ))}
                     </div>
                   ) : (
-                    <div>
-                      <button>Order Food</button>
-                    </div>
+                    <></>
                   )}
                 </div>
                   <div className="flex flex-row pt-4">
-                  <h3 className=" text-lg font-large w-[30%] pt-2 mt-2"><span className="font-semibold pr-2">Total Price:</span> {foodObject.price} TL</h3>
-                  <button onClick={()=> orderMeal()} className="bg-red-300 w-40 py-1 mt-[5px] rounded-md bg-opacity-30 hover:bg-opacity-80 duration-200 ease rounded-md shadow-md">Order</button>
+                  <h3 className=" text-lg font-large w-[50%] sm:w-[30%] pt-2 mt-2"><span className="font-semibold pr-2">Total Price:</span> {foodObject.price} TL</h3>
+                  <button onClick={()=> orderMeal()} className="bg-red-300  w-[50%] sm:w-60 py-1 mt-[5px] rounded-md bg-opacity-30 hover:bg-opacity-80 duration-200 ease rounded-md shadow-md">Order</button>
                   </div>
               </div>
 
@@ -283,6 +281,7 @@ export default function RestaurantFoods() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
           {foodList.map((food) => (
+
             <div
             onClick={()=> setchoosedFood(food)}
               key={food}
@@ -324,6 +323,8 @@ export default function RestaurantFoods() {
                 </div>
               </div>
             </div>
+
+            
           ))}
         </div>
       </div>
