@@ -167,6 +167,33 @@ const updateRestaurant = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+//get restaurant
+// route api/restaurant/getSpecificRestaurant
+const getSpecificRestaurant = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  try {
+    const rest = await Restaurant.findById(id, {
+      password: 0,
+      orders: 0,
+    });
+
+    console.log(rest);
+
+    if (!rest) {
+      res.status(404).json({ message: "No kitchens found" });
+      return;
+    }
+
+    res.status(200).json({
+      restaurant: rest,
+    });
+  } catch (error) {
+    console.error("Error retrieving restaurants from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const updateLabel = asyncHandler(async (req, res) => {
   const { id, labels } = req.body;
   try {
@@ -214,4 +241,5 @@ module.exports = {
   updateRestaurant,
   updateLabel,
   getRestaurant,
+  getSpecificRestaurant,
 };
