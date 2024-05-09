@@ -8,6 +8,7 @@ import RestaurantSignup from "./pages/restaurantRegistiration/RestaurantSignup";
 import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
 import ChangePassword from "./pages/changePassword/ChangePassword";
 import RestaurantPanelPage from "./pages/restaurantPanelPage/RestaurantPanelPage";
+import Profile from "./pages/profilePage/Profile";
 import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -91,6 +92,7 @@ function App() {
           {/* <Route path="/restaurantSignUp" element={<RestaurantSignup />} /> */}
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
           <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

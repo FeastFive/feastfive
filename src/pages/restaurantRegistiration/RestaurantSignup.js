@@ -99,12 +99,14 @@ const RestaurantSignup = () => {
         }}
       />
 
-      <FaUserPlus
+      <div
         className={styles.userIcon}
         onClick={() => {
           navigate("/signUp");
         }}
-      />
+      >
+        User SignUp
+      </div>
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {

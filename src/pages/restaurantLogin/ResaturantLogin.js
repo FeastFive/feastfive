@@ -53,12 +53,14 @@ const ResaturantLogin = () => {
           navigate(-1);
         }}
       />
-      <FaUserPlus
+      <div
         className={styles.storeIcon}
         onClick={() => {
           navigate("/login");
         }}
-      />
+      >
+        User Login
+      </div>
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {
