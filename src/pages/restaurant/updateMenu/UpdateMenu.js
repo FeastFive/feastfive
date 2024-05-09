@@ -144,7 +144,7 @@ export default function UpdateMenu() {
         <div className=" w-full flex flex-row">
           <input
             onChange={(e) => setFoodname(e.target.value)}
-            placeholder={filteredMeal[0].name}
+            placeholder={filteredMeal[0]?.name}
             className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-md w-full"
           ></input>
         </div>
