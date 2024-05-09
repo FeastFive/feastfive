@@ -14,7 +14,7 @@ const RestaurantPanelPage = () => {
   console.log(restaurantData.meals);
   const navigate = useNavigate();
   const animatedComponents = makeAnimated();
-  
+
   const [categories, setCategories] = useState();
   useEffect(() => {
     const handleKitchen = async () => {
