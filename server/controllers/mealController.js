@@ -38,18 +38,17 @@ const updateMeal = asyncHandler(async (req, res) => {
 
   try {
     const restaurant = await Restaurant.findById(id);
+    console.log(restaurant);
     if (!restaurant) {
       res.status(404).json({ message: "Restaurant not found" });
       return;
     }
 
-    const mealIndex = restaurant.meals.findIndex((meal) => meal._id === mealId);
+    const mealIndex = restaurant.meals.findIndex((meal) => meal.id === mealId);
     if (mealIndex === -1) {
       res.status(404).json({ message: "Meal not found" });
       return;
     }
-    console.log("aBURDAYUM");
-    console.log(mealIndex);
     restaurant.meals[mealIndex] = {
       ...restaurant.meals[mealIndex],
       ...updatedMealData,

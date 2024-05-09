@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import styles from "../Menu.module.css";
-// import { setMeal } from "../../../store/slices/restaurantSlice";
+import { setMeal } from "../../../store/slices/restaurantSlice";
 import { updateMeal } from "../../../utils/meal/updateMeal";
+
 import { useParams } from "react-router-dom";
 
 export default function UpdateMenu() {
@@ -114,6 +115,8 @@ export default function UpdateMenu() {
       const response = await updateMeal(obj);
       if (response.status == 200) {
         const result = await response.json();
+        dispatch(setMeal({ meals: result.meals }));
+        navigate("/restaurantPanel");
 
         ShowAlert(1, "Saved succesfully");
       } else if (response.status == 404) {
