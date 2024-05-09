@@ -33,11 +33,15 @@
   top: 12px;
 }
 .storeIcon {
-  position: absolute;
   color: #db3748;
+  position: absolute;
+
+  border: #db3748 solid 2px;
+  padding: 2px 15px;
   top: 15px;
   right: 60px;
-  font-size: 30px;
+  font-size: 18px;
+  border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
 }

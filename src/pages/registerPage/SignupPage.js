@@ -96,12 +96,15 @@ const SignupPage = () => {
           navigate(-1);
         }}
       />
-      <FaStore
+      <div
         className={styles.storeIcon}
         onClick={() => {
           navigate("/restaurantSignUp");
         }}
-      />
+      >
+        User Login
+      </div>
+
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {
