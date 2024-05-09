@@ -7,10 +7,12 @@ import { FaStar } from "react-icons/fa";
 import { deleteMeal } from "../utils/meal/deteleMeal";
 import { ShowAlert } from "./alert/ShowAlert";
 import { setMeal } from "../store/slices/restaurantSlice";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantPanelMenu = (props) => {
   const restaurantData = useSelector((state) => state.restaurant);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const menu = props.item;
 
   const handleDelete = async () => {
@@ -34,6 +36,11 @@ const RestaurantPanelMenu = (props) => {
       ShowAlert(3, "An error occurred while deleting meal");
     }
   };
+
+  const handleEdit = () => {
+    navigate(`/updateMenu/${menu.id}`);
+  };
+
   return (
     <li className={styles.menuListItems} key={menu.menuName}>
       <img src={menu.image} alt="" className={styles.menuImage} />
@@ -45,7 +52,7 @@ const RestaurantPanelMenu = (props) => {
         </div>
       </div>
       <div className={styles.liButtonContainer}>
-        <button className={styles.editButton}>
+        <button className={styles.editButton} onClick={handleEdit}>
           <FaRegEdit />
           Edit
         </button>

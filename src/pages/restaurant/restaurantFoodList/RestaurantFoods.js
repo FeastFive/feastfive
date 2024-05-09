@@ -3,10 +3,10 @@ import { Routes, Route, useParams, useNavigate } from "react-router-dom";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import Cart from "../../Cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
-import { addFoodToCard,resetAll } from "../../../store/slices/cartSlice";
+import { addFoodToCard, resetAll } from "../../../store/slices/cartSlice";
 export default function RestaurantFoods() {
   let { restaurandId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [choosedFood, setchoosedFood] = useState();
   const [foodList, setFoodList] = useState([
     {
@@ -61,23 +61,28 @@ export default function RestaurantFoods() {
     },
   ]);
 
-  const [foodObject,setFoodObject] = useState({ foodName: "", price: 0, options: [], singleOption:null, count:1 });
+  const [foodObject, setFoodObject] = useState({
+    foodName: "",
+    price: 0,
+    options: [],
+    singleOption: null,
+    count: 1,
+  });
   const [order, setOrder] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user)
+  console.log(user);
 
-  function chooseFood(food){
-    if(user.isLogin){
-      setchoosedFood((prew) => (prew = food))
-    }else{
-      console.log("a")
-      ShowAlert(5 , "You need to login !")
-      setTimeout(()=>{
-        navigate("/login")
-      },1500)
+  function chooseFood(food) {
+    if (user.isLogin) {
+      setchoosedFood((prew) => (prew = food));
+    } else {
+      console.log("a");
+      ShowAlert(5, "You need to login !");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     }
-
   }
   function addFood(food) {
     console.log("sa");
@@ -114,90 +119,96 @@ export default function RestaurantFoods() {
   function multipleOption(option) {
     if (!foodObject || !Array.isArray(foodObject.options)) {
       // Handle the case where foodObject or foodObject.options is not properly initialized
-      console.error("foodObject or foodObject.options is not properly initialized");
+      console.error(
+        "foodObject or foodObject.options is not properly initialized"
+      );
       return;
     }
-  
+
     if (foodObject.options.includes(option.name)) {
-      const updatedOptions = foodObject.options.filter(existingOption => existingOption !== option.name);
-      setFoodObject(prevState => ({
+      const updatedOptions = foodObject.options.filter(
+        (existingOption) => existingOption !== option.name
+      );
+      setFoodObject((prevState) => ({
         ...prevState,
         price: prevState.price - option.price,
-        options: updatedOptions
+        options: updatedOptions,
       }));
     } else {
-      console.log(option.price)
+      console.log(option.price);
       const updatedOptions = [...foodObject.options, option.name];
-      setFoodObject(prevState => ({
+      setFoodObject((prevState) => ({
         ...prevState,
         price: prevState.price + option.price,
-        options: updatedOptions
+        options: updatedOptions,
       }));
     }
   }
-  
-  function singleOption(option){
-      if(foodObject.singleOption && foodObject.singleOption == option.name){
-        return;
-      }
-       else if(foodObject.singleOption && foodObject.singleOption !== option.name){
-        let prewSingle= choosedFood.options.find(e => e.quantitiy == "single")
-        let prewSinglePrice = prewSingle.elements.find(e => e.name == foodObject.singleOption).price
-        console.log(prewSingle.elements.find(e => e.name == foodObject.singleOption))
-         setFoodObject(prevState => ({
+
+  function singleOption(option) {
+    if (foodObject.singleOption && foodObject.singleOption == option.name) {
+      return;
+    } else if (
+      foodObject.singleOption &&
+      foodObject.singleOption !== option.name
+    ) {
+      let prewSingle = choosedFood.options.find((e) => e.quantitiy == "single");
+      let prewSinglePrice = prewSingle.elements.find(
+        (e) => e.name == foodObject.singleOption
+      ).price;
+      console.log(
+        prewSingle.elements.find((e) => e.name == foodObject.singleOption)
+      );
+      setFoodObject((prevState) => ({
         ...prevState,
-        price:(prevState.price - prewSinglePrice) + option.price,
-        singleOption:option.name,
+        price: prevState.price - prewSinglePrice + option.price,
+        singleOption: option.name,
       }));
-       
-       
-      }
-      else{
-        setFoodObject(prevState => ({
-          ...prevState,
-          price:prevState.price + option.price,
-          singleOption:option.name,
-        }));
-      }
-
-      
+    } else {
+      setFoodObject((prevState) => ({
+        ...prevState,
+        price: prevState.price + option.price,
+        singleOption: option.name,
+      }));
+    }
   }
-  function orderMeal(){
+  function orderMeal() {
     //console.log(foodObject)
-    dispatch(addFoodToCard(foodObject))
-
+    dispatch(addFoodToCard(foodObject));
   }
 
-  function reset(){
+  function reset() {
     setchoosedFood(null);
-    setFoodObject({ foodName: "", price: 0, options: [], singleOption:null })
+    setFoodObject({ foodName: "", price: 0, options: [], singleOption: null });
   }
   useEffect(() => {
     //console.log(foodObject);
-  },[foodObject]);
-
+  }, [foodObject]);
 
   useEffect(() => {
-    console.log(choosedFood)
+    console.log(choosedFood);
     setFoodObject((prev) => ({
       ...prev,
       foodName: choosedFood ? choosedFood.name : "",
       price: choosedFood ? choosedFood.price : 0,
-    }));  },[choosedFood]);
+    }));
+  }, [choosedFood]);
 
-  
   return (
     <div className="w-full h-full   pb-24">
       <Cart></Cart>
 
       {choosedFood ? (
         <div className="w-full h-full overflow-y-scroll absolute z-10 bg-slate-100 flex justify-center ">
-          <button onClick={()=> reset()} className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease">Geri</button>
+          <button
+            onClick={() => reset()}
+            className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease"
+          >
+            Geri
+          </button>
 
           <div className="flex flex-col md:w-[80%] lg:w-[65%] pt-12 rounded-lg  px-2">
-            
             <div className="flex flex-col flex-col-reverse	 lg:flex-row W-[100%] justify-between h-auto border-b-[3px]  px-12 py-4 rounded-t-md rounded-bottom-0">
-
               <div className="flex flex-col w-[100%]">
                 <h3 className="h-auto font-semibold text-3xl pt-8">
                   {choosedFood.name}
@@ -221,11 +232,15 @@ export default function RestaurantFoods() {
                                     name={e.name}
                                     type="checkbox"
                                     className="w-4 h-4 bg-opacity-0 border-none mt-[6px]"
-                                    onClick={()=> multipleOption(e)}
+                                    onClick={() => multipleOption(e)}
                                   ></input>
                                   <div className="flex flex-row">
-                                    <span className="text-lg font-large pr-4">{e.name}</span>
-                                    <span className="text-lg  font-large">+ {e.price} TL</span>
+                                    <span className="text-lg font-large pr-4">
+                                      {e.name}
+                                    </span>
+                                    <span className="text-lg  font-large">
+                                      + {e.price} TL
+                                    </span>
                                   </div>
                                 </div>
                               ))}
@@ -233,27 +248,29 @@ export default function RestaurantFoods() {
                           ) : (
                             <div className="flex flex-col ">
                               {optionElement.elements.map((e, index) => (
-                                <div className="flex flex-row w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 " key={index}>
+                                <div
+                                  className="flex flex-row w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 "
+                                  key={index}
+                                >
                                   <input
                                     type="radio"
                                     className="w-4 h-4 bg-opacity-0 border-none mt-[6px]"
                                     name="optionRadio"
-                                    onClick={()=> singleOption(e)}
-
+                                    onClick={() => singleOption(e)}
                                   ></input>
-                                  
+
                                   <div className="flex flex-row pl-2">
-                                    <span className="text-lg font-large pr-4">{e.name}</span>
-                                    <span className="text-lg  font-large">+ {e.price} TL</span>
+                                    <span className="text-lg font-large pr-4">
+                                      {e.name}
+                                    </span>
+                                    <span className="text-lg  font-large">
+                                      + {e.price} TL
+                                    </span>
                                   </div>
                                 </div>
-                                
                               ))}
- 
                             </div>
                           )}
-               
-
                         </div>
                       ))}
                     </div>
@@ -263,8 +280,11 @@ export default function RestaurantFoods() {
                     </div>
                   )}
                 </div>
-                <h3 className="border-t-[2px] text-lg font-large w-[30%] pt-2 mt-2"><span className="font-semibold pr-2">Total Price:</span> {foodObject.price} TL</h3>
-                  <button onClick={()=> orderMeal()}>Order</button>
+                <h3 className="border-t-[2px] text-lg font-large w-[30%] pt-2 mt-2">
+                  <span className="font-semibold pr-2">Total Price:</span>{" "}
+                  {foodObject.price} TL
+                </h3>
+                <button onClick={() => orderMeal()}>Order</button>
               </div>
 
               <div className="w-[100%] lg:w-[50%]  h-auto ">
@@ -275,8 +295,6 @@ export default function RestaurantFoods() {
               </div>
             </div>
           </div>
-
-          
         </div>
       ) : (
         <></>
@@ -305,8 +323,7 @@ export default function RestaurantFoods() {
               </div>
               <div className="w-full flex flex-col px-4">
                 <h4 className="text-lg font-semibold">{food.name}</h4>
-                <p>{food.price} TL
-                </p>
+                <p>{food.price} TL</p>
                 <p className="text-sm">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
                   varius gravida odio,{" "}
@@ -319,7 +336,6 @@ export default function RestaurantFoods() {
                   >
                     Add
                   </button>
-                  
                   {order.find((e) => e.id == food) ? (
                     <button
                       onClick={() => removeFood(food)}
@@ -336,7 +352,7 @@ export default function RestaurantFoods() {
           ))}
         </div>
       </div>
-      <button onClick={()=> dispatch(resetAll())}>Reset</button>
+      <button onClick={() => dispatch(resetAll())}>Reset</button>
     </div>
   );
 }
