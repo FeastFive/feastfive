@@ -26,9 +26,10 @@ const getKitchens = asyncHandler(async (req, res) => {
 });
 
 const updateMeal = asyncHandler(async (req, res) => {
-  const { id, mealIndex, updatedMealData } = req.body;
+  const { id, mealId, updatedMealData } = req.body;
+  console.log(req.body);
 
-  if (!id || !mealIndex || !updatedMealData) {
+  if (!id || !mealId || !updatedMealData) {
     res
       .status(400)
       .json({ state: "fail", message: "Please include all fields" });
@@ -42,11 +43,13 @@ const updateMeal = asyncHandler(async (req, res) => {
       return;
     }
 
+    const mealIndex = restaurant.meals.findIndex((meal) => meal._id === mealId);
     if (mealIndex === -1) {
       res.status(404).json({ message: "Meal not found" });
       return;
     }
-
+    console.log("aBURDAYUM");
+    console.log(mealIndex);
     restaurant.meals[mealIndex] = {
       ...restaurant.meals[mealIndex],
       ...updatedMealData,
@@ -54,45 +57,14 @@ const updateMeal = asyncHandler(async (req, res) => {
 
     await restaurant.save();
 
-    res.status(200).json({ message: "Meal updated successfully" });
+    res
+      .status(200)
+      .json({ message: "Meal updated successfully", meals: restaurant.meals });
   } catch (err) {
     console.error("Error updating meal:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
-// const updateMeal = asyncHandler(async (req, res) => {
-//   const { id, mealsId, updatedMealData } = req.body;
-
-//   if (!id || !mealsId || !updatedMealData) {
-//     res.status(400).json({ state: "fail", message: "Please include all fields" });
-//     return;
-//   }
-
-//   try {
-
-//     const restaurant = await Restaurant.findById(id);
-//     if (!restaurant) {
-//       res.status(404).json({ message: "Restaurant not found" });
-//       return;
-//     }
-
-//     const mealIndex = restaurant.meals.findIndex(meal => meal._id === mealsId);
-//     if (mealIndex === -1) {
-//       res.status(404).json({ message: "Meal not found" });
-//       return;
-//     }
-
-//     restaurant.meals[mealIndex] = { ...restaurant.meals[mealIndex], ...updatedMealData };
-
-//     await restaurant.save();
-
-//     res.status(200).json({ message: "Meal updated successfully" });
-//   } catch (err) {
-//     console.error("Error updating meal:", err);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// });
 
 const deleteMeal = asyncHandler(async (req, res) => {
   const { id, mealId } = req.body;
