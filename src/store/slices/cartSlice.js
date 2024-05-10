@@ -3,7 +3,7 @@ import { act } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 
 const initialState = {
-  restaurantId: null,
+  restaurantId: 4,
   cartFoodList: [],
   totalPrice: 0,
 };
@@ -15,7 +15,6 @@ const cartSlice = createSlice({
     /*{id: 1 , foodName:"döner", count:1 } */
     addFoodToCard: (state, action) => {
       state.restaurantId = action.payload.restaurant;
-    
       if (action.payload.singleOption) {
         const price = parseFloat(action.payload.price);
     
@@ -52,13 +51,16 @@ const cartSlice = createSlice({
               singleOption: action.payload.singleOption,
               count: 1,
             };
-    
+            
             let obj = {
+              foodImage:action.payload.foodImage,
               foodName: action.payload.foodName,
+              foodImage:action.payload.foodImage,
+              foodDescp:action.payload.foodDescp,
               count: 1,
               foodInfo: [foodInfoObj],
             };
-    
+            
             state.cartFoodList.push(obj);
           }
           ShowAlert(4, `${action.payload.foodName} Added`);

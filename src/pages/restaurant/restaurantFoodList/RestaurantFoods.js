@@ -62,7 +62,7 @@ export default function RestaurantFoods() {
     },
   ]);
 
-  const [foodObject,setFoodObject] = useState({foodName: "", price: 0, options: [], singleOption:null, count:1 });
+  const [foodObject,setFoodObject] = useState({foodName: "",foodDescp:"", price: 0, options: [], singleOption:null, count:1 });
   const [order, setOrder] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -81,14 +81,17 @@ export default function RestaurantFoods() {
     }
 */
   }
-
   useEffect(()=>{
     if(foodName){
       let food = foodList.find(e => e.name == foodName)
       console.log(food)
       setchoosedFood(food)
      }
+
+
+
 },[foodName])
+
   function removeFood(foodId) {
     const existingFood = order.find((e) => e.id === foodId);
     if (existingFood) {
@@ -156,8 +159,12 @@ export default function RestaurantFoods() {
 
       
   }
+
+
   function orderMeal(){
-    if(localStorage.getItem("restaurantId")){
+    console.log(choosedFood)
+  
+     if(localStorage.getItem("restaurantId")){
       if(restaurandId != localStorage.getItem("restaurantId")){
         ShowAlert(3 , "Diğer restorandaki ürünleri silmelisiniz !")
       }else{
@@ -169,6 +176,8 @@ export default function RestaurantFoods() {
       localStorage.setItem("restaurantId",restaurandId)
       dispatch(addFoodToCard(foodObject))
     }
+    
+   
   }
 
   function reset(){
@@ -182,8 +191,14 @@ export default function RestaurantFoods() {
     setFoodObject((prev) => ({
       ...prev,
       foodName: choosedFood ? choosedFood.name : "",
+      foodImage: choosedFood ? choosedFood.image : "",
+      foodDescp:choosedFood ? choosedFood.description : "",
       price: choosedFood ? choosedFood.price : 0,
-    }));  },[choosedFood]);
+    })); 
+  
+      console.log(choosedFood)
+  
+  },[choosedFood]);
 
   
   return (
