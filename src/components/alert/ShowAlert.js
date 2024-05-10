@@ -43,7 +43,7 @@ export function ShowAlert(type, message) {
       case 4:
         toast.success(`${message}`, {
           position: "bottom-right",
-          autoClose: 1000,
+          autoClose: 800,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -56,7 +56,7 @@ export function ShowAlert(type, message) {
         case 5:
           toast.warning(`${message}`, {
             position: "bottom-right",
-            autoClose: 1000,
+            autoClose: 800,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
