@@ -99,6 +99,32 @@ const Navbar = () => {
     }
   };
 
+  const handlePurchase = () => {
+    // Pass data using navigate function
+    navigate("/purchase", {
+      state: {
+        cart: {
+          restaurantId: "1059375840",
+          cartFoodList: [
+            {
+              _id: {
+                $oid: "6630ab97e6778d1b3b3203e0",
+              },
+              restaurantName: "Eren`s Restaurant",
+              restaurantEmail: "zeugurlu@outlook.com",
+              name: "Eren`s Pasta",
+              price: 206,
+              description: "The best Pasta ever",
+              image:
+                "https://i.lezzet.com.tr/images-xxlarge/salcali-makarna-f60e9ce7-6ad0-49ab-8dae-a3f6aa385734",
+            },
+          ],
+          totalPrice: 206,
+        },
+      },
+    });
+  };
+
   const MobileDropdown = () => {
     return (
       <motion.div
@@ -120,7 +146,12 @@ const Navbar = () => {
         <div className={styles.mobileButtonContainer}>
           <div className={styles.mobilRegistrationContainer}>
             {user.isLogin || restaurant.isLogin ? (
-              <button className={styles.mobilProfileBtn}>Profile</button>
+              <button
+                className={styles.mobilProfileBtn}
+                onClick={() => navigate("/profile")}
+              >
+                Profile
+              </button>
             ) : (
               <>
                 <button
@@ -154,7 +185,9 @@ const Navbar = () => {
           >
             {menu.button2}
           </button>
-          <button className={styles.navMobileButton}>{menu.button3}</button>
+          <button className={styles.navMobileButton} onClick={handlePurchase}>
+            {menu.button3}
+          </button>
           <button className={styles.navMobileButton}></button>
           {user || restaurant ? (
             <button onClick={handleLogout} className={styles.navMobileButton}>
@@ -177,7 +210,12 @@ const Navbar = () => {
         exit="exit"
         className={styles.iconDropdown}
       >
-        <button className={styles.iconDropdownBtn}>Profile</button>
+        <button
+          className={styles.iconDropdownBtn}
+          onClick={() => navigate("/profile")}
+        >
+          Profile
+        </button>
         <button className={styles.iconDropdownBtn}>Help</button>
         <button className={styles.iconDropdownBtn} onClick={handleLogout}>
           Log Out
@@ -201,7 +239,9 @@ const Navbar = () => {
         <div className={styles.iconContainer}>
           <img src={navIconNoBack} alt="" className={styles.navIcon} />
         </div>
-        <button className={styles.navButton}>{menu.button3}</button>
+        <button className={styles.navButton} onClick={handlePurchase}>
+          {menu.button3}
+        </button>
         <button className={styles.navButton}>{menu.button4}</button>
         <div className={styles.registrationContainer}>
           {user.isLogin || restaurant.isLogin ? (

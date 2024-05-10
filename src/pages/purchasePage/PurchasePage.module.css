@@ -1,0 +1,117 @@
+.mainContainer {
+  font-family: "Open Sans", sans-serif;
+}
+.contentContainer {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  height: 70vh;
+}
+.mealAndressCart {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+.mealContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+.titleMeals {
+  font-weight: 500;
+  font-size: 36px;
+  color: #db3748;
+}
+.mealCart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-right: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 3px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 2px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.mealImage {
+  width: 100px;
+  border-radius: 5px;
+}
+.mealContent {
+  width: 100%;
+  height: 100%;
+  padding: 5px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.mealTitle {
+  font-weight: 500;
+  color: #0f0f0f;
+}
+.mealDescription {
+  font-size: 12px;
+}
+.price {
+  text-align: center;
+  font-weight: 500;
+  color: #0f0f0f;
+}
+.totalPrice {
+  font-weight: 600;
+  font-size: 20px;
+}
+.addressContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputLabel {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+}
+.inputTitle {
+  font-size: 18px;
+}
+
+.inputFill {
+  all: unset;
+  border: 2px solid #000;
+  /* border-radius: 5px; */
+  height: 37px;
+  line-height: normal;
+  color: #282828;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: auto;
+  font-size: 12px;
+
+  padding-left: 8px;
+  cursor: text;
+}
+.inputFillAddress {
+  all: unset;
+  border: 2px solid #000;
+  /* border-radius: 5px; */
+  height: 137px;
+  line-height: normal;
+  color: #282828;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: auto;
+  font-size: 12px;
+
+  padding: 3px 8px;
+  cursor: text;
+}
+.inputFill:focus {
+  border-color: #db3748;
+}
+.transectionCart {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
