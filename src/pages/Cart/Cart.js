@@ -7,23 +7,22 @@ export default function Cart() {
   const [isOpen, setIsOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
   const panel = useRef();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
-        if(panel.current){
+        if (panel.current) {
           panel.current.classList.add("hidden");
         }
       }, 500);
     } else {
       setTimeout(() => {
-        if(panel.current.classList.contains("hidden")){
+        if (panel.current.classList.contains("hidden")) {
           panel.current.classList.remove("hidden");
         }
       }, 500);
     }
   }, [isOpen]);
-
 
   return (
     <div className="">
@@ -49,8 +48,8 @@ export default function Cart() {
       <div
         ref={panel}
         className={
-          `cart  md:w[40%] lg:w-[28%] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300` +
-            (isOpen ? " opacity-100 " : " opacity-0 ")
+          `cart  md:w[40%] lg:w-[28%]` +
+          (isOpen ? " opacity-100 " : " opacity-0 ")
         }
       >
         <button
@@ -78,39 +77,41 @@ export default function Cart() {
               {cart.cartFoodList.map((food, _index) => (
                 <div key={_index} className="h-auto  pt-2 pb-4 ">
                   <div className="flex flex-row ">
-                    <h4 className=" border-b-[2px]  border-gray-400 ">{food.count ?? 1}x</h4>
+                    <h4 className=" border-b-[2px]  border-gray-400 ">
+                      {food.count ?? 1}x
+                    </h4>
 
-                    <h3 key={"food"} className="text-lg font-semibold pb-1  border-b-[2px] border-gray-400 w-auto pl-2 pr-5 ">
+                    <h3
+                      key={"food"}
+                      className="text-lg font-semibold pb-1  border-b-[2px] border-gray-400 w-auto pl-2 pr-5 "
+                    >
                       {food.foodName}
                     </h3>
                   </div>
                   <div>
                     {food.foodInfo.map((info, index) => (
-                      <div   className="flex flex-row border-b-[2px] border-gray-200 pb-2 pt-3 last:border-gray-400">
-                          <div
-                      
-                        className="flex flex-col flex-wrap gap-1 w-full"
-                      >
-                        <div className="flex flex-row">
-                          <p>{info.count} Adet </p>
-                          <div className="pl-2 font-semibold">
-                            {" "}
-                            {info.price} TL
+                      <div className="flex flex-row border-b-[2px] border-gray-200 pb-2 pt-3 last:border-gray-400">
+                        <div className="flex flex-col flex-wrap gap-1 w-full">
+                          <div className="flex flex-row">
+                            <p>{info.count} Adet </p>
+                            <div className="pl-2 font-semibold">
+                              {" "}
+                              {info.price} TL
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex flex-row gap-2 flex-wrap">
-                            
-                          <p className="font-semibold ">Seçenekler: </p>
-                          <div className="">{info.singleOption}</div>
+                          <div className="flex flex-row gap-2 flex-wrap">
+                            <p className="font-semibold ">Seçenekler: </p>
+                            <div className="">{info.singleOption}</div>
 
-                          <div className="flex flex-row flex-wrap gap-2">
-                            {info.options.map((opt, index) => (
-                              <p key={index} className="text-sm">, {opt}</p>
-                            ))}
+                            <div className="flex flex-row flex-wrap gap-2">
+                              {info.options.map((opt, index) => (
+                                <p key={index} className="text-sm">
+                                  , {opt}
+                                </p>
+                              ))}
+                            </div>
                           </div>
-                         
                         </div>
-                      </div>
                         <a
                           onClick={() =>
                             dispatch(removeFromCart({ food, info, index }))
@@ -141,7 +142,10 @@ export default function Cart() {
               <div className="absolute bottom-0 mb-2 font-semibold flex flex-row w-full pb-2 justify-between bg-[#FFFFFF] pt-3">
                 <p className="w-full pt-1">Total: {cart.totalPrice} TL</p>
 
-                <button onClick={()=> navigate("/cart")} className="bg-red-300 bg-opacity-40 rounded-md shadow-sm hover:bg-opacity-100 duration-200 py-1 w-[80%] mr-20">
+                <button
+                  onClick={() => navigate("/cart")}
+                  className="bg-red-300 bg-opacity-40 rounded-md shadow-sm hover:bg-opacity-100 duration-200 py-1 w-[80%] mr-20"
+                >
                   Buy
                 </button>
               </div>

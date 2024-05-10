@@ -169,9 +169,12 @@ const updateRestaurant = asyncHandler(async (req, res) => {
 });
 
 //get restaurant
-// route api/restaurant/getSpecificRestaurant
+// route api/restaurants/getSpecificRestaurant
 const getSpecificRestaurant = asyncHandler(async (req, res) => {
+  console.log("burdayim");
+  console.log(req.body);
   const { id } = req.body;
+  console.log(id);
   try {
     const rest = await Restaurant.findById(id, {
       password: 0,
