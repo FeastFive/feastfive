@@ -54,12 +54,16 @@ const LoginPage = () => {
           navigate(-1);
         }}
       />
-      <FaStore
+
+      <div
         className={styles.storeIcon}
         onClick={() => {
           navigate("/restaurantLogin");
         }}
-      />
+      >
+        Restaurant Login
+      </div>
+
       <IoHomeSharp
         className={styles.homeIcon}
         onClick={() => {

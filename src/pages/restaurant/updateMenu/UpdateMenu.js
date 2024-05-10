@@ -1,57 +1,43 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
-import { addMeal } from "../../../utils/meal/addMeal";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import styles from "../Menu.module.css";
 import { setMeal } from "../../../store/slices/restaurantSlice";
+import { updateMeal } from "../../../utils/meal/updateMeal";
 
-export default function Menu() {
+import { useParams } from "react-router-dom";
+
+export default function UpdateMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const restaurant = useSelector((state) => state.restaurant);
-  const [optionList, setOptionList] = useState([]);
-  const [option, setOption] = useState("");
   const [elem, setElem] = useState([]);
-
+  const { mealId } = useParams();
+  const mealsId = mealId;
+  const filteredMeal = restaurant.meals.filter((meal) => meal.id === mealsId);
+  const [optionList, setOptionList] = useState(
+    filteredMeal.length > 0 ? filteredMeal[0].options : []
+  );
+  const [option, setOption] = useState("");
   // const [file, setFile] = useState();
-  const [base64Image, setBase64Image] = useState("");
-  const [foodName, setFoodname] = useState("");
-  const [foodDesc, setFoodDesc] = useState("");
-  const [foodPrice, setfoodPrice] = useState("");
-  const [amount, setAmount] = useState("");
+  const [base64Image, setBase64Image] = useState(
+    filteredMeal.length > 0 ? filteredMeal[0].image : ""
+  );
+  const [foodName, setFoodname] = useState(
+    filteredMeal.length > 0 ? filteredMeal[0].name : ""
+  );
+  const [foodDesc, setFoodDesc] = useState(
+    filteredMeal.length > 0 ? filteredMeal[0].description : ""
+  );
 
-  const addFood = async () => {
-    let obj = {
-      id: restaurant.id,
-      // restaurantEmail: restaurant.email,
-      name: foodName,
-      description: foodDesc,
-      image: base64Image,
-      price: foodPrice,
-      options: optionList,
-    };
-    // console.log(obj);
-    try {
-      if (!obj.name && !obj.price && !obj.id) {
-        ShowAlert(2, "Please fill required fields");
-        return;
-      }
-      const response = await addMeal(obj);
-      if (response.status === 200) {
-        const result = await response.json();
-        dispatch(setMeal({ meals: result.meals }));
-        ShowAlert(1, "Added in successfully");
-      } else {
-        ShowAlert(3, "Invalid data");
-      }
-    } catch (err) {
-      console.log("Add meal error", err);
-      ShowAlert(3, "An error occured while adding meal");
-    }
-  };
+  const [foodPrice, setfoodPrice] = useState(
+    filteredMeal.length > 0 ? filteredMeal[0].price : ""
+  );
+  const [amount, setAmount] = useState("");
+  const [foods, setFoods] = useState([]);
 
   function addOption() {
     if (option.trim() != "") {
@@ -110,6 +96,40 @@ export default function Menu() {
     });
   }
 
+  const handleRestaurantUpdate = async () => {
+    try {
+      const meal = {
+        name: foodName,
+        description: foodDesc,
+        image: base64Image,
+        price: foodPrice,
+        options: optionList,
+      };
+      console.log(meal);
+      const obj = {
+        id: restaurant.id,
+        mealId: mealsId,
+        updatedMealData: meal,
+      };
+      console.log(obj);
+      const response = await updateMeal(obj);
+      if (response.status == 200) {
+        const result = await response.json();
+        dispatch(setMeal({ meals: result.meals }));
+        navigate("/restaurantPanel");
+
+        ShowAlert(1, "Saved succesfully");
+      } else if (response.status == 404) {
+        ShowAlert(3, "An error occurred while fetching labels");
+      } else {
+        ShowAlert(3, "An error occurred while fetching labels");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      ShowAlert(3, "An error occurred while saving labels");
+    }
+  };
+
   return (
     <>
       <Navbar></Navbar>
@@ -124,7 +144,7 @@ export default function Menu() {
         <div className=" w-full flex flex-row">
           <input
             onChange={(e) => setFoodname(e.target.value)}
-            placeholder="Enter the food name"
+            placeholder={filteredMeal[0]?.name}
             className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-md w-full"
           ></input>
         </div>
@@ -133,7 +153,7 @@ export default function Menu() {
         <div className=" w-full">
           <textarea
             onChange={(e) => setFoodDesc(e.target.value)}
-            placeholder="Enter the food description"
+            placeholder={filteredMeal[0].description}
             className="resize-y border-2 border-slate-200 shadow-md px-4 py-3 h-16  focus:outline-none rounded-md w-full"
           ></textarea>
         </div>
@@ -141,17 +161,15 @@ export default function Menu() {
         <p className="w-full col-span-4 pt-2">Food Immage:</p>
         <div className=" w-full">
           <label className="block">
+            <img
+              src={filteredMeal.length > 0 ? filteredMeal[0].image : ""}
+              alt="Food Image"
+              className="block w-full h-auto text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200"
+            />
             <input
               type="file"
               accept="image/*"
-              className="block w-full text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200
-      file:mr-4 file:py-2 file:px-4
-      file:cursor-pointer
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-[#db3748] file:bg-opacity-20 file:text-[#db3748] file:duration-200
-      hover:file:bg-opacity-40
-    "
+              className="hidden"
               onChange={handleFileInputChange}
             />
           </label>
@@ -161,7 +179,7 @@ export default function Menu() {
         <div className=" w-[40%] mr-auto flex flex-row">
           <input
             onChange={(e) => setfoodPrice(e.target.value)}
-            placeholder="100 $"
+            placeholder={filteredMeal[0].price}
             className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-md w-full"
           ></input>
           <span className="pt-1 text-lg font-semibold pl-3">$</span>
@@ -323,8 +341,8 @@ export default function Menu() {
         ))}
 
         <button
+          onClick={handleRestaurantUpdate}
           className="bg-[#db3748] text-slate-800 bg-opacity-40 w-full h-10 rounded-md shadow-md mt-2 py-1 px-2 font-semibold text-md mt-4 duration-200 hover:bg-opacity-60"
-          onClick={addFood}
         >
           Save
         </button>

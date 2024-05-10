@@ -80,8 +80,8 @@ const loginRestaurant = asyncHandler(async (req, res) => {
         loginDate: restaurant.loginDate,
         role: restaurant.role,
         meals: restaurant.meals,
-        // orders: restaurant.orders,
-        // labels: restaurant.labels,
+        orders: restaurant.orders,
+        labels: restaurant.labels,
         activated: restaurant.activated,
       });
     } else {
@@ -117,7 +117,11 @@ const activateRestaurantAccount = asyncHandler(async (req, res) => {
 // route api/restaurant/getRestaurant
 const getRestaurant = asyncHandler(async (req, res) => {
   try {
-    const rest = await Restaurant.find({}, { password: 0 });
+    const rest = await Restaurant.find(
+      {},
+      { password: 0, meals: 0, orders: 0 }
+    );
+
     console.log(rest);
 
     if (!rest || rest.length === 0) {
@@ -132,6 +136,83 @@ const getRestaurant = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error("Error retrieving restaurants from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//post restaurant
+// route api/restaurant/updateRestaurant
+const updateRestaurant = asyncHandler(async (req, res) => {
+  const { id, updatedFields } = req.body;
+
+  try {
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res
+        .status(404)
+        .json({ state: "fail", message: "No restaurant found by id" });
+    }
+
+    Object.assign(restaurant, updatedFields);
+
+    await restaurant.save();
+
+    res.status(200).json({
+      state: "success",
+      message: "Restaurant updated successfully",
+      updatedRestaurant: restaurant,
+    });
+  } catch (error) {
+    console.error("Error updating restaurant from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//get restaurant
+// route api/restaurant/getSpecificRestaurant
+const getSpecificRestaurant = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  try {
+    const rest = await Restaurant.findById(id, {
+      password: 0,
+      orders: 0,
+    });
+
+    console.log(rest);
+
+    if (!rest) {
+      res.status(404).json({ message: "No kitchens found" });
+      return;
+    }
+
+    res.status(200).json({
+      restaurant: rest,
+    });
+  } catch (error) {
+    console.error("Error retrieving restaurants from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+const updateLabel = asyncHandler(async (req, res) => {
+  const { id, labels } = req.body;
+  try {
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res
+        .status(404)
+        .json({ state: "fail", message: "No restaurant found by id" });
+    } else {
+      restaurant.labels = labels;
+
+      await restaurant.save();
+
+      res
+        .status(200)
+        .json({ state: "success", message: "Labels updated successfully" });
+    }
+  } catch (error) {
+    console.error("Error updating restaurant label from database:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -157,5 +238,8 @@ module.exports = {
   registerRestaurant,
   loginRestaurant,
   activateRestaurantAccount,
+  updateRestaurant,
+  updateLabel,
   getRestaurant,
+  getSpecificRestaurant,
 };

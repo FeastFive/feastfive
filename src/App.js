@@ -8,6 +8,7 @@ import RestaurantSignup from "./pages/restaurantRegistiration/RestaurantSignup";
 import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
 import ChangePassword from "./pages/changePassword/ChangePassword";
 import RestaurantPanelPage from "./pages/restaurantPanelPage/RestaurantPanelPage";
+import Profile from "./pages/profilePage/Profile";
 import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,9 +16,11 @@ import "./App.css";
 import FoodHome from "./pages/homePage/FoodHome.js/FoodHome";
 import Navbar from "./components/Navbar";
 import Menu from "./pages/restaurant/menu/Menu";
+import UpdateMenu from "./pages/restaurant/updateMenu/UpdateMenu";
 import { useSelector } from "react-redux";
 import RestaurantFoodList from "./pages/restaurant/restaurantFoodList/RestaurantFoods"
 import CartPage from "./pages/CartPage/CartPage";
+
 function App() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
@@ -31,10 +34,17 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/food" element={<FoodHome />} />
-          <Route path="/restaurantFoods/:restaurandId" element={<RestaurantFoodList />} />
           <Route path="/restaurantFoods/:restaurandId/:foodName" element={<RestaurantFoodList />} />
 
           <Route path="/cart" element={<CartPage />} />
+          <Route
+            path="/restaurantFoods/:restaurandId"
+            element={<RestaurantFoodList />}
+          />
+          <Route
+            path={restaurant.isLogin ? "/updateMenu/:mealId" : "*"}
+            element={<UpdateMenu />}
+          />
 
           <Route
             path={restaurant.isLogin ? "/menu" : "*"}
@@ -87,6 +97,7 @@ function App() {
           {/* <Route path="/restaurantSignUp" element={<RestaurantSignup />} /> */}
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
           <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
