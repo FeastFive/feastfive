@@ -2,87 +2,27 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
-export default function Cart() {
-  const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-  const cart = useSelector((state) => state.cart);
-  const panel = useRef();
-  const navigate = useNavigate()
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => {
-        if(panel.current){
-          panel.current.classList.add("hidden");
-        }
-      }, 500);
-    } else {
-      setTimeout(() => {
-        if(panel.current.classList.contains("hidden")){
-          panel.current.classList.remove("hidden");
-        }
-      }, 500);
-    }
-  }, [isOpen]);
 
-
+export default function CartPage() {
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart);
+    const navigate = useNavigate()
+    console.log(cart)
   return (
-    <div className="">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-0 right-0 z-20 mr-7 mb-7 hover:scale-105 duration-200 cursor pointer w-10 h-10 `}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokewidth="1.5"
-          stroke="currentColor"
-          className="w-full h-auto"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-          />
-        </svg>
-      </button>
-      <div
-        ref={panel}
-        className={
-          `cart  md:w[40%] lg:w-[28%] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300` +
-            (isOpen ? " opacity-100 " : " opacity-0 ")
-        }
-      >
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`fixed mt-[-10px] right-0 mr-4 mb-7 hover:scale-120 duration-200 cursor pointer `}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-        <>
+    <div className="overflow-x-hidden pt-12">
+         <div className="w-[60%] m-auto px-12">
+         <h3 className="font-semibold text-2xl pb-4"> Cart </h3>
+
           {cart.cartFoodList.length > 0 ? (
-            <div ke={"cart"} className="overflow-y-scroll  pr-10">
+            <div ke={"cart"} className="pr-10">
               {cart.cartFoodList.map((food, _index) => (
                 <div key={_index} className="h-auto  pt-2 pb-4 ">
                   <div className="flex flex-row ">
                     <h4 className=" border-b-[2px]  border-gray-400 ">{food.count ?? 1}x</h4>
 
-                    <h3 key={"food"} className="text-lg font-semibold pb-1  border-b-[2px] border-gray-400 w-auto pl-2 pr-5 ">
+                    <a href={`/restaurantFoods/${localStorage.getItem("restaurantId")}/${food.foodName}`} key={"food"} className="text-lg font-semibold pb-1  border-b-[2px] border-gray-400 w-auto pl-2 pr-5 cursor-pointer hover:text-gray-500 duration-200">
                       {food.foodName}
-                    </h3>
+                    </a>
                   </div>
                   <div>
                     {food.foodInfo.map((info, index) => (
@@ -138,19 +78,18 @@ export default function Cart() {
                 </div>
               ))}
 
-              <div className="absolute bottom-0 mb-2 font-semibold flex flex-row w-full pb-2 justify-between bg-[#FFFFFF] pt-3">
-                <p className="w-full pt-1">Total: {cart.totalPrice} TL</p>
+              <div className="flex flex-row justify-left gap-4">
+                <p className="w-auto pt-1">Total: {cart.totalPrice} TL</p>
 
-                <button onClick={()=> navigate("/cart")} className="bg-red-300 bg-opacity-40 rounded-md shadow-sm hover:bg-opacity-100 duration-200 py-1 w-[80%] mr-20">
-                  Buy
+                <button onClick={()=> navigate("/cart")} className="bg-red-300 bg-opacity-40 rounded-md shadow-sm w-[20%] py-1 font-semibold text-gray-600">
+                  Apply Order
                 </button>
               </div>
             </div>
           ) : (
             <h4 className="font-semibold text-LG text-center">Cart is Empty</h4>
           )}
-        </>
-      </div>
+        </div>
     </div>
-  );
+  )
 }

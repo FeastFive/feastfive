@@ -109,6 +109,9 @@ const cartSlice = createSlice({
         // Update totalPrice
         ShowAlert(5, `${food.foodName} Removed`);
         state.totalPrice -= food.foodInfo[index].price;
+        if(state.cartFoodList.length == 0){
+        localStorage.removeItem("restaurantId")
+        }
       }
     }
     
@@ -116,7 +119,12 @@ const cartSlice = createSlice({
     ,
     
 
-    resetAll: () => initialState,
+    resetAll: () => {
+      localStorage.removeItem("restaurantId");
+      return {
+        ...initialState
+      };
+    },
   },
 });
 

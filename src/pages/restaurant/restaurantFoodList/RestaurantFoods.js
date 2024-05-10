@@ -4,8 +4,9 @@ import { ShowAlert } from "../../../components/alert/ShowAlert";
 import Cart from "../../Cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { addFoodToCard,resetAll } from "../../../store/slices/cartSlice";
+import Navbar from "../../../components/Navbar";
 export default function RestaurantFoods() {
-  let { restaurandId } = useParams();
+  let { restaurandId,foodName } = useParams();
   const navigate = useNavigate()
   const [choosedFood, setchoosedFood] = useState();
   const [foodList, setFoodList] = useState([
@@ -61,7 +62,7 @@ export default function RestaurantFoods() {
     },
   ]);
 
-  const [foodObject,setFoodObject] = useState({ foodName: "", price: 0, options: [], singleOption:null, count:1 });
+  const [foodObject,setFoodObject] = useState({foodName: "", price: 0, options: [], singleOption:null, count:1 });
   const [order, setOrder] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -80,8 +81,14 @@ export default function RestaurantFoods() {
     }
 */
   }
- 
 
+  useEffect(()=>{
+    if(foodName){
+      let food = foodList.find(e => e.name == foodName)
+      console.log(food)
+      setchoosedFood(food)
+     }
+},[foodName])
   function removeFood(foodId) {
     const existingFood = order.find((e) => e.id === foodId);
     if (existingFood) {
@@ -150,23 +157,28 @@ export default function RestaurantFoods() {
       
   }
   function orderMeal(){
-    //console.log(foodObject)
-    dispatch(addFoodToCard(foodObject))
-
-
+    if(localStorage.getItem("restaurantId")){
+      if(restaurandId != localStorage.getItem("restaurantId")){
+        ShowAlert(3 , "Diğer restorandaki ürünleri silmelisiniz !")
+      }else{
+        localStorage.setItem("restaurantId",restaurandId)
+       dispatch(addFoodToCard(foodObject))
+      }
+    }
+   else{
+      localStorage.setItem("restaurantId",restaurandId)
+      dispatch(addFoodToCard(foodObject))
+    }
   }
 
   function reset(){
     setchoosedFood(null);
     setFoodObject({ foodName: "", price: 0, options: [], singleOption:null })
   }
-  useEffect(() => {
-    //console.log(foodObject);
-  },[foodObject]);
+
 
 
   useEffect(() => {
-    console.log(choosedFood)
     setFoodObject((prev) => ({
       ...prev,
       foodName: choosedFood ? choosedFood.name : "",
@@ -175,11 +187,14 @@ export default function RestaurantFoods() {
 
   
   return (
-    <div className="w-full pb-24 relative">
+    <>
+      <Navbar></Navbar>
+
+      <div className="w-full pb-24 relative">
       <Cart></Cart>
 
       {choosedFood ? (
-        <div className="w-full h-auto absolute z-10 bg-[#FFFFFF] flex justify-center pb-24 ">
+        <div className="w-full h-auto absolute z-10 bg-[#FFFFFF] flex justify-center pb-24 mt-[-10px]">
           <button onClick={()=> reset()} className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease">Geri</button>
 
           <div className="flex flex-col md:w-[80%] lg:w-[65%] pt-12 rounded-lg  px-2">
@@ -330,5 +345,6 @@ export default function RestaurantFoods() {
       </div>
       <button onClick={()=> dispatch(resetAll())}>Reset</button>
     </div>
+    </>
   );
 }
