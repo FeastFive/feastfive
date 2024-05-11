@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../store/slices/cartSlice";
+import { removeFromCart, resetAll } from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const dispatch = useDispatch();
@@ -136,7 +136,9 @@ export default function Cart() {
                       </div>
                     ))}
                   </div>
+                  <button onClick={()=> dispatch(resetAll())} className="w-20 py-1 mt-2 text-sm border-b-2 border-gray-300 hover:border-gray-500 duration-200">Clear all</button>
                 </div>
+                
               ))}
 
               <div className="absolute bottom-0 mb-2 font-semibold flex flex-row w-full pb-2 justify-between bg-[#FFFFFF] pt-3">
@@ -153,6 +155,7 @@ export default function Cart() {
           ) : (
             <h4 className="font-semibold text-LG text-center">Cart is Empty</h4>
           )}
+          
         </>
       </div>
     </div>

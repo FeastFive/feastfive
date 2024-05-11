@@ -10,9 +10,8 @@ export default function RestaurantFoods() {
   let { restaurandId, foodName } = useParams();
   const navigate = useNavigate();
   const [choosedFood, setchoosedFood] = useState();
-  const [foodList, setFoodList] = useState([
-   
-  ]);
+  const [foodList, setFoodList] = useState([]);
+  const [restaurant, setRestaurant] = useState();
 
   const [foodObject, setFoodObject] = useState({
     foodName: "",
@@ -34,6 +33,7 @@ export default function RestaurantFoods() {
         const result = await response.json();
         console.log(result)
         setFoodList(result.restaurant.meals);
+        setRestaurant(result.restaurant)
       } else if (response.status === 404) {
         ShowAlert(3, "An error occurred while fetching restaurant");
       } else {
@@ -145,6 +145,7 @@ export default function RestaurantFoods() {
   }
 
   function orderMeal() {
+    console.log(foodObject);
     console.log(choosedFood);
 
     if (localStorage.getItem("restaurantId")) {
@@ -159,7 +160,20 @@ export default function RestaurantFoods() {
       dispatch(addFoodToCard(foodObject));
     }
   }
+  function resetMultiple(){
+  const radios = document.querySelectorAll('input[name="multipleOptionRadio"]');
 
+  // Loop through each radio element and set checked to false
+  radios.forEach(radio => {
+    radio.checked = false;
+  });
+  let checked = choosedFood.options.find(e => e.elements[0]?.name == foodObject.singleOption  && e.quantity == "single");
+  let price = checked?.elements[0]?.price;
+  if(price){
+    console.log(price)
+    setFoodObject({...foodObject,price:(parseFloat(foodObject.price) - parseFloat(price)),singleOption:null, })
+  }
+  }
   function reset() {
     setchoosedFood(null);
     setFoodObject({ foodName: "", price: 0, options: [], singleOption: null });
@@ -185,7 +199,7 @@ export default function RestaurantFoods() {
         <Cart></Cart>
 
         {choosedFood ? (
-          <div className="w-full h-auto absolute z-10 bg-[#FFFFFF] flex justify-center pb-24 mt-[-10px]">
+          <div className="w-full h-auto sticky top-0  bg-[#FFFFFF] flex justify-center pb-48 mt-[-10px]">
             <button
               onClick={() => reset()}
               className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease"
@@ -241,7 +255,7 @@ export default function RestaurantFoods() {
                                     <input
                                       type="radio"
                                       className="w-4 h-4 bg-opacity-0 border-none mt-[6px]"
-                                      name="optionRadio"
+                                      name="multipleOptionRadio"
                                       onClick={() => singleOption(e)}
                                     ></input>
 
@@ -255,6 +269,7 @@ export default function RestaurantFoods() {
                                     </div>
                                   </div>
                                 ))}
+                                <button onClick={()=> resetMultiple()} className="w-16 mb-2 mt-[-3px] pb-1 border-b-2 tex-sm border-gray-200 hover:border-gray-600 duration-200 text-left pl-2">Clear</button>
                               </div>
                             )}
                           </div>
@@ -291,9 +306,9 @@ export default function RestaurantFoods() {
           <></>
         )}
 
-        <div className="px-12 sm:w-[90%] md:w-[95%] lg:w-[70%] m-auto pt-12">
+        <div className={"px-12 sm:w-[90%] md:w-[95%] lg:w-[70%] m-auto pt-12 " + (choosedFood ? " hidden ":" block ")}>
           <div className="flex flex-row justify-between">
-            <h3 className="text-3xl font-semibold">Döner Evi</h3>
+            <h3 className="text-3xl font-semibold">{restaurant?.restaurantName}</h3>
             <p className="text-gray-400">20.10.2021</p>
           </div>
           <p className="pb-4">
@@ -312,7 +327,7 @@ export default function RestaurantFoods() {
                 <div className="w-[40%] rounded-md pt-2">
                   <img
                     className="object-cover rounded-md shadow-lg"
-                    src="https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg"
+                    src={food.image}
                   ></img>
                 </div>
                 <div className="w-full flex flex-col px-4">
@@ -346,7 +361,6 @@ export default function RestaurantFoods() {
           }
           </div>
         </div>
-        <button onClick={() => dispatch(resetAll())}>Reset</button>
       </div>
     </>
   );
