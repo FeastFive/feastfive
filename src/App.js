@@ -9,7 +9,7 @@ import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
 import ChangePassword from "./pages/changePassword/ChangePassword";
 import RestaurantPanelPage from "./pages/restaurantPanelPage/RestaurantPanelPage";
 import Profile from "./pages/profilePage/Profile";
-import PurchasePage from "./pages/purchasePage/PurchasePage";
+import Purchase from "./pages/purchasePage/Purchase";
 import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +20,9 @@ import Menu from "./pages/restaurant/menu/Menu";
 import UpdateMenu from "./pages/restaurant/updateMenu/UpdateMenu";
 import { useSelector } from "react-redux";
 import RestaurantFoodList from "./pages/restaurant/restaurantFoodList/RestaurantFoods";
+import Payment from "./pages/purchasePage/Payment";
+import Completion from "./pages/purchasePage/Completion";
+
 function App() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
@@ -30,6 +33,8 @@ function App() {
         <ToastContainer style={{ zIndex: "928273690" }} />
 
         <Routes>
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/completion" element={<Completion />} />
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/food" element={<FoodHome />} />
@@ -94,7 +99,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/purchase" element={<PurchasePage />} />
+          <Route path="/purchase" element={<Purchase />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

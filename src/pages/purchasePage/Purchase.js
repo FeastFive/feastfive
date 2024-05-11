@@ -49,8 +49,7 @@ const usePaymentSubmission = () => {
 
   return handleSubmit;
 };
-
-const PurchasePage = () => {
+const Purchase = () => {
   const location = useLocation();
   const data = location.state?.cart;
   const totalPrice = data ? parseFloat(data.totalPrice) : 0; // Parse totalPrice as a float
@@ -61,11 +60,6 @@ const PurchasePage = () => {
     title: "",
     address: "",
   });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -123,20 +117,10 @@ const PurchasePage = () => {
           </div>
         </div>
 
-        <div className={styles.transectionCart}>
-          <Elements stripe={stripePromise}>
-            <form onSubmit={handleSubmit}>
-              <label>
-                Card details
-                <CardElement />
-              </label>
-              <button type="submit">Pay</button>
-            </form>
-          </Elements>
-        </div>
+        <div className={styles.transectionCart}></div>
       </div>
     </div>
   );
 };
 
-export default PurchasePage;
+export default Purchase;
