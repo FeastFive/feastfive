@@ -197,6 +197,26 @@ const getSpecificRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
+const getSearchRestaurants = asyncHandler(async (req, res) => {
+  const key = req.body.key;
+  const regex = new RegExp(`^${key}`, "i");
+
+  try {
+    const filteredRestaurants = await Restaurant.find({
+      name: { $regex: regex },
+    }).limit(3000);
+
+    if (filteredRestaurants.length > 0) {
+      res.status(200).send(filteredRestaurants);
+    } else {
+      res.status(404).send({ state: "fail", cause: "Can't find products" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 const updateLabel = asyncHandler(async (req, res) => {
   const { id, labels } = req.body;
   try {
@@ -245,4 +265,5 @@ module.exports = {
   updateLabel,
   getRestaurant,
   getSpecificRestaurant,
+  getSearchRestaurants,
 };
