@@ -11,56 +11,7 @@ export default function RestaurantFoods() {
   const navigate = useNavigate();
   const [choosedFood, setchoosedFood] = useState();
   const [foodList, setFoodList] = useState([
-    {
-      price: 150,
-      description: " Tavuk döner + Büyük boy içecek yanında.",
-      name: "Tavuk Döner",
-      image:
-        "https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg",
-      options: [
-        {
-          elements: [
-            { name: "Tombik", price: 0 },
-            { name: "Fırın", price: 10 },
-          ],
-          option: "Ekmek",
-          quantitiy: "single",
-        },
-        {
-          elements: [
-            { name: "Mayonez", price: 0 },
-            { name: "Ketçap", price: 0 },
-          ],
-          option: "Sos",
-          quantitiy: "multiple",
-        },
-      ],
-    },
-    {
-      price: 350,
-      description: " Margarita pizza + Büyük boy içecek yanında.",
-      name: "Pizza",
-      image:
-        "https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg",
-      options: [
-        {
-          elements: [
-            { name: "Kalın", price: 10 },
-            { name: "İnce", price: 0 },
-          ],
-          option: "Kenar",
-          quantitiy: "single",
-        },
-        {
-          elements: [
-            { name: "Balzamik", price: 20 },
-            { name: "Pesto", price: 20 },
-          ],
-          option: "Sos",
-          quantitiy: "multiple",
-        },
-      ],
-    },
+   
   ]);
 
   const [foodObject, setFoodObject] = useState({
@@ -81,7 +32,8 @@ export default function RestaurantFoods() {
 
       if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
+        console.log(result)
+        setFoodList(result.restaurant.meals);
       } else if (response.status === 404) {
         ShowAlert(3, "An error occurred while fetching restaurant");
       } else {
@@ -150,7 +102,7 @@ export default function RestaurantFoods() {
       );
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price - option.price,
+        price: parseInt(prevState.price) - parseInt(option.price),
         options: updatedOptions,
       }));
     } else {
@@ -158,7 +110,7 @@ export default function RestaurantFoods() {
       const updatedOptions = [...foodObject.options, option.name];
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price + option.price,
+        price: parseInt(prevState.price) + parseInt(option.price),
         options: updatedOptions,
       }));
     }
@@ -180,13 +132,13 @@ export default function RestaurantFoods() {
       );
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price - prewSinglePrice + option.price,
+        price: parseInt(prevState.price) - (prewSinglePrice + parseInt(option.price)),
         singleOption: option.name,
       }));
     } else {
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price + option.price,
+        price: parseInt(prevState.price) + parseInt(option.price),
         singleOption: option.name,
       }));
     }
@@ -258,7 +210,7 @@ export default function RestaurantFoods() {
                             <h3 className="text-xl  font-semibold mb-4">
                               {optionElement.option}
                             </h3>
-                            {optionElement.quantitiy == "multiple" ? (
+                            {optionElement.quantity == "multiple" ? (
                               <div className="flex flex-col">
                                 {optionElement.elements.map((e) => (
                                   <div className="flex flex-row gap-2 w-[100%] sm:w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 ">
@@ -349,6 +301,8 @@ export default function RestaurantFoods() {
             <span className="text-yellow-300 text-xl">★</span> (180)
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            {foodList ?
+            <>
             {foodList.map((food) => (
               <div
                 onClick={() => setchoosedFood(food)}
@@ -387,6 +341,9 @@ export default function RestaurantFoods() {
                 </div>
               </div>
             ))}
+            </>:
+            <>Loading</>  
+          }
           </div>
         </div>
         <button onClick={() => dispatch(resetAll())}>Reset</button>

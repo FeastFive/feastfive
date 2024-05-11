@@ -1,0 +1,50 @@
+ {
+      price: 150,
+      description: " Tavuk döner + Büyük boy içecek yanında.",
+      name: "Tavuk Döner",
+      image:
+        "https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg",
+      options: [
+        {
+          elements: [
+            { name: "Tombik", price: 0 },
+            { name: "Fırın", price: 10 },
+          ],
+          option: "Ekmek",
+          quantitiy: "single",
+        },
+        {
+          elements: [
+            { name: "Mayonez", price: 0 },
+            { name: "Ketçap", price: 0 },
+          ],
+          option: "Sos",
+          quantitiy: "multiple",
+        },
+      ],
+    },
+    {
+      price: 350,
+      description: " Margarita pizza + Büyük boy içecek yanında.",
+      name: "Pizza",
+      image:
+        "https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg",
+      options: [
+        {
+          elements: [
+            { name: "Kalın", price: 10 },
+            { name: "İnce", price: 0 },
+          ],
+          option: "Kenar",
+          quantitiy: "single",
+        },
+        {
+          elements: [
+            { name: "Balzamik", price: 20 },
+            { name: "Pesto", price: 20 },
+          ],
+          option: "Sos",
+          quantitiy: "multiple",
+        },
+      ],
+    },
