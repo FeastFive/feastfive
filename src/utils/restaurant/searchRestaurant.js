@@ -8,18 +8,18 @@ const searchRestaurant = async (key) => {
     body: JSON.stringify({ key: key }),
   });
 
-  if (response.ok) {
-    const data = await response.json();
+  // if (response.ok) {
+  //   const data = await response.json();
 
-    const searchProducts = data.map((value) => ({
-      id: value._id,
-      restaurantName: value.restaurantName,
-      email: value.email,
-    }));
-    return data;
-  } else {
-    return response;
-  }
+  //   const searchProducts = data.map((value) => ({
+  //     id: value._id,
+  //     restaurantName: value.restaurantName,
+  //     email: value.email,
+  //   }));
+  return response;
+  // } else {
+  //   return response;
+  // }
 };
 
 export { searchRestaurant };

@@ -153,7 +153,7 @@ export default function UpdateMenu() {
         <div className=" w-full">
           <textarea
             onChange={(e) => setFoodDesc(e.target.value)}
-            placeholder={filteredMeal[0].description}
+            placeholder={filteredMeal[0]?.description}
             className="resize-y border-2 border-slate-200 shadow-md px-4 py-3 h-16  focus:outline-none rounded-md w-full"
           ></textarea>
         </div>

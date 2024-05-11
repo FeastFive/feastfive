@@ -4,6 +4,7 @@ import { getRestaurant } from "../../utils/restaurant/getRestaurant";
 import { useEffect } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
+
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState([]);

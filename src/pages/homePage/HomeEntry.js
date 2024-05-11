@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import tabak from "../../images/tabak.png";
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../components/search/SearchBar";
+import SearchResultList from "../../components/search/SearchResultList";
 
 export default function HomeEntry() {
   const [results, setResults] = useState([]);
@@ -31,6 +32,9 @@ export default function HomeEntry() {
 
         <div className="inputGroup flex flex-row  mt-S3 flex sm:justify-center md:justiy-left py-4 sm:py-8 md:py-2">
           <SearchBar setResults={setResults}></SearchBar>
+          {results && results.length > 0 && (
+            <SearchResultList results={results} />
+          )}
           <div className="bg-[#db3748]  text-[#F9FCFB] cursor-pointer h-12 w-32 text-center pt-[10px] font-medium rounded-r-md shadow-sm text-sm sm:text-base">
             Search Food
           </div>
