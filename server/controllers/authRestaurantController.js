@@ -203,7 +203,7 @@ const getSearchRestaurants = asyncHandler(async (req, res) => {
 
   try {
     const filteredRestaurants = await Restaurant.find({
-      name: { $regex: regex },
+      restaurantName: { $regex: regex },
     }).limit(3000);
 
     if (filteredRestaurants.length > 0) {

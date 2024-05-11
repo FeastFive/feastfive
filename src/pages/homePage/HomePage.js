@@ -12,22 +12,20 @@ import Footer from "../../components/Footer";
 const HomePage = () => {
   return (
     <div>
-   <div className="pb-24 overflow-x-hidden">
-      <Navbar></Navbar>
-      <HomeEntry></HomeEntry>
+      <div className="pb-24 overflow-x-hidden">
+        <Navbar></Navbar>
+        <HomeEntry></HomeEntry>
 
-      <div className="px-12 sm:px-24">
-        <HomeSlier></HomeSlier>
-        <h1 className="text-3xl font-semibold text-[#db3748] pt-12">
-          Popular Restaurants
-        </h1>
+        <div className="px-12 sm:px-24">
+          <HomeSlier></HomeSlier>
+          <h1 className="text-3xl font-semibold text-[#db3748] pt-12">
+            Popular Restaurants
+          </h1>
 
-        <HomeGrid></HomeGrid>
-        
+          <HomeGrid></HomeGrid>
+        </div>
       </div>
-    </div>
-<Footer />
-
+      <Footer />
     </div>
   );
 };
