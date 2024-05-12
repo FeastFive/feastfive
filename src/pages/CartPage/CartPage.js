@@ -16,22 +16,22 @@ export default function CartPage() {
         <h3 className="font-semibold text-2xl pb-4"> Cart </h3>
 
         {cart.cartFoodList.length > 0 ? (
-          <div ke={"cart"} className="pr-10">
+          <div ke={"cart"} className="pr-0 sm:pr-10 text-center sm:text-left">
             {cart.cartFoodList.map((food, _index) => (
               <div key={_index} className="h-auto  pt-2 pb-4 ">
-                <div className="flex flex-row ">
+                <div className="flex flex-col sm:flex-row ">
                   <img
-                    className="w-40 h-auto rounded-md shadow-md"
+                    className="w-full lg:w-40 h-auto rounded-md shadow-md"
                     src={food.foodImage}
                   ></img>
 
-                  <div className="flex flex-col pl-4 ">
+                  <div className="flex flex-col pl-4 sm:pt-0 pt-4 ">
                     <a
                       href={`/restaurantFoods/${localStorage.getItem(
                         "restaurantId"
                       )}/${food.foodName}`}
                       key={"food"}
-                      className="text-xl  font-semibold pb-1 w-auto pr-5 cursor-pointer hover:text-gray-500 duration-200 pt-2"
+                      className="text-2xl sm:text-xl  font-semibold pb-1 w-auto pr-5 cursor-pointer hover:text-gray-500 duration-200 pt-2"
                     >
                       {food.foodName}
                     </a>
@@ -96,7 +96,7 @@ export default function CartPage() {
 
               <button
                 onClick={() => navigate("/cart")}
-                className="bg-red-300 bg-opacity-40 rounded-md shadow-sm w-[30%] lg:w-[20%] py-2 font-semibold text-gray-800"
+                className="bg-red-300 bg-opacity-40 rounded-md shadow-sm w-[50%] sm:w-[30%] lg:w-[20%] py-2 font-semibold text-gray-800"
               >
                 Apply Order
               </button>
