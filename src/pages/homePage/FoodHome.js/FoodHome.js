@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 export default function FoodHome() {
   const navigate = useNavigate();
   const [radioList, setTRadioList] = useState([
-    "Önerilen",
-    "Çok tercih edilenler",
-    " En çok beğenilenler",
+    "Suggested",
+    "Most preferred",
+    "Most liked",
   ]);
 
   const [categories, setCategories] = useState([
@@ -95,7 +95,7 @@ export default function FoodHome() {
           </div>
 
           {/*Sıramala*/}
-          <h3 className="pt-4 text-sm">Sıralama</h3>
+          <h3 className="pt-4 text-sm">Ranking</h3>
           <ul className="pt-1">
             {radioList.map((radio) => (
               <li key={radio} className="flex flex-row gap-4 pt-1">
@@ -111,7 +111,7 @@ export default function FoodHome() {
 
           {/*Mutfaklar*/}
           <ul className="pt-4">
-            <h3 className="pb-1 text-sm">Mutfak</h3>
+            <h3 className="pb-1 text-sm">Cuisine</h3>
             <div className="mb-1 mt-1">
               <input
                 placeholder="Search Kitchens"
@@ -135,7 +135,7 @@ export default function FoodHome() {
 
           {/*Fiyat*/}
           <div>
-            <h3 className="mt-2 text-sm">Fiyat</h3>
+            <h3 className="mt-2 text-sm">Price</h3>
             <input
               placeholder="min $"
               className="border-2 border-slate-200 shadow-md focus:outline-none rounded-lg pl-2 w-[60%] text-sm py-1 pb-2 mt-2"
