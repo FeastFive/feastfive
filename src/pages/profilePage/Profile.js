@@ -27,6 +27,7 @@ const Profile = () => {
   const [readyEmail, setReadyEmail] = useState(true);
   const [inputsMissingEmail, setInputsMissingEmail] = useState(false);
   const [inputsMissingPassword, setInputsMissingPassword] = useState(false);
+  console.log(restaurant);
   const [formData, setFormData] = useState({
     ownerName: restaurant.ownerName,
     ownerSurname: restaurant.ownerSurname,
