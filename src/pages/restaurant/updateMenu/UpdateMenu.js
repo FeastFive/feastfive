@@ -179,7 +179,7 @@ export default function UpdateMenu() {
         <div className=" w-[40%] mr-auto flex flex-row">
           <input
             onChange={(e) => setfoodPrice(e.target.value)}
-            placeholder={filteredMeal[0].price}
+            placeholder={filteredMeal[0]?.price}
             className="border-2 border-slate-200 shadow-md px-4 py-3 h-10  focus:outline-none rounded-md w-full"
           ></input>
           <span className="pt-1 text-lg font-semibold pl-3">$</span>
