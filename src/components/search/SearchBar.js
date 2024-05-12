@@ -53,7 +53,7 @@ function SearchBar({ setResults }) {
         placeholder="Type here..."
         value={input}
         onChange={(e) => handleChange(e.target.value)}
-        className="pl-4 h-12 w-[300px]  md:w-[340px] lg:w-[440px] rounded-l-md focus:outline-none shadow-sm border-2 border-slate-100"
+        className="pl-4 h-12 w-full  md:w-[340px] lg:w-[440px] rounded-l-md focus:outline-none shadow-sm border-2 border-slate-100"
       ></input>
     </>
   );
