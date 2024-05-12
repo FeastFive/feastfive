@@ -1,5 +1,3 @@
-// import "./SearchResult.css";
-
 export const SearchResult = ({ result }) => {
   return (
     <div
