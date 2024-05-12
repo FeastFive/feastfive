@@ -10,7 +10,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   console.log(cart);
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden pb-32">
       <Navbar></Navbar>
       <div className="w-[90%] sm:w-[90%] md:w-[80%] lg:w-[65%] m-auto px-12 sm:px-12 md:px-6 lg:px-12 pt-12">
         <h3 className="font-semibold text-2xl pb-4"> Cart </h3>
@@ -92,11 +92,11 @@ export default function CartPage() {
             ))}
 
             <div className="flex flex-row justify-left gap-4 w-full">
-              <p className="w-auto pt-1">Total: {cart.totalPrice} TL</p>
+              <p className="w-auto pt-1 font-semibold text-lg">Total: {cart.totalPrice} TL</p>
 
               <button
                 onClick={() => navigate("/cart")}
-                className="bg-red-300 bg-opacity-40 rounded-md shadow-sm w-[30%] lg:w-[20%] py-1 font-semibold text-gray-600"
+                className="bg-red-300 bg-opacity-40 rounded-md shadow-sm w-[30%] lg:w-[20%] py-2 font-semibold text-gray-800"
               >
                 Apply Order
               </button>

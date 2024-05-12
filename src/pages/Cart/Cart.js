@@ -48,13 +48,13 @@ export default function Cart() {
       <div
         ref={panel}
         className={
-          `cart  md:w[40%] lg:w-[28%]` +
+          `cart w-[100%] sm:w-[60%]  md:w[40%] lg:w-[28%] pt-12 ` +
           (isOpen ? " opacity-100 " : " opacity-0 ")
         }
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`fixed mt-[-10px] right-0 mr-4 mb-7 hover:scale-120 duration-200 cursor pointer `}
+          className={`fixed mt-[-10px] right-0 mr-7 mb-9  hover:scale-120 duration-200 cursor pointer `}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,8 @@ export default function Cart() {
         </button>
         <>
           {cart.cartFoodList.length > 0 ? (
-            <div ke={"cart"} className="overflow-y-scroll  pr-10">
+            <>
+               <div ke={"cart"} className="overflow-y-scroll  pr-10">
               {cart.cartFoodList.map((food, _index) => (
                 <div key={_index} className="h-auto  pt-2 pb-4 ">
                   <div className="flex flex-row ">
@@ -135,8 +136,8 @@ export default function Cart() {
                         </a>
                       </div>
                     ))}
+                    
                   </div>
-                  <button onClick={()=> dispatch(resetAll())} className="w-20 py-1 mt-2 text-sm border-b-2 border-gray-300 hover:border-gray-500 duration-200">Clear all</button>
                 </div>
                 
               ))}
@@ -152,6 +153,9 @@ export default function Cart() {
                 </button>
               </div>
             </div>
+            <button onClick={()=> dispatch(resetAll())} className="w-20 py-1 mt-1 text-sm border-b-2 border-gray-300 hover:border-gray-500 duration-200">Clear all</button>
+            </>
+
           ) : (
             <h4 className="font-semibold text-LG text-center">Cart is Empty</h4>
           )}
