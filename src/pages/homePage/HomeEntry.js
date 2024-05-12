@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import tabak from "../../images/tabak.png";
+import SearchBar from "../../components/search/SearchBar";
+import SearchResultList from "../../components/search/SearchResultList";
+
 export default function HomeEntry() {
+  const [results, setResults] = useState([]);
   return (
-    <div className="w-screen px-12 sm:px-24 h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between  pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
+    <div className="w-screen px-12 pb-12 sm:px-24 h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between  pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
       <div className="flex flex-col text-center md:text-left justify-center">
         <h2 className="text-5xl font-semibold text-[#db3748] b">Hungry ? </h2>
         <a
@@ -25,16 +29,24 @@ export default function HomeEntry() {
             />
           </svg>
         </a>
-
-        <div className="inputGroup flex flex-row  mt-S3 flex sm:justify-center md:justiy-left py-4 sm:py-8 md:py-2">
-          <input
-            placeholder="Type some food"
-            className="pl-4 h-12 w-[300px]  md:w-[240px] lg:w-[300px] rounded-l-md focus:outline-none shadow-sm border-2 border-slate-100"
-          ></input>
+      <div className="flex flex-col">
+        
+      <div className="inputGroup flex flex-row w-full  mt-S3 flex sm:justify-center md:justiy-left pt-4 sm:pt-8 md:pt-2">
+          <SearchBar setResults={setResults}></SearchBar>
+          
           <div className="bg-[#db3748]  text-[#F9FCFB] cursor-pointer h-12 w-32 text-center pt-[10px] font-medium rounded-r-md shadow-sm text-sm sm:text-base">
             Search Food
           </div>
+
         </div>
+
+        <div>
+          
+        {results && results.length > 0 && (
+            <SearchResultList results={results} />
+          )}
+        </div>
+      </div>
       </div>
 
       <div className="rounded-full flex justify-center mt-2 pb-8 pt-4">
