@@ -5,6 +5,8 @@ import SearchResultList from "../../components/search/SearchResultList";
 
 export default function HomeEntry() {
   const [results, setResults] = useState([]);
+  const [search, setSearch] = useState(false);
+
   return (
     <div className="w-screen px-12 pb-12 sm:px-24 h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between  pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
       <div className="flex flex-col text-center md:text-left justify-center">
@@ -29,24 +31,30 @@ export default function HomeEntry() {
             />
           </svg>
         </a>
-      <div className="flex flex-col">
-        
-      <div className="inputGroup flex flex-row w-full  mt-S3 flex sm:justify-center md:justiy-left pt-4 sm:pt-8 md:pt-2">
-          <SearchBar setResults={setResults}></SearchBar>
-          
-          <div className="bg-[#db3748]  text-[#F9FCFB] cursor-pointer h-12 w-32 text-center pt-[10px] font-medium rounded-r-md shadow-sm text-sm sm:text-base">
-            Search Food
+        <div className="flex flex-col">
+          <div className="inputGroup flex flex-row w-full  mt-S3 flex sm:justify-center md:justiy-left pt-4 sm:pt-8 md:pt-2">
+            <SearchBar
+              setResults={setResults}
+              setSearch={setSearch}
+            ></SearchBar>
+
+            <div className="bg-[#db3748]  text-[#F9FCFB] cursor-pointer h-12 w-32 text-center pt-[10px] font-medium rounded-r-md shadow-sm text-sm sm:text-base">
+              Search Food
+            </div>
           </div>
 
+          <div>
+            {results && results.length > 0 ? (
+              <SearchResultList results={results} />
+            ) : (
+              search && (
+                <div className="flex bg-[#F9FCFB] text-left cursor-pointer flex-col border-2 border-t-0 rounded-b-lg px-4 text-lg gap-2 h-auto py-2 shadow-md shadow-gray-100 w-full">
+                  Search results not found
+                </div>
+              )
+            )}
+          </div>
         </div>
-
-        <div>
-          
-        {results && results.length > 0 && (
-            <SearchResultList results={results} />
-          )}
-        </div>
-      </div>
       </div>
 
       <div className="rounded-full flex justify-center mt-2 pb-8 pt-4">

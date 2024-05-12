@@ -11,7 +11,7 @@ function debounce(func, wait) {
   };
 }
 
-function SearchBar({ setResults }) {
+function SearchBar({ setResults, setSearch }) {
   const [input, setInput] = useState("");
   const [close, setClose] = useState(false);
 
@@ -25,9 +25,8 @@ function SearchBar({ setResults }) {
         if (response.status === 200) {
           const result = await response.json();
           setResults(result);
-          console.log(result);
         } else if (response.status === 404) {
-          ShowAlert(3, "An error occurred while fetching labels");
+          // setResults([]);
         } else {
           ShowAlert(3, "An error occurred while fetching labels");
         }
@@ -41,8 +40,10 @@ function SearchBar({ setResults }) {
   const handleChange = (value) => {
     setInput(value);
     if (!value) {
+      setSearch(false);
       setResults([]);
     } else {
+      setSearch(true);
       debouncedSearch(value);
     }
   };
