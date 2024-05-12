@@ -14,14 +14,19 @@ export default function FoodHome() {
   ]);
 
   const [categories, setCategories] = useState([
-    "Kırmızı Et",
-    "Beyaz Et",
-    "Makarna",
+    "Meat",
+    "Chicken",
+    "Pasta",
     "Pizza",
     "Kebap",
-    "Salata",
-    "Tatlı",
-    "İçecek",
+    "Salad",
+    "Burger",
+    "Sushi",
+    "Homemade",
+    "Vegan",
+    "Sandwich",
+    "Dessert",
+    "Drinks",
   ]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   console.log(selectedCategories);
@@ -45,6 +50,7 @@ export default function FoodHome() {
         const response = await getRestaurant();
         if (response.status === 200) {
           const result = await response.json();
+          setFiltered(result.restaurants);
           setRestaurants(result.restaurants);
         } else {
           handleFetchError();
@@ -58,6 +64,7 @@ export default function FoodHome() {
   }, []);
 
   const handleFilter = () => {
+    setFiltered([]);
     if (restaurants.length > 0) {
       if (selectedCategories.length > 0) {
         const filtereds = restaurants.filter((restaurant) =>
