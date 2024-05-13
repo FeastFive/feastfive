@@ -30,13 +30,39 @@ export default function Menu() {
       name: foodName,
       description: foodDesc,
       image: base64Image,
-      price: foodPrice,
+      price: parseFloat(foodPrice),
       options: optionList,
-    };
-    // console.log(obj);
+    }
+    console.log(obj)
     try {
-      if (!obj.name && !obj.price && !obj.id) {
+      if (
+        !obj.name ||
+        !obj.price ||
+        !obj.id ||
+        !obj.description ||
+        !obj.image != ""
+      ) {
         ShowAlert(2, "Please fill required fields");
+        return;
+      }
+      if (!parseFloat(obj.price)) {
+        ShowAlert(2, "Please enter integer price");
+        return;
+      }
+      let integerCheck = true;
+      if (obj.options.length > 0) {
+        obj.options.forEach((element) => {
+          if (element.elements) {
+            element.elements.forEach((e) => {
+              if (!parseFloat(e.price)) {
+                integerCheck = false;
+              }
+            });
+          }
+        });
+      }
+      if (!integerCheck) {
+        ShowAlert(2, "Please enter integer price");
         return;
       }
       const response = await addMeal(obj);
@@ -44,6 +70,10 @@ export default function Menu() {
         const result = await response.json();
         dispatch(setMeal({ meals: result.meals }));
         ShowAlert(1, "Added in successfully");
+
+        setTimeout(()=>{
+          window.location.reload();
+        },1000)
       } else {
         ShowAlert(3, "Invalid data");
       }
@@ -67,7 +97,7 @@ export default function Menu() {
   function adInnerOption(_option) {
     let newItem = {
       name: elem.find((a) => a.option == _option).state,
-      price: elem.find((a) => a.option == _option).price,
+      price: parseFloat(elem.find((a) => a.option == _option).price),
     };
 
     setOptionList((prevOptionList) => {

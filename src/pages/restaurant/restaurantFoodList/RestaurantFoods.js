@@ -10,58 +10,8 @@ export default function RestaurantFoods() {
   let { restaurandId, foodName } = useParams();
   const navigate = useNavigate();
   const [choosedFood, setchoosedFood] = useState();
-  const [foodList, setFoodList] = useState([
-    {
-      price: 150,
-      description: " Tavuk döner + Büyük boy içecek yanında.",
-      name: "Tavuk Döner",
-      image:
-        "https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg",
-      options: [
-        {
-          elements: [
-            { name: "Tombik", price: 0 },
-            { name: "Fırın", price: 10 },
-          ],
-          option: "Ekmek",
-          quantitiy: "single",
-        },
-        {
-          elements: [
-            { name: "Mayonez", price: 0 },
-            { name: "Ketçap", price: 0 },
-          ],
-          option: "Sos",
-          quantitiy: "multiple",
-        },
-      ],
-    },
-    {
-      price: 350,
-      description: " Margarita pizza + Büyük boy içecek yanında.",
-      name: "Pizza",
-      image:
-        "https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg",
-      options: [
-        {
-          elements: [
-            { name: "Kalın", price: 10 },
-            { name: "İnce", price: 0 },
-          ],
-          option: "Kenar",
-          quantitiy: "single",
-        },
-        {
-          elements: [
-            { name: "Balzamik", price: 20 },
-            { name: "Pesto", price: 20 },
-          ],
-          option: "Sos",
-          quantitiy: "multiple",
-        },
-      ],
-    },
-  ]);
+  const [foodList, setFoodList] = useState([]);
+  const [restaurant, setRestaurant] = useState();
 
   const [foodObject, setFoodObject] = useState({
     foodName: "",
@@ -81,7 +31,9 @@ export default function RestaurantFoods() {
 
       if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
+        console.log(result)
+        setFoodList(result.restaurant.meals);
+        setRestaurant(result.restaurant)
       } else if (response.status === 404) {
         ShowAlert(3, "An error occurred while fetching restaurant");
       } else {
@@ -150,7 +102,7 @@ export default function RestaurantFoods() {
       );
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price - option.price,
+        price: parseInt(prevState.price) - parseInt(option.price),
         options: updatedOptions,
       }));
     } else {
@@ -158,7 +110,7 @@ export default function RestaurantFoods() {
       const updatedOptions = [...foodObject.options, option.name];
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price + option.price,
+        price: parseInt(prevState.price) + parseInt(option.price),
         options: updatedOptions,
       }));
     }
@@ -180,19 +132,20 @@ export default function RestaurantFoods() {
       );
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price - prewSinglePrice + option.price,
+        price: parseInt(prevState.price) - (prewSinglePrice + parseInt(option.price)),
         singleOption: option.name,
       }));
     } else {
       setFoodObject((prevState) => ({
         ...prevState,
-        price: prevState.price + option.price,
+        price: parseInt(prevState.price) + parseInt(option.price),
         singleOption: option.name,
       }));
     }
   }
 
   function orderMeal() {
+    console.log(foodObject);
     console.log(choosedFood);
 
     if (localStorage.getItem("restaurantId")) {
@@ -207,7 +160,20 @@ export default function RestaurantFoods() {
       dispatch(addFoodToCard(foodObject));
     }
   }
+  function resetMultiple(){
+  const radios = document.querySelectorAll('input[name="multipleOptionRadio"]');
 
+  // Loop through each radio element and set checked to false
+  radios.forEach(radio => {
+    radio.checked = false;
+  });
+  let checked = choosedFood.options.find(e => e.elements[0]?.name == foodObject.singleOption  && e.quantity == "single");
+  let price = checked?.elements[0]?.price;
+  if(price){
+    console.log(price)
+    setFoodObject({...foodObject,price:(parseFloat(foodObject.price) - parseFloat(price)),singleOption:null, })
+  }
+  }
   function reset() {
     setchoosedFood(null);
     setFoodObject({ foodName: "", price: 0, options: [], singleOption: null });
@@ -233,7 +199,7 @@ export default function RestaurantFoods() {
         <Cart></Cart>
 
         {choosedFood ? (
-          <div className="w-full h-auto absolute z-10 bg-[#FFFFFF] flex justify-center pb-24 mt-[-10px]">
+          <div className="w-full h-auto sticky top-0  bg-[#FFFFFF] flex justify-center pb-48 mt-[-10px]">
             <button
               onClick={() => reset()}
               className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease"
@@ -258,7 +224,7 @@ export default function RestaurantFoods() {
                             <h3 className="text-xl  font-semibold mb-4">
                               {optionElement.option}
                             </h3>
-                            {optionElement.quantitiy == "multiple" ? (
+                            {optionElement.quantity == "multiple" ? (
                               <div className="flex flex-col">
                                 {optionElement.elements.map((e) => (
                                   <div className="flex flex-row gap-2 w-[100%] sm:w-[70%] rounded-md shadow-sm bg-opacity-10 pl-4 bg-[#db3748] mb-4 py-2 ">
@@ -289,7 +255,7 @@ export default function RestaurantFoods() {
                                     <input
                                       type="radio"
                                       className="w-4 h-4 bg-opacity-0 border-none mt-[6px]"
-                                      name="optionRadio"
+                                      name="multipleOptionRadio"
                                       onClick={() => singleOption(e)}
                                     ></input>
 
@@ -303,6 +269,7 @@ export default function RestaurantFoods() {
                                     </div>
                                   </div>
                                 ))}
+                                <button onClick={()=> resetMultiple()} className="w-16 mb-2 mt-[-3px] pb-1 border-b-2 tex-sm border-gray-200 hover:border-gray-600 duration-200 text-left pl-2">Clear</button>
                               </div>
                             )}
                           </div>
@@ -339,9 +306,9 @@ export default function RestaurantFoods() {
           <></>
         )}
 
-        <div className="px-12 sm:w-[90%] md:w-[95%] lg:w-[70%] m-auto pt-12">
+        <div className={"px-12 sm:w-[90%] md:w-[95%] lg:w-[70%] m-auto pt-12 " + (choosedFood ? " hidden ":" block ")}>
           <div className="flex flex-row justify-between">
-            <h3 className="text-3xl font-semibold">Döner Evi</h3>
+            <h3 className="text-3xl font-semibold">{restaurant?.restaurantName}</h3>
             <p className="text-gray-400">20.10.2021</p>
           </div>
           <p className="pb-4">
@@ -349,6 +316,8 @@ export default function RestaurantFoods() {
             <span className="text-yellow-300 text-xl">★</span> (180)
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            {foodList ?
+            <>
             {foodList.map((food) => (
               <div
                 onClick={() => setchoosedFood(food)}
@@ -358,7 +327,7 @@ export default function RestaurantFoods() {
                 <div className="w-[40%] rounded-md pt-2">
                   <img
                     className="object-cover rounded-md shadow-lg"
-                    src="https://i.lezzet.com.tr/images-xxlarge-recipe/tavuk-doner-d35e16f6-d541-4a18-a766-1ab3e5368e86.jpg"
+                    src={food.image}
                   ></img>
                 </div>
                 <div className="w-full flex flex-col px-4">
@@ -387,9 +356,11 @@ export default function RestaurantFoods() {
                 </div>
               </div>
             ))}
+            </>:
+            <>Loading</>  
+          }
           </div>
         </div>
-        <button onClick={() => dispatch(resetAll())}>Reset</button>
       </div>
     </>
   );

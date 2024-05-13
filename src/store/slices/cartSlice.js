@@ -15,7 +15,6 @@ const cartSlice = createSlice({
     /*{id: 1 , foodName:"döner", count:1 } */
     addFoodToCard: (state, action) => {
       state.restaurantId = action.payload.restaurant;
-      if (action.payload.singleOption) {
         const price = parseFloat(action.payload.price);
     
         if (!isNaN(price)) {
@@ -68,9 +67,7 @@ const cartSlice = createSlice({
         } else {
           console.error("Invalid price:", action.payload.price);
         }
-      } else {
-        ShowAlert(5, "Fill the blanks");
-      }
+      
     },
     
     removeFromCart: (state, action) => {

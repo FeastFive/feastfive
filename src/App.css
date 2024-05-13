@@ -4,6 +4,6 @@
 
 @layer components  {
 .cart{
-    @apply fixed right-0 bottom-0 border-2 rounded-l-xl rounded-b-[0px]  shadow-md  bg-[#FFFFFF]  z-[200] flex flex-col pl-10 pt-5 pb-16 overflow-hidden duration-200 ease-in h-full; 
+    @apply fixed right-0 top-0 border-2 rounded-l-xl rounded-b-[0px]  shadow-md  bg-[#FFFFFF]  z-[3320] flex flex-col px-12 pt-5 pb-16 overflow-hidden duration-200 ease-in h-full; 
 }
 }
