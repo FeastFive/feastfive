@@ -43,8 +43,13 @@ function SearchBar({ setResults, setSearch }) {
       setSearch(false);
       setResults([]);
     } else {
-      setSearch(true);
       debouncedSearch(value);
+      setTimeout(function () {
+        setSearch(true);
+      }, 500);
+      setTimeout(function () {
+        setSearch(false);
+      }, 5000);
     }
   };
 

@@ -189,7 +189,12 @@ const Navbar = () => {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.buttonContainer}>
-        <button className={styles.navButton}>{menu.button1}</button>
+        <button
+          className={styles.navButton}
+          onClick={() => navigate(checkUserRole === "user" ? "/home" : "/home")}
+        >
+          {menu.button1}
+        </button>
         <button
           className={styles.navButton}
           onClick={() =>
