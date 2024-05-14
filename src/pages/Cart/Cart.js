@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFoodToCard, removeFromCart } from "../../store/slices/cartSlice";
+import { addFoodToCard, removeFromCart, resetAll } from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const dispatch = useDispatch();
@@ -152,6 +152,7 @@ export default function Cart() {
               ))}
 
               <div className="absolute bottom-0 mb-2 font-semibold flex flex-row w-full pb-2 justify-between bg-[#FFFFFF] pt-3">
+                <button className="bg-red-400 w-full" onClick={()=> dispatch(resetAll())}>clear</button>
                 <p className="w-full pt-1">Total: {cart.totalPrice} TL</p>
 
                 <button

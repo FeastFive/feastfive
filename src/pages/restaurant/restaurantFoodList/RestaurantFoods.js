@@ -185,6 +185,7 @@ export default function RestaurantFoods() {
       foodName: choosedFood ? choosedFood.name : "",
       foodImage: choosedFood ? choosedFood.image : "",
       foodDescp: choosedFood ? choosedFood.description : "",
+      restaurandId: restaurandId,
       price: choosedFood ? choosedFood.price : 0,
     }));
 

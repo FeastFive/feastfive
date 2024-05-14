@@ -3,20 +3,18 @@ import { act } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 
 const initialState = {
-  restaurantId: 4,
+  restaurantId: null,
   cartFoodList: [],
   totalPrice: 0,
 };
-
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     /*{id: 1 , foodName:"döner", count:1 } */
     addFoodToCard: (state, action) => {
-      state.restaurantId = action.payload.restaurant;
+ 
         const price = parseFloat(action.payload.price);
-    
         if (!isNaN(price)) {
           let checkFood = state.cartFoodList.find(
             (e) => e.foodName === action.payload.foodName
@@ -48,13 +46,13 @@ const cartSlice = createSlice({
               price: action.payload.price,
               options: action.payload.options,
               singleOption: action.payload.singleOption,
+
               count: 1,
             };
             
             let obj = {
               foodImage:action.payload.foodImage,
               foodName: action.payload.foodName,
-              foodImage:action.payload.foodImage,
               foodDescp:action.payload.foodDescp,
               count: 1,
               foodInfo: [foodInfoObj],
@@ -64,11 +62,17 @@ const cartSlice = createSlice({
           }
           ShowAlert(4, `${action.payload.foodName} Added`);
           state.totalPrice += price;
+          state.restaurantId = action.payload.restaurandId;
+        
         } else {
           console.error("Invalid price:", action.payload.price);
         }
-        state = {...state,restaurantId:localStorage.getItem("restaurantId")?? null}
-        console.log(state)
+        
+
+
+ 
+
+    
     },
     
     removeFromCart: (state, action) => {
