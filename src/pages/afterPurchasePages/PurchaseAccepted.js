@@ -22,7 +22,7 @@ const PurchaseAccepted = () => {
           navigate("/home");
         }}
       >
-        Backt to shop
+        Backt to Shop
       </button>
     </div>
   );

@@ -21,7 +21,7 @@ const PurchaseRejected = () => {
           navigate("/home");
         }}
       >
-        Backt to shop
+        Backt to Shop
       </button>
     </div>
   );
