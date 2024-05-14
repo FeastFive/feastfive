@@ -21,6 +21,8 @@ import UpdateMenu from "./pages/restaurant/updateMenu/UpdateMenu";
 import { useSelector } from "react-redux";
 import RestaurantFoodList from "./pages/restaurant/restaurantFoodList/RestaurantFoods";
 import CartPage from "./pages/CartPage/CartPage";
+import PurchaseAccepted from "./pages/afterPurchasePages/PurchaseAccepted";
+import PurchaseRejected from "./pages/afterPurchasePages/PurchaseRejected";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -103,6 +105,8 @@ function App() {
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/givenOrders" element={<GivenOrders />} />
+          <Route path="/purchaseAccepted" element={<PurchaseAccepted />} />
+          <Route path="/purchaseRejected" element={<PurchaseRejected />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
