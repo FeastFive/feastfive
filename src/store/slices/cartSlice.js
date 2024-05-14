@@ -67,7 +67,8 @@ const cartSlice = createSlice({
         } else {
           console.error("Invalid price:", action.payload.price);
         }
-      
+        state = {...state,restaurantId:localStorage.getItem("restaurantId")?? null}
+        console.log(state)
     },
     
     removeFromCart: (state, action) => {

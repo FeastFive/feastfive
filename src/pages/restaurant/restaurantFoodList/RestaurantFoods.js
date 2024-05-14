@@ -191,11 +191,38 @@ export default function RestaurantFoods() {
     console.log(choosedFood);
   }, [choosedFood]);
 
+  const [comments, setComments] = useState([
+    {
+        "user": "Kullanıcı1",
+        "content": "Bu bir harika makale! Gerçekten ilgi çekici bir konu ve çok açıklayıcı bir anlatım. Teşekkür ederim yazar!",
+        "date": "2024-05-14"
+    },
+    {
+        "user": "Kullanıcı2",
+        "content": "Makaleniz beni çok etkiledi. Konuyu derinlemesine işlemişsiniz ve detaylı açıklamalar sayesinde konuya hakim olmamı sağladınız. Teşekkürler!",
+        "date": "2024-05-13"
+    },
+    {
+        "user": "Kullanıcı3",
+        "content": "Elinize sağlık, çok beğendim. Konunun farklı bir açıdan ele alınması beni oldukça düşündürdü. Daha fazla içerik bekliyorum!",
+        "date": "2024-05-12"
+    },
+    {
+        "user": "Kullanıcı4",
+        "content": "Makalenizdeki tartışma konuları oldukça ilginç. Farklı bakış açıları sunmanız dikkatimi çekti. Umarım gelecekte daha fazla içerik görürüz.",
+        "date": "2024-05-11"
+    },
+    {
+        "user": "Kullanıcı5",
+        "content": "Bu makaleyi okuduktan sonra konu hakkında daha derin bir anlayışa sahip oldum. Yazarın örnekleri ve açıklamaları oldukça aydınlatıcıydı. Teşekkür ederim!",
+        "date": "2024-05-10"
+    }
+])
   return (
     <>
       <Navbar></Navbar>
 
-      <div className="w-full pb-24 relative">
+      <div className="w-full pb-24 relative flex flex-row flex-col lg:flex-row justify-between">
         <Cart></Cart>
 
         {choosedFood ? (
@@ -306,7 +333,7 @@ export default function RestaurantFoods() {
           <></>
         )}
 
-        <div className={"px-12 sm:w-[90%] md:w-[95%] lg:w-[70%] m-auto pt-12 " + (choosedFood ? " hidden ":" block ")}>
+        <div className={"px-12 sm:w-[90%] md:w-[95%] lg:w-[67%] pt-6 " + (choosedFood ? " hidden ":" block ")}>
           <div className="flex flex-row justify-between">
             <h3 className="text-3xl font-semibold">{restaurant?.restaurantName}</h3>
             <p className="text-gray-400">20.10.2021</p>
@@ -315,7 +342,7 @@ export default function RestaurantFoods() {
             <span className="font-semibold text-gray-700">4.9</span>
             <span className="text-yellow-300 text-xl">★</span> (180)
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             {foodList ?
             <>
             {foodList.map((food) => (
@@ -330,7 +357,7 @@ export default function RestaurantFoods() {
                     src={food.image}
                   ></img>
                 </div>
-                <div className="w-full flex flex-col px-4">
+                <div className="w-full flex flex-col lg:pl-4 pl-2">
                   <h4 className="text-lg font-semibold">{food.name}</h4>
                   <p>{food.price} TL</p>
                   <p className="text-sm">
@@ -360,6 +387,24 @@ export default function RestaurantFoods() {
             <>Loading</>  
           }
           </div>
+        </div>
+
+
+        <div className={" flex flex-col pt-8 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md"  + (choosedFood ? " hidden ":" block ")} >
+          <div className="flex flex-row justify-between pb-4">
+          <h3 className="text-2xl font-semibold ">Comments ({comments.length})</h3>
+          <p className="font-semibold">4.5 <span className="text-yellow-300 text-xl" >★</span></p>
+          </div>
+          {comments.map((comment)=>(
+            <div style={{boxShadow:"0px 11px 10px -5px rgba(203,203,203,0.25)"}} className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20">
+              <div className="flex flex-row justify-between pb-2">
+                <h3 className="text-lg font-semibold">{comment.user}</h3>
+                <p>{comment.date}</p>
+
+              </div>
+              <p className="">{comment.content}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../store/slices/cartSlice";
+import { addFoodToCard, removeFromCart } from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { loadStripe } from "@stripe/stripe-js";
@@ -96,10 +96,21 @@ export default function CartPage() {
                         </div>
                       </div>
                       <a
+                          onClick={() =>
+                            dispatch(addFoodToCard({ foodDescp:food?.foodDescp, foodImage:food?.foodImage, foodName:food?.foodName, options:info?.options,price:info?.price,singleOption:info?.singleOption }))
+                          }
+                          className="bg-red-200 bg-opacity-30 hover:bg-opacity-90 duration-200 px-3 rounded-md shadow-sm cursor-pointer ml-2 h-6 py-1"
+                        >
+                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
+
+                        </a>
+                      <a
                         onClick={() =>
                           dispatch(removeFromCart({ food, info, index }))
                         }
-                        className="bg-red-200 bg-opacity-30 hover:bg-opacity-90 duration-200 px-2 rounded-md shadow-sm cursor-pointer ml-2 h-6"
+                        className="bg-red-200 bg-opacity-30 hover:bg-opacity-90 duration-200 px-2 rounded-md shadow-sm cursor-pointer ml-2 h-6" 
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
