@@ -24,8 +24,6 @@ export default function Cart() {
     }
   }, [isOpen]);
 
-  const makePayment = async () => {};
-
   return (
     <div className="">
       <button

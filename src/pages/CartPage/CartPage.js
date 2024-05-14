@@ -8,8 +8,9 @@ import { loadStripe } from "@stripe/stripe-js";
 export default function CartPage() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
+  const restaurant = useSelector((state) => state.restaurant);
   const navigate = useNavigate();
-  console.log(cart);
 
   const makePayment = async () => {
     const stripe = await loadStripe(
@@ -18,6 +19,9 @@ export default function CartPage() {
 
     const body = {
       products: cart.cartFoodList,
+      restaurantId: restaurant.id,
+      userId: user.id,
+
       // price: cart.totalPrice,
     };
     const headers = {
