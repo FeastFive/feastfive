@@ -24,6 +24,8 @@ export default function Cart() {
     }
   }, [isOpen]);
 
+  const makePayment = async () => {};
+
   return (
     <div className="">
       <button
@@ -72,7 +74,7 @@ export default function Cart() {
           </svg>
         </button>
         <>
-        <h3 className="text-2xl font-bold">Cart</h3>
+          <h3 className="text-2xl font-bold">Cart</h3>
           {cart.cartFoodList.length > 0 ? (
             <>
               <div ke={"cart"} className="overflow-y-scroll  pr-10">
@@ -140,17 +142,15 @@ export default function Cart() {
                     </div>
                   </div>
                 ))}
-   <button
+                <button
                   onClick={() => dispatch(resetAll())}
                   className="w-20 py-1 mt-1 text-sm border-b-2 border-gray-300 hover:border-gray-500 duration-200"
                 >
                   Clear all
                 </button>
-             
               </div>
-              
+
               <div className="fixed bottom-4 font-semibold flex flex-row w-[80%] md:w-[50%] lg:w-[400px] h-auto justify-center pb-2 bg-[#FFFFFF] pl-8">
-                
                 <p className="w-full pt-1">Total: {cart.totalPrice} TL</p>
 
                 <button

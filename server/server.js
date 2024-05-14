@@ -6,6 +6,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const bodyParser = require("body-parser");
+const stripe = require("stripe")(
+  "sk_test_51PExeqGnJMvlUc9L4fDXw7oCeaFbgLN6AnCxFJwv79HuP9txhUjQzw4NdTEnoWZHCrLqaaI7bUHhZIOaxH9N2pAe00CD1Pk70I"
+);
 
 dotenv.config();
 
@@ -26,6 +29,7 @@ connectDB();
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/restaurants", require("./routes/restaurantRoutes"));
 app.use("/api/meals", require("./routes/mealRoutes"));
+app.use("/api", require("./routes/checkoutRoutes"));
 
 //Server
 const server = http.createServer(app);

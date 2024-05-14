@@ -3,12 +3,44 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function CartPage() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
   console.log(cart);
+
+  const makePayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_51PExeqGnJMvlUc9LgwPfKGpos0O7NgiMLgaQpie7EeUiX8jAA6DrUAIj6N8tZwhXdr5NNVuiKcREwLlwlJfER0kB0043kuRa8x"
+    );
+
+    const body = {
+      products: cart.cartFoodList,
+      // price: cart.totalPrice,
+    };
+    const headers = {
+      "Content-type": "application/json",
+    };
+    const response = await fetch(
+      `http://127.0.0.1:4000/api/create-checkout-session`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+    const session = await response.json();
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+    }
+  };
   return (
     <div className="overflow-x-hidden pb-32">
       <Navbar></Navbar>
@@ -43,7 +75,7 @@ export default function CartPage() {
                   {food.foodInfo.map((info, index) => (
                     <div className="flex flex-row border-b-[2px] border-gray-200 pb-2 pt-3 last:border-gray-400">
                       <div className="flex flex-col flex-wrap gap-1 w-full">
-                      <div className="flex flex-row gap-2 flex-wrap">
+                        <div className="flex flex-row gap-2 flex-wrap">
                           <p className="font-semibold ">Seçenekler: </p>
                           <div className="">{info.singleOption}</div>
 
@@ -62,7 +94,6 @@ export default function CartPage() {
                             {info.price} TL
                           </div>
                         </div>
-                      
                       </div>
                       <a
                         onClick={() =>
@@ -92,10 +123,12 @@ export default function CartPage() {
             ))}
 
             <div className="flex flex-row justify-left gap-4 w-full">
-              <p className="w-auto pt-1 font-semibold text-lg">Total: {cart.totalPrice} TL</p>
+              <p className="w-auto pt-1 font-semibold text-lg">
+                Total: {cart.totalPrice} TL
+              </p>
 
               <button
-                onClick={() => navigate("/cart")}
+                onClick={makePayment}
                 className="bg-red-300 bg-opacity-40 rounded-md shadow-sm w-[50%] sm:w-[30%] lg:w-[20%] py-2 font-semibold text-gray-800"
               >
                 Apply Order
