@@ -34,7 +34,7 @@ const addOrder = asyncHandler(async (req, res) => {
 
     await Promise.all([restaurant.save(), user.save()]);
 
-    res.status(200).json({
+    res.status(200).redirect("http://localhost:3000/purchaseAccepted").json({
       orders: user.orders,
       state: "success",
     });
