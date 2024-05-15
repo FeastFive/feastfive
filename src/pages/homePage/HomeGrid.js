@@ -4,11 +4,13 @@ import { getRestaurant } from "../../utils/restaurant/getRestaurant";
 import { useEffect } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
+import {cookieHandler} from "../../components/CookieHandler"
 import Cookies from "js-cookie";
-
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
+  const [labelList, setLabelList] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
+
   const [foods, setFoods] = useState([]);
   useEffect(() => {
     const handleRestaurant = async () => {
@@ -31,28 +33,57 @@ export default function HomeGrid({ list }) {
     handleRestaurant();
   }, []);
   function goRetaurant(element) {
-    //navigate(`/restaurantFoods/${element._id}`)
-    let labelList = Cookies.get("labelList") ? JSON.parse(Cookies.get("labelList")) : [];
-   
-    if (labelList.length > 0) {
-
-      element.labels?.forEach((label) => {
-        let checkedLabel = labelList.find((e) => e.value == label.value);
-        checkedLabel.count +=1
-      });
-      Cookies.set("labelList", JSON.stringify(labelList));
-
-    } 
-    else {
-      element.labels?.forEach((label) => {
-        labelList.push({"value": label.value, "count": 1 });
-        Cookies.set("labelList", JSON.stringify(labelList));
-      });
-    }
-    console.log(JSON.parse(Cookies.get("labelList")))
+    navigate(`/restaurantFoods/${element._id}`)
+    cookieHandler(element)
 
      
   }
+
+  useEffect(() => {
+    let labelList = [];
+    let cookieLabelList = Cookies.get("labelList") ? JSON.parse(Cookies.get("labelList")) : [];
+    if(cookieLabelList.length > 0){
+      foods?.forEach(element => {
+        let value = 0;
+         for (let index = 0; index < element.labels.length; index++) {
+            //console.log(element.labels[index])
+            let checkLabel = cookieLabelList.find(e => e.value == element.labels[index].label)
+            if(checkLabel){
+              value += checkLabel.count
+          }
+         }
+         let obj = {"_id":element._id, "RestaurantName":element.restaurantName, "labelValue": value}
+         labelList.push(obj)
+      });
+
+      
+        const sortedArray = labelList.slice().sort((a, b) => b.labelValue - a.labelValue);
+        setLabelList(sortedArray)
+    }
+  }, [foods]);
+
+  useEffect(() => {
+    let newRestaurantList = [];
+    
+    if (labelList.length > 0) {
+      for (let a = 0; a < foods.length; a++) {
+        let restaurantObj = foods.find(e => e?._id === labelList[a]?._id);
+        newRestaurantList.push(restaurantObj);
+      }
+  
+      // Check if the newRestaurantList is different from the current foods state
+      if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
+        setFoods(newRestaurantList);
+      }
+    }
+  }, [labelList, foods]); 
+
+  const getLabelCount = (labels, labelCounts) => {
+    return labels.reduce((total, label) => total + (labelCounts[label.value]?.count || 0), 0);
+  };
+
+  
+
   useEffect(() => {
     if (list) {
       setFoods(list);
