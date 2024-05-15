@@ -84,6 +84,7 @@ function App() {
               )
             }
           />
+
           <Route
             path={
               restaurant.isLogin || user.isLogin ? "/home" : "/restaurantSignUp"
@@ -104,7 +105,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/givenOrders" element={<GivenOrders />} />
+          <Route path="/orders" element={<GivenOrders />} />
           <Route path="/purchaseAccepted" element={<PurchaseAccepted />} />
           <Route path="/purchaseRejected" element={<PurchaseRejected />} />
           <Route path="*" element={<NoPage />} />
