@@ -11,7 +11,7 @@ export default function HomeGrid({ list }) {
   const [labelList, setLabelList] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
 
-  const [foods, setFoods] = useState([]);
+  const [foods, setFoods] = useState(list ?? []);
   useEffect(() => {
     const handleRestaurant = async () => {
       try {
@@ -42,6 +42,8 @@ export default function HomeGrid({ list }) {
   useEffect(() => {
     let labelList = [];
     let cookieLabelList = Cookies.get("labelList") ? JSON.parse(Cookies.get("labelList")) : [];
+    console.log(cookieLabelList)
+
     if(cookieLabelList.length > 0){
       foods?.forEach(element => {
         let value = 0;
@@ -76,6 +78,7 @@ export default function HomeGrid({ list }) {
         setFoods(newRestaurantList);
       }
     }
+    console.log(labelList)
   }, [labelList, foods]); 
 
   const getLabelCount = (labels, labelCounts) => {
@@ -84,12 +87,6 @@ export default function HomeGrid({ list }) {
 
   
 
-  useEffect(() => {
-    if (list) {
-      setFoods(list);
-    }
-    //console.log(foods);
-  }, [foods]);
   return (
     <div>
       <div className=" pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center  pt-3 justify-left gap-8 justify-left ">
