@@ -51,7 +51,6 @@ export default function HomeSlier() {
       } else if (window.innerWidth < 750 && window.innerWidth > 200) {
         setSlideToShow(2);
       }
-      console.log(window.innerWidth);
     }
     handleResize();
 
@@ -71,7 +70,6 @@ export default function HomeSlier() {
           navigation={true}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
           onSlideChange={() => console.log("slide change")}
           className={`px-12 `}
         >

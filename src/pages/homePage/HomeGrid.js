@@ -4,6 +4,7 @@ import { getRestaurant } from "../../utils/restaurant/getRestaurant";
 import { useEffect } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
@@ -29,12 +30,34 @@ export default function HomeGrid({ list }) {
     };
     handleRestaurant();
   }, []);
+  function goRetaurant(element) {
+    //navigate(`/restaurantFoods/${element._id}`)
+    let labelList = Cookies.get("labelList") ? JSON.parse(Cookies.get("labelList")) : [];
+   
+    if (labelList.length > 0) {
 
+      element.labels?.forEach((label) => {
+        let checkedLabel = labelList.find((e) => e.value == label.value);
+        checkedLabel.count +=1
+      });
+      Cookies.set("labelList", JSON.stringify(labelList));
+
+    } 
+    else {
+      element.labels?.forEach((label) => {
+        labelList.push({"value": label.value, "count": 1 });
+        Cookies.set("labelList", JSON.stringify(labelList));
+      });
+    }
+    console.log(JSON.parse(Cookies.get("labelList")))
+
+     
+  }
   useEffect(() => {
     if (list) {
       setFoods(list);
     }
-    console.log(foods);
+    //console.log(foods);
   }, [foods]);
   return (
     <div>
@@ -44,7 +67,7 @@ export default function HomeGrid({ list }) {
             <div
               key={index}
               className="w-full h-auto pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200  hover:scale-[103%] overflow-hidden"
-              onClick={() => navigate(`/restaurantFoods/${element._id}`)}
+              onClick={() => goRetaurant(element)}
             >
               <div className="w-full h-[69%] md:h-[60%] bg-red-400   mt-[-60px] overflow-hidden rounded-md">
                 <img
