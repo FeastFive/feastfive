@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    comments: {
+      type: Array,
+      default: [],
+    },
     orders: {
       type: Array,
       default: [],

@@ -11,6 +11,8 @@ export default function RestaurantFoods() {
   const navigate = useNavigate();
   const [choosedFood, setchoosedFood] = useState();
   const [foodList, setFoodList] = useState([]);
+  const [comments, setComments] = useState([]);
+  console.log(comments);
   const [restaurant, setRestaurant] = useState();
 
   const [foodObject, setFoodObject] = useState({
@@ -31,9 +33,10 @@ export default function RestaurantFoods() {
 
       if (response.status === 200) {
         const result = await response.json();
-        console.log(result)
+        console.log(result);
         setFoodList(result.restaurant.meals);
-        setRestaurant(result.restaurant)
+        setRestaurant(result.restaurant);
+        setComments(result.restaurant.comments);
       } else if (response.status === 404) {
         ShowAlert(3, "An error occurred while fetching restaurant");
       } else {
@@ -132,7 +135,9 @@ export default function RestaurantFoods() {
       );
       setFoodObject((prevState) => ({
         ...prevState,
-        price: parseInt(prevState.price) - (prewSinglePrice + parseInt(option.price)),
+        price:
+          parseInt(prevState.price) -
+          (prewSinglePrice + parseInt(option.price)),
         singleOption: option.name,
       }));
     } else {
@@ -160,19 +165,28 @@ export default function RestaurantFoods() {
       dispatch(addFoodToCard(foodObject));
     }
   }
-  function resetMultiple(){
-  const radios = document.querySelectorAll('input[name="multipleOptionRadio"]');
+  function resetMultiple() {
+    const radios = document.querySelectorAll(
+      'input[name="multipleOptionRadio"]'
+    );
 
-  // Loop through each radio element and set checked to false
-  radios.forEach(radio => {
-    radio.checked = false;
-  });
-  let checked = choosedFood.options.find(e => e.elements[0]?.name == foodObject.singleOption  && e.quantity == "single");
-  let price = checked?.elements[0]?.price;
-  if(price){
-    console.log(price)
-    setFoodObject({...foodObject,price:(parseFloat(foodObject.price) - parseFloat(price)),singleOption:null, })
-  }
+    // Loop through each radio element and set checked to false
+    radios.forEach((radio) => {
+      radio.checked = false;
+    });
+    let checked = choosedFood.options.find(
+      (e) =>
+        e.elements[0]?.name == foodObject.singleOption && e.quantity == "single"
+    );
+    let price = checked?.elements[0]?.price;
+    if (price) {
+      console.log(price);
+      setFoodObject({
+        ...foodObject,
+        price: parseFloat(foodObject.price) - parseFloat(price),
+        singleOption: null,
+      });
+    }
   }
   function reset() {
     setchoosedFood(null);
@@ -192,33 +206,6 @@ export default function RestaurantFoods() {
     console.log(choosedFood);
   }, [choosedFood]);
 
-  const [comments, setComments] = useState([
-    {
-        "user": "Kullanıcı1",
-        "content": "Bu bir harika makale! Gerçekten ilgi çekici bir konu ve çok açıklayıcı bir anlatım. Teşekkür ederim yazar!",
-        "date": "2024-05-14"
-    },
-    {
-        "user": "Kullanıcı2",
-        "content": "Makaleniz beni çok etkiledi. Konuyu derinlemesine işlemişsiniz ve detaylı açıklamalar sayesinde konuya hakim olmamı sağladınız. Teşekkürler!",
-        "date": "2024-05-13"
-    },
-    {
-        "user": "Kullanıcı3",
-        "content": "Elinize sağlık, çok beğendim. Konunun farklı bir açıdan ele alınması beni oldukça düşündürdü. Daha fazla içerik bekliyorum!",
-        "date": "2024-05-12"
-    },
-    {
-        "user": "Kullanıcı4",
-        "content": "Makalenizdeki tartışma konuları oldukça ilginç. Farklı bakış açıları sunmanız dikkatimi çekti. Umarım gelecekte daha fazla içerik görürüz.",
-        "date": "2024-05-11"
-    },
-    {
-        "user": "Kullanıcı5",
-        "content": "Bu makaleyi okuduktan sonra konu hakkında daha derin bir anlayışa sahip oldum. Yazarın örnekleri ve açıklamaları oldukça aydınlatıcıydı. Teşekkür ederim!",
-        "date": "2024-05-10"
-    }
-])
   return (
     <>
       <Navbar></Navbar>
@@ -297,7 +284,12 @@ export default function RestaurantFoods() {
                                     </div>
                                   </div>
                                 ))}
-                                <button onClick={()=> resetMultiple()} className="w-16 mb-2 mt-[-3px] pb-1 border-b-2 tex-sm border-gray-200 hover:border-gray-600 duration-200 text-left pl-2">Clear</button>
+                                <button
+                                  onClick={() => resetMultiple()}
+                                  className="w-16 mb-2 mt-[-3px] pb-1 border-b-2 tex-sm border-gray-200 hover:border-gray-600 duration-200 text-left pl-2"
+                                >
+                                  Clear
+                                </button>
                               </div>
                             )}
                           </div>
@@ -334,9 +326,16 @@ export default function RestaurantFoods() {
           <></>
         )}
 
-        <div className={"px-12 sm:w-[90%] md:w-[95%] lg:w-[67%] pt-6 " + (choosedFood ? " hidden ":" block ")}>
+        <div
+          className={
+            "px-12 sm:w-[90%] md:w-[95%] lg:w-[67%] pt-6 " +
+            (choosedFood ? " hidden " : " block ")
+          }
+        >
           <div className="flex flex-row justify-between">
-            <h3 className="text-3xl font-semibold">{restaurant?.restaurantName}</h3>
+            <h3 className="text-3xl font-semibold">
+              {restaurant?.restaurantName}
+            </h3>
             <p className="text-gray-400">20.10.2021</p>
           </div>
           <p className="pb-4">
@@ -344,64 +343,75 @@ export default function RestaurantFoods() {
             <span className="text-yellow-300 text-xl">★</span> (180)
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
-            {foodList ?
-            <>
-            {foodList.map((food) => (
-              <div
-                onClick={() => setchoosedFood(food)}
-                key={food}
-                className="w-[100%] h-auto self-center col-span-1 flex flex-row py-4 px-4 pt-4 border-2 rounded-lg shadow-lg hover:bg-gray-100 duration-200 cursor-pointer"
-              >
-                <div className="w-[40%] rounded-md pt-2">
-                  <img
-                    className="object-cover rounded-md shadow-lg"
-                    src={food.image}
-                  ></img>
-                </div>
-                <div className="w-full flex flex-col lg:pl-4 pl-2">
-                  <h4 className="text-lg font-semibold">{food.name}</h4>
-                  <p>{food.price} TL</p>
-                  <p className="text-sm">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Fusce varius gravida odio,{" "}
-                  </p>
-                  <div className="static z-100 mt-1">
-                    {" "}
-                    <div className=" w-[35%] text-sm text-gray-400">
-                      Add to Cart
+            {foodList ? (
+              <>
+                {foodList.map((food) => (
+                  <div
+                    onClick={() => setchoosedFood(food)}
+                    key={food}
+                    className="w-[100%] h-auto self-center col-span-1 flex flex-row py-4 px-4 pt-4 border-2 rounded-lg shadow-lg hover:bg-gray-100 duration-200 cursor-pointer"
+                  >
+                    <div className="w-[40%] rounded-md pt-2">
+                      <img
+                        className="object-cover rounded-md shadow-lg"
+                        src={food.image}
+                      ></img>
                     </div>
-                    {order.find((e) => e.id == food) ? (
-                      <button
-                        onClick={() => removeFood(food)}
-                        className="bg-[#db3748] bg-opacity-35 px-[7.3px] pb-[2px]  rounded-sm shadow-sm text-sm aboslute z-100"
-                      >
-                        -
-                      </button>
-                    ) : (
-                      <></>
-                    )}
+                    <div className="w-full flex flex-col lg:pl-4 pl-2">
+                      <h4 className="text-lg font-semibold">{food.name}</h4>
+                      <p>{food.price} TL</p>
+                      <p className="text-sm">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Fusce varius gravida odio,{" "}
+                      </p>
+                      <div className="static z-100 mt-1">
+                        {" "}
+                        <div className=" w-[35%] text-sm text-gray-400">
+                          Add to Cart
+                        </div>
+                        {order.find((e) => e.id == food) ? (
+                          <button
+                            onClick={() => removeFood(food)}
+                            className="bg-[#db3748] bg-opacity-35 px-[7.3px] pb-[2px]  rounded-sm shadow-sm text-sm aboslute z-100"
+                          >
+                            -
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-            </>:
-            <>Loading</>  
-          }
+                ))}
+              </>
+            ) : (
+              <>Loading</>
+            )}
           </div>
         </div>
 
-
-        <div className={" flex flex-col pt-8 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md"  + (choosedFood ? " hidden ":" block ")} >
+        <div
+          className={
+            " flex flex-col pt-8 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md" +
+            (choosedFood ? " hidden " : " block ")
+          }
+        >
           <div className="flex flex-row justify-between pb-4">
-          <h3 className="text-2xl font-semibold ">Comments ({comments.length})</h3>
-          <p className="font-semibold">4.5 <span className="text-yellow-300 text-xl" >★</span></p>
+            <h3 className="text-2xl font-semibold ">
+              Comments ({comments.length})
+            </h3>
+            <p className="font-semibold">
+              4.5 <span className="text-yellow-300 text-xl">★</span>
+            </p>
           </div>
-          {comments.map((comment)=>(
-            <div style={{boxShadow:"0px 11px 10px -5px rgba(203,203,203,0.25)"}} className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20">
+          {comments.map((comment) => (
+            <div
+              style={{ boxShadow: "0px 11px 10px -5px rgba(203,203,203,0.25)" }}
+              className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20"
+            >
               <div className="flex flex-row justify-between pb-2">
                 <h3 className="text-lg font-semibold">{comment.user}</h3>
                 <p>{comment.date}</p>
-
               </div>
               <p className="">{comment.content}</p>
             </div>
