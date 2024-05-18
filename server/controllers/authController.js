@@ -104,6 +104,33 @@ const activateAccount = asyncHandler(async (req, res) => {
   }
 });
 
+//get restaurant
+// route api/users/getOrders
+const getOrders = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  console.log(id);
+  try {
+    const order = await User.findById(id, {
+      _id: 0,
+      orders: 1,
+    });
+
+    console.log(order);
+
+    if (!order) {
+      res.status(404).json({ message: "No order found" });
+      return;
+    }
+
+    res.status(200).json({
+      orders: order,
+    });
+  } catch (error) {
+    console.error("Error retrieving users from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const randString = () => {
   const len = 8;
   let randStr = "";
@@ -125,4 +152,5 @@ module.exports = {
   registerUser,
   loginUser,
   activateAccount,
+  getOrders,
 };

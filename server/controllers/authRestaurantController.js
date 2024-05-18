@@ -185,12 +185,39 @@ const getSpecificRestaurant = asyncHandler(async (req, res) => {
     console.log(rest);
 
     if (!rest) {
-      res.status(404).json({ message: "No kitchens found" });
+      res.status(404).json({ message: "No restaurant found" });
       return;
     }
 
     res.status(200).json({
       restaurant: rest,
+    });
+  } catch (error) {
+    console.error("Error retrieving restaurants from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//get restaurant
+// route api/restaurants/getOrders
+const getOrders = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  console.log(id);
+  try {
+    const order = await Restaurant.findById(id, {
+      _id: 0,
+      orders: 1,
+    });
+
+    console.log(order);
+
+    if (!order) {
+      res.status(404).json({ message: "No order found" });
+      return;
+    }
+
+    res.status(200).json({
+      orders: order,
     });
   } catch (error) {
     console.error("Error retrieving restaurants from database:", error);
@@ -275,4 +302,5 @@ module.exports = {
   getRestaurant,
   getSpecificRestaurant,
   getSearchRestaurants,
+  getOrders,
 };

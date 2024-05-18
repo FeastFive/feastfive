@@ -28,6 +28,7 @@ router.post("/create-checkout-session", async (req, res) => {
     name: product.foodName,
     price: Math.round(product.foodInfo[0].price * 100),
     quantity: product.count,
+    foodInfo: product.foodInfo,
   }));
 
   const session = await Stripe.checkout.sessions.create({

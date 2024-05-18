@@ -30,7 +30,7 @@ const Navbar = () => {
       setMenu({
         button1: "Home",
         button2: "Restaurants",
-        button3: "Cuisine",
+        button3: "Orders",
         button4: "Campaign",
       });
     } else if (restaurant.role === "restaurant") {
@@ -154,7 +154,14 @@ const Navbar = () => {
           >
             {menu.button2}
           </button>
-          <button className={styles.navMobileButton}>{menu.button3}</button>
+          <button
+            className={styles.navMobileButton}
+            onClick={() =>
+              navigate(checkUserRole === "user" ? "/orders" : "/orders")
+            }
+          >
+            {menu.button3}
+          </button>
           <button className={styles.navMobileButton}></button>
           {user || restaurant ? (
             <button onClick={handleLogout} className={styles.navMobileButton}>
@@ -206,7 +213,14 @@ const Navbar = () => {
         <div className={styles.iconContainer}>
           <img src={navIconNoBack} alt="" className={styles.navIcon} />
         </div>
-        <button className={styles.navButton}>{menu.button3}</button>
+        <button
+          className={styles.navButton}
+          onClick={() =>
+            navigate(checkUserRole === "user" ? "/orders" : "/orders")
+          }
+        >
+          {menu.button3}
+        </button>
         <button className={styles.navButton}>{menu.button4}</button>
         <div className={styles.registrationContainer}>
           {user.isLogin || restaurant.isLogin ? (
