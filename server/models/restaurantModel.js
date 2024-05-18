@@ -50,6 +50,10 @@ const restaurantSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    comments: {
+      type: Array,
+      default: [],
+    },
     activated: {
       type: Boolean,
       default: false,

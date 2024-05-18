@@ -51,7 +51,6 @@ export default function HomeSlier() {
       } else if (window.innerWidth < 750 && window.innerWidth > 200) {
         setSlideToShow(2);
       }
-      console.log(window.innerWidth);
     }
     handleResize();
 
@@ -71,12 +70,11 @@ export default function HomeSlier() {
           navigation={true}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
           onSlideChange={() => console.log("slide change")}
           className={`px-12 `}
         >
           {categories.map((category) => (
-            <SwiperSlide key={category} className=" ">
+            <SwiperSlide key={category.name} className=" " >
               <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-full overflow-hidden  m-auto shadow-xl">
                 <img
                   className="object-cover w-full h-full"

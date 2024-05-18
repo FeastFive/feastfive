@@ -1,0 +1,78 @@
+.orderContainer {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.cartComponent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+    0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+  border-radius: 15px;
+  transition: all 0.5s ease;
+}
+.cartComponent:hover {
+  transform: scale(1.015);
+}
+.innerCart {
+  display: flex;
+  align-items: center;
+}
+.orderImage {
+  width: 200px;
+  border-radius: 15px;
+}
+.innerContent {
+  margin-left: 15px;
+  height: 100%;
+}
+.mealTitle {
+  font-size: 30px;
+  font-weight: 600;
+}
+.price {
+  font-weight: 500;
+}
+.statusP {
+  margin-right: 15px;
+  font-weight: 600;
+  color: #91db37;
+}
+.statusD {
+  margin-right: 15px;
+  font-weight: 600;
+  color: #787878;
+}
+.statusC {
+  margin-right: 15px;
+  font-weight: 600;
+  color: #db3748;
+}
+
+@media (max-width: 680px) {
+  .orderContainer {
+    width: 80%;
+  }
+}
+@media (max-width: 545px) {
+  .orderContainer {
+    width: 90%;
+  }
+}
+@media (max-width: 475px) {
+  .orderContainer {
+    width: 95%;
+  }
+  .orderImage {
+    width: 130px;
+    border-radius: 15px;
+  }
+}

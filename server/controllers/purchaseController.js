@@ -6,16 +6,15 @@ const { v4: uuidv4 } = require("uuid");
 const addOrder = asyncHandler(async (req, res) => {
   const { restaurantId, userId, cartFoodList } = req.query;
 
-  console.log("BURAYDIISDJSPDKJ");
-  console.log(req.query);
+  // console.log(req.query);
 
   try {
-    // const restaurant = await findRestaurantById(restaurantId);
+    const restaurant = await findRestaurantById(restaurantId);
     const user = await findUserById(userId);
 
-    // if (!restaurant) {
-    //   return sendErrorResponse(res, 404, "Restaurant not found");
-    // }
+    if (!restaurant) {
+      return sendErrorResponse(res, 404, "Restaurant not found");
+    }
 
     if (!user) {
       return sendErrorResponse(res, 404, "User not found");
@@ -30,13 +29,12 @@ const addOrder = asyncHandler(async (req, res) => {
     };
     console.log(cartFoodList[0]);
 
-    // restaurant.orders.push(newOrder);
+    restaurant.orders.push(newOrder);
     user.orders.push(newOrder);
 
-    // await Promise.all([restaurant.save(), user.save()]);
-    await Promise.all([user.save()]);
+    await Promise.all([restaurant.save(), user.save()]);
 
-    res.status(200).json({
+    res.status(200).redirect("http://localhost:3000/purchaseAccepted").json({
       orders: user.orders,
       state: "success",
     });
