@@ -149,7 +149,11 @@ const Navbar = () => {
           <button
             className={styles.navMobileButton}
             onClick={() =>
-              navigate(checkUserRole === "user" ? "/home" : "/restaurantPanel")
+              navigate(
+                checkUserRole === "user"
+                  ? "/restaurantPanel"
+                  : "/restaurantPanel"
+              )
             }
           >
             {menu.button2}
@@ -157,7 +161,7 @@ const Navbar = () => {
           <button
             className={styles.navMobileButton}
             onClick={() =>
-              navigate(checkUserRole === "user" ? "/orders" : "/orders")
+              navigate(checkUserRole === "user" ? "/food" : "/orders")
             }
           >
             {menu.button3}
@@ -205,7 +209,7 @@ const Navbar = () => {
         <button
           className={styles.navButton}
           onClick={() =>
-            navigate(checkUserRole === "user" ? "/home" : "/restaurantPanel")
+            navigate(checkUserRole === "user" ? "/food" : "/restaurantPanel")
           }
         >
           {menu.button2}

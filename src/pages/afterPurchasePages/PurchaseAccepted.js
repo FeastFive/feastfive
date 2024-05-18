@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import imageLogo from "../../images/logo-no-background.png";
 import { IoHomeSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import styles from "./PurchaseAccepted.module.css";
+import { resetAll } from "../../store/slices/cartSlice";
 
 const PurchaseAccepted = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(resetAll());
+  }, []);
+
   return (
     <div className={styles.pageContainer}>
       <IoHomeSharp
@@ -22,7 +29,7 @@ const PurchaseAccepted = () => {
           navigate("/home");
         }}
       >
-        Backt to Shop
+        Back to Shop
       </button>
     </div>
   );
