@@ -59,16 +59,16 @@ const GivenOrders = () => {
       }
     };
 
+    console.log(orderUser);
     if (checkUserRole) {
       handleOrder();
     }
   }, [checkUserRole, userId, restId]);
 
-
   return (
     <div>
       <Navbar />
-<div className={styles.mainContainer}>
+      <div className={styles.mainContainer}>
         {checkUserRole == "user" ? (
           <OrderUser order={orderUser} />
         ) : (
