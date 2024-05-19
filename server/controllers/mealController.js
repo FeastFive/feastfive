@@ -203,4 +203,71 @@ const addComment = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addMeal, updateMeal, deleteMeal, getKitchens, addComment };
+const updateComment = asyncHandler(async (req, res) => {
+  const { restId, userId, commentId, updatedComment } = req.body;
+
+  if (!restId || !userId || !commentId || !updatedComment) {
+    return res
+      .status(400)
+      .json({ state: "fail", message: "Please include all fields" });
+  }
+
+  try {
+    const restaurant = await Restaurant.findById(restId);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const commentIndex = restaurant.comments.findIndex(
+      (comment) => comment.id === commentId
+    );
+    if (commentIndex === -1) {
+      return res
+        .status(404)
+        .json({ message: "Comment not found in restaurant" });
+    }
+
+    restaurant.comments[commentIndex] = {
+      ...restaurant.comments[commentIndex],
+      ...updatedComment,
+    };
+
+    await restaurant.save();
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const userCommentIndex = user.comments.findIndex(
+      (comment) => comment.id === commentId
+    );
+    if (userCommentIndex === -1) {
+      return res.status(404).json({ message: "Comment not found in user" });
+    }
+
+    user.comments[userCommentIndex] = {
+      ...user.comments[userCommentIndex],
+      ...updatedComment,
+    };
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Comments updated successfully",
+      comments: restaurant.comments,
+    });
+  } catch (err) {
+    console.error("Error updating comment:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+module.exports = {
+  addMeal,
+  updateMeal,
+  deleteMeal,
+  getKitchens,
+  addComment,
+  updateComment,
+};
