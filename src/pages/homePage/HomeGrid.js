@@ -1,21 +1,19 @@
-import React, { useState } from "react";
-import salata from "../../images/salata.png";
+import React, { useState, useEffect } from "react";
 import { getRestaurant } from "../../utils/restaurant/getRestaurant";
-import { useEffect } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
 import { cookieHandler } from "../../components/CookieHandler";
 import Cookies from "js-cookie";
+
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
-  const [restaurantFilterList, setRestaurantFilterList] = useState();
   const [favorities, setFavorities] = useState([]);
-  const [labelList, setLabelList] = useState([]);
-  const [restaurant, setRestaurant] = useState([]);
   const [foods, setFoods] = useState([]);
 
   useEffect(() => {
-    setFoods(list ?? foods);
+    if (list) {
+      setFoods(list);
+    }
   }, [list]);
 
   useEffect(() => {
@@ -26,8 +24,6 @@ export default function HomeGrid({ list }) {
         if (response.status === 200) {
           const result = await response.json();
           setFoods(result.restaurants);
-        } else if (response.status === 403) {
-          ShowAlert(3, "An error occurred while fetching restaurant");
         } else {
           ShowAlert(3, "An error occurred while fetching restaurant");
         }
@@ -36,14 +32,23 @@ export default function HomeGrid({ list }) {
         ShowAlert(3, "An error occurred while fetching restaurant");
       }
     };
+
     if (!list && foods.length === 0) {
       handleRestaurant();
     }
-  }, []);
-  function goRetaurant(element) {
-    navigate(`/restaurantFoods/${element._id}`);
+  }, [list, foods]);
+
+  function goRestaurant(element) {
+    navigate(`/restaurantFoods/${element?._id}`);
     cookieHandler(element);
   }
+
+  useEffect(() => {
+    const storedFavorities = JSON.parse(localStorage.getItem("favorities"));
+    if (storedFavorities) {
+      setFavorities(storedFavorities);
+    }
+  }, []);
 
   useEffect(() => {
     let labelList = [];
@@ -72,99 +77,70 @@ export default function HomeGrid({ list }) {
           labelList.push(obj);
         }
       });
-
-      const sortedArray = labelList
+      let newList = labelList
         .slice()
         .sort((a, b) => b.labelValue - a.labelValue);
-      setLabelList(sortedArray);
+      
+
+        if (newList.length > 0) {
+          const newRestaurantList = [];
+          for (let a = 0; a < newList.length; a++) {
+            const labelId = newList[a]._id;
+            const restaurantObj = foods.find((e) => e && e._id === labelId);
+            if (restaurantObj) {
+              newRestaurantList.push(restaurantObj);
+            }
+          }
+    
+          if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
+            // Update foods state with newRestaurantList
+            setFoods(newRestaurantList);
+          }
+        }
     }
   }, [foods]);
 
+
   useEffect(() => {
-    let newRestaurantList = [];
-
-    if (labelList.length > 0) {
-      for (let a = 0; a < foods.length; a++) {
-        let restaurantObj = foods.find((e) => e?._id === labelList[a]?._id);
-        newRestaurantList.push(restaurantObj);
-      }
-
-      // Check if the newRestaurantList is different from the current foods state
-      if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
-        setFoods(newRestaurantList);
-      }
-    }
-  }, [labelList, foods]);
-
-  useEffect(()=>{
     const storedFavorities = JSON.parse(localStorage.getItem("favorities"));
-    if(storedFavorities){
+    if (storedFavorities) {
       setFavorities(storedFavorities);
     }
+  }, []);
 
-  },[])
-
-  useEffect(()=>{
-    console.log(favorities)
-
-  },[favorities])
   function addFavorite(restaurantId) {
-    if (favorities.length > 0) {
-      let checkedRestaurant = favorities.find(e => e === restaurantId);
+    const updatedFavorities = favorities.includes(restaurantId)
+      ? favorities.filter((id) => id !== restaurantId)
+      : [...favorities, restaurantId];
 
-      if (checkedRestaurant) {
-        let newFilteredList = favorities.filter(a => a !== restaurantId);
-        setFavorities(newFilteredList);
-        localStorage.setItem("favorities", JSON.stringify(newFilteredList));
-        ShowAlert(5, "Removed from favorities.")
-      } else {
-        let newPushedList = [...favorities, restaurantId];
-        console.log(newPushedList);
-        setFavorities(newPushedList);
-        localStorage.setItem("favorities", JSON.stringify(newPushedList));
-        ShowAlert(4, "Added to favorities.")
-
-      }
-    } else {
-      let newPushedList = [restaurantId];
-      setFavorities(newPushedList);
-      localStorage.setItem("favorities", JSON.stringify(newPushedList));
-      ShowAlert(4, "Added to favorities.")
-
-    }
+    setFavorities(updatedFavorities);
+    localStorage.setItem("favorities", JSON.stringify(updatedFavorities));
+    ShowAlert(
+      updatedFavorities.includes(restaurantId) ? 4 : 5,
+      updatedFavorities.includes(restaurantId)
+        ? "Added to favorities."
+        : "Removed from favorities."
+    );
   }
 
-  function isFavorited(restaurandId) {
-    if(favorities.length > 0){
-      let checkedRestaurant = favorities.find(e => e == restaurandId);
-      
-      if(checkedRestaurant){
-        return true;
-
-      }else{
-        return false;
-      }
-
-
-    }
-    else{
-      return false;
-    }
-   
-
+  function isFavorited(restaurantId) {
+    return favorities.includes(restaurantId);
   }
 
   return (
     <div>
       <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center pt-3 justify-left gap-8 justify-left">
-        {foods?.length > 0 ? (
+        {foods.length > 0 ? (
           foods.map((element, index) => (
             <div
               key={index}
               className="w-full h-auto relative pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200 hover:scale-[103%] overflow-hidden"
             >
-              {element && element._id && ( // Check if element is defined and has _id property
-                <button onClick={() => addFavorite(element._id)} className="absolute right-2 top-0 z-[300] text-slate-100 px-2 py-1 bg-[#DB3748] rounded-b-full bg-opacity-90">
+              {element && element._id && (
+                <button
+                  onClick={() => addFavorite(element._id)}
+                  className="absolute right-2 top-0 z-[300] text-slate-100 px-2 py-1 bg-[#DB3748] rounded-b-full bg-opacity-90"
+                >
                   {!isFavorited(element._id) ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -193,11 +169,13 @@ export default function HomeGrid({ list }) {
                 </button>
               )}
               <div
-                onClick={() => goRetaurant(element._id)}
+                onClick={() => goRestaurant(element)}
                 className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-60px] overflow-hidden rounded-md"
               >
                 <img
-                  src={"https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"}
+                  src={
+                    "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
+                  }
                   className="object-cover object-bottom bg-red-400 overflow-hidden rounded-md"
                   alt=""
                 />
@@ -205,7 +183,9 @@ export default function HomeGrid({ list }) {
               <div className="flex flex-col px-2 pt-3">
                 <div className="flex flex-row w-full h-full justify-between">
                   <h3 className="text-md font-semibold">
-                    {element && element.restaurantName ? element.restaurantName : "The Hunger"}
+                    {element &&
+                      element.restaurantName &&
+                      element.restaurantName}
                   </h3>
                   <div className="flex flex-row">
                     <span className="text-yellow-400 text-lg mt[-2px]">★</span>

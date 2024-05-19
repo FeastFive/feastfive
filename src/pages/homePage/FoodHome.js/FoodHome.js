@@ -29,7 +29,7 @@ export default function FoodHome() {
     "Drinks",
   ]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  console.log(selectedCategories);
+  console.log("selectedCategories");
 
   const [restaurants, setRestaurants] = useState([]);
   const [filtered, setFiltered] = useState([]);
@@ -64,7 +64,6 @@ export default function FoodHome() {
   }, []);
 
   const handleFilter = () => {
-    setFiltered([]);
     if (restaurants.length > 0) {
       if (selectedCategories.length > 0) {
         const filtereds = restaurants.filter((restaurant) =>
@@ -76,8 +75,11 @@ export default function FoodHome() {
       } else {
         setFiltered(restaurants);
       }
+    } else {
+      setFiltered([]);
     }
   };
+
   useEffect(() => {
     handleFilter();
   }, []);
@@ -156,12 +158,12 @@ export default function FoodHome() {
         <div className=" col-span-5 md:col-span-5 lg:col-span-4 w-full h-auto px-4 pt-6   ">
           <h3 className="text-2xl">Restaurants found</h3>
           <div>
-              {filtered.length > 0 ? (
-                <HomeGrid list={filtered}></HomeGrid>
-              ) : (
-                <h3>No restaurants</h3>
-              )}
-          </div>
+      {filtered.length > 0 ? (
+        <HomeGrid list={filtered} />
+      ) : (
+        <h3>No restaurants</h3>
+      )}
+    </div>
         </div>
       </div>
     </>
