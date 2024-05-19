@@ -6,18 +6,19 @@
   margin: 2rem 0;
 }
 .cartComponent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
     0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-
   border-radius: 15px;
   transition: all 0.5s ease;
+}
+.innerCartComponent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 .cartComponent:hover {
   transform: scale(1.015);
@@ -75,4 +76,58 @@
     width: 130px;
     border-radius: 15px;
   }
+}
+
+.expander {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.innerExpander {
+  width: 55%;
+  margin-bottom: 1rem;
+}
+.commendLabel {
+  display: flex;
+  flex-direction: column;
+}
+.commendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #828282;
+  transition: all 0.3s ease;
+}
+.commendButton:hover {
+  color: #0f0f0f;
+}
+.commendTextArea {
+  text-decoration: none;
+  width: 100%;
+  height: 8rem;
+  border: #7d7d7d solid 2px;
+  border-radius: 0;
+}
+.commendTextArea:focus {
+  border-color: #db3748;
+}
+.submitContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.submitButton {
+  background-color: #db3748;
+  color: #f0f0f0;
+  font-size: 19px;
+  padding: 6px 12px;
+  transition: all 0.3s ease;
+}
+.submitButton:hover {
+  background-color: #9e2834;
 }

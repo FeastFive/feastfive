@@ -4,33 +4,47 @@ import { HiMiniCheck } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
 
 const OrderRestaurant = ({ order }) => {
-  // if (order.orders.length === 0) {
-  //   return <div>No orders found</div>;
-  // }
+  // Function to calculate total price for a food item
+  const calculateTotalPrice = (food) => {
+    return (food.price / 100) * food.quantity;
+  };
+
+  // Function to calculate total price for all items within an innerCart
+  const calculateInnerCartTotal = (cart) => {
+    return cart.reduce((acc, food) => {
+      return acc + calculateTotalPrice(food);
+    }, 0);
+  };
 
   return (
     <div className={styles.orderContainer}>
       {order.orders?.map((element, index) => (
         <div className={styles.cartComponent} key={index}>
-          {element?.cartFoodList?.map((food, foodIndex) => (
-            <div className={styles.innerCart} key={foodIndex}>
-              <div className={styles.innerContent}>
-                <p className={styles.mealTitle}>{food.name}</p>
-                <p className={styles.price}>
-                  {food.price / 100}$ x {food.quantity}
-                </p>
-                <ul>
-                  {food?.foodInfo?.map((info, i) => (
-                    <li key={i}>
-                      <p>Price: {info.price}$</p>
-                      <p>Options: {info.options.join(", ")}</p>
-                      <p>Count: {info.count}</p>
-                    </li>
-                  ))}
-                </ul>
+          <div className={styles.foodList}>
+            {element?.cartFoodList?.map((food, foodIndex) => (
+              <div className={styles.innerCart} key={foodIndex}>
+                <div className={styles.innerContent}>
+                  <p className={styles.mealTitle}>{food.name}</p>
+                  <p className={styles.price}>
+                    {food.price / 100}$ x {food.quantity} :{" "}
+                    {calculateTotalPrice(food).toFixed(2)}$
+                  </p>
+                  {/* Display total price for the food item */}
+
+                  <ul>
+                    {food?.foodInfo?.map((info, i) => (
+                      <li key={i}></li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* Display total price for all items within the innerCart */}
+          <p className={styles.innerCartTotal}>
+            Inner Cart Total:{" "}
+            {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
+          </p>
           <p
             className={
               element.activate ? styles.statusActive : styles.statusInactive
@@ -48,7 +62,7 @@ const OrderRestaurant = ({ order }) => {
                 </div>
               </div>
             ) : (
-              "Inactive"
+              <div className={styles.done}>Done</div>
             )}
           </p>
         </div>
