@@ -88,7 +88,7 @@ export default function HomeGrid({ list }) {
           for (let index = 0; index < element.labels.length; index++) {
             let checkLabel = cookieLabelList.find(
               (e) => e.value === element.labels[index].label
-            ); // Fix comparison operator
+            );
             if (checkLabel) {
               value += checkLabel.count;
             }

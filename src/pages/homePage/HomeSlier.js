@@ -5,6 +5,7 @@ import styles from "./HomeSlider.module.css";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { getKitchen } from "../../utils/kitchen/getKitchen";
 import { ShowAlert } from "../../components/alert/ShowAlert";
+import { useNavigate } from "react-router-dom";
 
 // Import Swiper styles
 import "swiper/css";
@@ -14,6 +15,7 @@ export default function HomeSlier() {
   const [windowDimensions, setWindowDimensions] = useState(0);
   const [slideToShow, setSlideToShow] = useState(6);
   const [categories, setCategories] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleKitchen = async () => {
@@ -58,6 +60,10 @@ export default function HomeSlier() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const getCuisine = (category) => {
+    navigate("/filterCuisine", { state: { cuisine: category } });
+  };
+
   return (
     <div className={`h-full w-full pt-12`}>
       <h3 className="pb-8 text-4xl font-semibold">Kitchens</h3>
@@ -74,8 +80,11 @@ export default function HomeSlier() {
           className={`px-12 `}
         >
           {categories.map((category) => (
-            <SwiperSlide key={category.name} className=" " >
-              <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-full overflow-hidden  m-auto shadow-xl">
+            <SwiperSlide key={category.name} className=" ">
+              <div
+                className="w-24 h-24 sm:w-36 sm:h-36 rounded-full overflow-hidden  m-auto shadow-xl"
+                onClick={() => getCuisine(category)}
+              >
                 <img
                   className="object-cover w-full h-full"
                   src={category.image}

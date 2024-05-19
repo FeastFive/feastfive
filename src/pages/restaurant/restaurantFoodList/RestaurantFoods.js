@@ -6,7 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { addFoodToCard, resetAll } from "../../../store/slices/cartSlice";
 import Navbar from "../../../components/Navbar";
 import { getSpecificRestaurant } from "../../../utils/restaurant/getSpecificRestaurant";
+import Loader from "../../../components/Loader";
 import ReactStars from "react-rating-stars-component";
+
 export default function RestaurantFoods() {
   let { restaurandId, foodName } = useParams();
   const navigate = useNavigate();
@@ -228,10 +230,12 @@ export default function RestaurantFoods() {
       <Navbar></Navbar>
 
       <div className="w-full pb-24 relative flex flex-row flex-col lg:flex-row justify-between">
+      <Loader></Loader>
+
         <Cart></Cart>
 
         {choosedFood ? (
-          <div className="w-full h-auto sticky top-0  bg-[#FFFFFF] flex justify-center pb-48 mt-[-10px]">
+          <div className="w-full h-auto sticky top-0  bg-[#FFFFFF] flex justify-center pb-48 mt-[-10px]">,
             <button
               onClick={() => reset()}
               className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease"

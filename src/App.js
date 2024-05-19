@@ -23,7 +23,9 @@ import RestaurantFoodList from "./pages/restaurant/restaurantFoodList/Restaurant
 import CartPage from "./pages/CartPage/CartPage";
 import PurchaseAccepted from "./pages/afterPurchasePages/PurchaseAccepted";
 import PurchaseRejected from "./pages/afterPurchasePages/PurchaseRejected";
+import FilterCuisine from "./pages/homePage/filter/FilterCuisine";
 import Favoritie from "./pages/favorities/Favoritie";
+
 function App() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
@@ -107,6 +109,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/filterCuisine" element={<FilterCuisine />} />
           <Route path="/orders" element={<GivenOrders />} />
           <Route path="/purchaseAccepted" element={<PurchaseAccepted />} />
           <Route path="/purchaseRejected" element={<PurchaseRejected />} />
