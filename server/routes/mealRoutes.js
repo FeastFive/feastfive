@@ -7,12 +7,14 @@ const {
   deleteMeal,
   getKitchens,
   addComment,
+  checkComment,
   updateComment,
 } = require("./../controllers/mealController");
 router.post("/addMeal", addMeal);
 router.post("/updateMeal", updateMeal);
 router.post("/deleteMeal", deleteMeal);
 router.post("/addComment", addComment);
+router.post("/checkComment", checkComment);
 router.post("/updateComment", updateComment);
 router.get("/getKitchens", getKitchens);
 

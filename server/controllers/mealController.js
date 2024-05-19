@@ -166,13 +166,16 @@ const addMeal = asyncHandler(async (req, res) => {
 
   // res.status(201).json(meal);
 });
+const hasCommentForOrder = (restaurant, orderId) => {
+  return restaurant.comments.some((comment) => comment.orderId === orderId);
+};
 
-const addComment = asyncHandler(async (req, res) => {
-  const { restId, userId, rating, comment } = req.body;
+const checkComment = asyncHandler(async (req, res) => {
+  const { restId, userId, orderId } = req.body;
   console.log(req.body);
 
   try {
-    if (!restId || !userId || !rating || !comment) {
+    if (!restId || !userId || !orderId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -186,7 +189,57 @@ const addComment = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const newComment = { id: uuidv4(), username: user.name, rating, comment };
+    const existingComment = restaurant.comments.find(
+      (comment) => comment.orderId === orderId
+    );
+
+    if (existingComment) {
+      return res.status(200).json({
+        message: "Comment found for this order",
+        comment: existingComment,
+      });
+    } else {
+      return res.status(404).json({
+        message: "No comment found for this order",
+      });
+    }
+  } catch (error) {
+    console.error("Error checking comment:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+const addComment = asyncHandler(async (req, res) => {
+  const { restId, userId, orderId, rating, comment } = req.body;
+  console.log(req.body);
+
+  try {
+    if (!restId || !userId || !orderId || !rating || !comment) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const restaurant = await Restaurant.findById(restId);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const newComment = {
+      id: uuidv4(),
+      username: user.name,
+      orderId: orderId,
+      rating,
+      comment,
+    };
+
+    if (hasCommentForOrder(restaurant, orderId)) {
+      return res
+        .status(403)
+        .json({ message: "A comment already exists for this order" });
+    }
 
     restaurant.comments.push(newComment);
     user.comments.push(newComment);
@@ -270,5 +323,6 @@ module.exports = {
   deleteMeal,
   getKitchens,
   addComment,
+  checkComment,
   updateComment,
 };

@@ -1,22 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../style/OrderUser.module.css";
 import ReactStars from "react-rating-stars-component";
 import { FaAngleDown } from "react-icons/fa";
 import { addComment } from "../utils/comment/addComment";
 import { ShowAlert } from "./alert/ShowAlert";
+import { checkComment } from "../utils/comment/checkComment";
 
 const OrderUser = ({ order }) => {
-  console.log(order.orders);
-
-  const orderLength = order.orders ? order.orders.length : 0;
+  const orderLength = Array.isArray(order.orders) ? order.orders.length : 0;
   const [textareaValue, setTextareaValue] = useState("");
   const [rating, setRating] = useState();
-  const [open, setOpen] = useState(false);
   const [expanderStatus, setExpanderStatus] = useState(
     Array(orderLength).fill(false)
   );
+  const [ordersWithComments, setOrdersWithComments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  console.log(expanderStatus);
+  useEffect(() => {
+    const fetchCommentsForOrders = async () => {
+      if (!Array.isArray(order.orders)) {
+        setLoading(false);
+        return;
+      }
+
+      const ordersWithCommentsList = [];
+
+      for (const orderElement of order.orders) {
+        const obj1 = {
+          restId: orderElement.restaurantId,
+          userId: orderElement.userId,
+          orderId: orderElement.orderId,
+        };
+        try {
+          const response = await checkComment(obj1);
+          if (response.status === 200) {
+            const result = await response.json();
+            if (result.comment) {
+              ordersWithCommentsList.push(orderElement.orderId);
+            }
+          }
+        } catch (error) {
+          console.error("Error checking comment:", error);
+        }
+      }
+      setOrdersWithComments(ordersWithCommentsList);
+      setLoading(false);
+    };
+
+    fetchCommentsForOrders();
+  }, [order.orders]);
 
   const expandOnClick = (index) => {
     setExpanderStatus((prev) => {
@@ -26,20 +58,11 @@ const OrderUser = ({ order }) => {
     });
   };
 
-  const submitCommendOnClick = (index) => {
-    setExpanderStatus((prev) => {
-      const newStatus = [...prev];
-      newStatus[index] = false;
-      return newStatus;
-    });
-  };
-
   const handleTextareaChange = (event) => {
     setTextareaValue(event.target.value);
   };
 
   const ratingChanged = (newRating) => {
-    console.log(newRating);
     setRating(newRating);
   };
 
@@ -56,10 +79,7 @@ const OrderUser = ({ order }) => {
     }, 0);
   };
 
-  if (!order?.orders || order?.orders.length === 0) {
-    return <div>No orders found</div>;
-  }
-  const handleCommentSubmit = async (restaurantId, userId) => {
+  const handleCommentSubmit = async (restaurantId, userId, orderId) => {
     try {
       if (!rating || !textareaValue) {
         ShowAlert(3, "Please provide rating and comment");
@@ -69,27 +89,37 @@ const OrderUser = ({ order }) => {
       const obj = {
         restId: restaurantId,
         userId: userId,
+        orderId: orderId,
         rating: rating,
         comment: textareaValue,
       };
 
       const response = await addComment(obj);
-      setOpen(true);
+
       if (response.ok) {
         const result = await response.json();
         ShowAlert(1, "Saved successfully");
+      } else if (response.status === 403) {
+        ShowAlert(3, "You have already commented for this order");
       } else {
         ShowAlert(3, "An error occurred while saving comments");
       }
     } catch (error) {
-      console.error("Error:", error);
       ShowAlert(3, "An error occurred while saving comments");
     }
   };
 
+  if (loading) {
+    return <div className={styles.loader}>Loading...</div>; // Ensure to include the loader styles
+  }
+
+  if (!Array.isArray(order.orders) || order.orders.length === 0) {
+    return <div>No orders found</div>;
+  }
+
   return (
     <div className={styles.orderContainer}>
-      {order?.orders?.map((element, index) => (
+      {order.orders.map((element, index) => (
         <div className={styles.cartComponent} key={index}>
           <div className={styles.innerCartComponent}>
             {Array.isArray(element.cartFoodList) ? (
@@ -115,14 +145,15 @@ const OrderUser = ({ order }) => {
               {element.activate ? "InProgress" : "Done"}
             </p>
           </div>
-          {!element.activate && !open ? (
+          {!element.activate &&
+          !ordersWithComments.includes(element.orderId) ? (
             <div className={styles.expander}>
               <div>
                 <button
                   onClick={() => expandOnClick(index)}
                   className={styles.commendButton}
                 >
-                  Leave Commend <FaAngleDown />
+                  Leave Comment <FaAngleDown />
                 </button>
               </div>
 
@@ -139,7 +170,7 @@ const OrderUser = ({ order }) => {
                     activeColor="#ffd700"
                   />
                   <label className={styles.commendLabel}>
-                    Leave a commend here:
+                    Leave a comment here:
                     <textarea
                       className={styles.commendTextArea}
                       value={textareaValue}
@@ -152,7 +183,8 @@ const OrderUser = ({ order }) => {
                       onClick={() =>
                         handleCommentSubmit(
                           element.restaurantId,
-                          element.userId
+                          element.userId,
+                          element.orderId
                         )
                       }
                     >
