@@ -185,6 +185,14 @@ const Navbar = () => {
         className={styles.iconDropdown}
       >
         <button className={styles.iconDropdownBtn}>Profile</button>
+        {user.isLogin ? (
+          <button
+            className={styles.iconDropdownBtn}
+            onClick={() => navigate("/favorities")}
+          >
+            Favorites
+          </button>
+        ) : null}
         <button className={styles.iconDropdownBtn}>Help</button>
         <button className={styles.iconDropdownBtn} onClick={handleLogout}>
           Log Out

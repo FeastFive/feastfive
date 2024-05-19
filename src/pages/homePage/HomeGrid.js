@@ -80,26 +80,24 @@ export default function HomeGrid({ list }) {
       let newList = labelList
         .slice()
         .sort((a, b) => b.labelValue - a.labelValue);
-      
 
-        if (newList.length > 0) {
-          const newRestaurantList = [];
-          for (let a = 0; a < newList.length; a++) {
-            const labelId = newList[a]._id;
-            const restaurantObj = foods.find((e) => e && e._id === labelId);
-            if (restaurantObj) {
-              newRestaurantList.push(restaurantObj);
-            }
-          }
-    
-          if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
-            // Update foods state with newRestaurantList
-            setFoods(newRestaurantList);
+      if (newList.length > 0) {
+        const newRestaurantList = [];
+        for (let a = 0; a < newList.length; a++) {
+          const labelId = newList[a]._id;
+          const restaurantObj = foods.find((e) => e && e._id === labelId);
+          if (restaurantObj) {
+            newRestaurantList.push(restaurantObj);
           }
         }
+
+        if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
+          // Update foods state with newRestaurantList
+          setFoods(newRestaurantList);
+        }
+      }
     }
   }, [foods]);
-
 
   useEffect(() => {
     const storedFavorities = JSON.parse(localStorage.getItem("favorities"));
@@ -180,7 +178,10 @@ export default function HomeGrid({ list }) {
                   alt=""
                 />
               </div>
-              <div className="flex flex-col px-2 pt-3">
+              <div
+                className="flex flex-col px-2 pt-3"
+                onClick={() => goRestaurant(element)}
+              >
                 <div className="flex flex-row w-full h-full justify-between">
                   <h3 className="text-md font-semibold">
                     {element &&
