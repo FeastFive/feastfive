@@ -24,6 +24,7 @@ import CartPage from "./pages/CartPage/CartPage";
 import PurchaseAccepted from "./pages/afterPurchasePages/PurchaseAccepted";
 import PurchaseRejected from "./pages/afterPurchasePages/PurchaseRejected";
 import FilterCuisine from "./pages/homePage/filter/FilterCuisine";
+import Favoritie from "./pages/favorities/Favoritie";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -38,6 +39,8 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/food" element={<FoodHome />} />
+          <Route path="/favorities" element={<Favoritie />} />
+
           <Route
             path="/restaurantFoods/:restaurandId/:foodName"
             element={<RestaurantFoodList />}

@@ -34,7 +34,6 @@ const GivenOrders = () => {
           const response = await getUserOrders(userId);
           if (response.status === 200) {
             const result = await response.json();
-            console.log(result.orders);
             setOrderUser(result.orders);
           } else if (response.status === 403) {
             ShowAlert(3, "An error occurred while fetching orders");
@@ -59,16 +58,16 @@ const GivenOrders = () => {
       }
     };
 
+    console.log(orderUser);
     if (checkUserRole) {
       handleOrder();
     }
   }, [checkUserRole, userId, restId]);
 
-
   return (
     <div>
       <Navbar />
-<div className={styles.mainContainer}>
+      <div className={styles.mainContainer}>
         {checkUserRole == "user" ? (
           <OrderUser order={orderUser} />
         ) : (

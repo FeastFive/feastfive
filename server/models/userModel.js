@@ -31,10 +31,6 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    favorites: {
-      type: Array,
-      default: [],
-    },
     comments: {
       type: Array,
       default: [],

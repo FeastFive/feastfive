@@ -149,11 +149,7 @@ const Navbar = () => {
           <button
             className={styles.navMobileButton}
             onClick={() =>
-              navigate(
-                checkUserRole === "user"
-                  ? "/restaurantPanel"
-                  : "/restaurantPanel"
-              )
+              navigate(checkUserRole === "user" ? "/food" : "/restaurantPanel")
             }
           >
             {menu.button2}
@@ -189,6 +185,14 @@ const Navbar = () => {
         className={styles.iconDropdown}
       >
         <button className={styles.iconDropdownBtn}>Profile</button>
+        {user.isLogin ? (
+          <button
+            className={styles.iconDropdownBtn}
+            onClick={() => navigate("/favorities")}
+          >
+            Favorites
+          </button>
+        ) : null}
         <button className={styles.iconDropdownBtn}>Help</button>
         <button className={styles.iconDropdownBtn} onClick={handleLogout}>
           Log Out
