@@ -4,6 +4,7 @@ import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
 import { cookieHandler } from "../../components/CookieHandler";
 import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
@@ -150,7 +151,8 @@ export default function HomeGrid({ list }) {
   }
 
   return (
-    <div>
+    <div className="relative py-2">
+      <Loader />
       <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center pt-3 justify-left gap-8 justify-left">
         {foods.length > 0 ? (
           foods.map((element, index) => (

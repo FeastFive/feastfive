@@ -5,12 +5,6 @@ import { ShowAlert } from "../../../components/alert/ShowAlert";
 import Navbar from "../../../components/Navbar";
 import styles from "./Filter.module.css";
 import HomeGrid from "../HomeGrid";
-import ClipLoader from "react-spinners/ClipLoader";
-import MoonLoader  from "react-spinners/MoonLoader";
-import SyncLoader  from "react-spinners/SyncLoader";
- 
-import ClockLoader  from "react-spinners/ClockLoader";
-import Loader from "../../../components/Loader";
 
 const FilterCuisine = () => {
   const [filtered, setFiltered] = useState([]);
@@ -59,10 +53,8 @@ const FilterCuisine = () => {
 
   return (
     <div className="pb-24 overflow-x-hidden">
-      
       <Navbar></Navbar>
       <div className="pt-4 px-8 md:px-16 lg:px-32">
-
         <div className="flex flex-row justify-left gap-3 pb-7 pt-8 border-b-2 border-gray-300 w-full lg:w-[400px] relative">
           <img
             src={cuisine.image}
@@ -71,17 +63,17 @@ const FilterCuisine = () => {
           />
           <h3 className="text-3xl font-bold  pt-1 pl-2">{cuisine.name}</h3>
         </div>
-  
+
         <div className=" pt-8 lg:pt-4 relative pb-12">
-          <h3 className="text-3xl font-semibold">Restaurants with <span className="text-[#DB3748]">{cuisine.name}</span></h3>
-     
+          <h3 className="text-3xl font-semibold">
+            Restaurants with{" "}
+            <span className="text-[#DB3748]">{cuisine.name}</span>
+          </h3>
 
           {filtered?.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
-            <div>
-              
-            </div>
+            <div></div>
           )}
         </div>
       </div>
