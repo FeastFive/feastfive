@@ -9,6 +9,8 @@ export default function HomeGrid({ list }) {
   const navigate = useNavigate();
   const [favorities, setFavorities] = useState([]);
   const [foods, setFoods] = useState([]);
+  console.log(foods);
+  const [ratings, setRatings] = useState([]);
 
   useEffect(() => {
     if (list) {
@@ -23,7 +25,29 @@ export default function HomeGrid({ list }) {
 
         if (response.status === 200) {
           const result = await response.json();
+          console.log(result.restaurants);
+
+          // Restoranları yükle
           setFoods(result.restaurants);
+
+          const calculatedRatings = result.restaurants.map((restaurant) => {
+            if (restaurant.comments.length > 0) {
+              const totalRating = restaurant.comments.reduce(
+                (total, comment) => total + comment.rating,
+                0
+              );
+              const averageRating = (
+                totalRating / restaurant.comments.length
+              ).toFixed(1);
+              return {
+                restaurantName: restaurant.restaurantName,
+                rating: averageRating,
+              };
+            } else {
+              return { restaurantName: restaurant.restaurantName, rating: 0 };
+            }
+          });
+          setRatings(calculatedRatings);
         } else {
           ShowAlert(3, "An error occurred while fetching restaurant");
         }
@@ -38,7 +62,7 @@ export default function HomeGrid({ list }) {
     }
   }, [list, foods]);
 
-  function goRestaurant(element) {
+  function goRestaurant(element, setRating) {
     navigate(`/restaurantFoods/${element?._id}`);
     cookieHandler(element);
   }
@@ -190,7 +214,14 @@ export default function HomeGrid({ list }) {
                   </h3>
                   <div className="flex flex-row">
                     <span className="text-yellow-400 text-lg mt[-2px]">★</span>
-                    <p className="font-large pl-2">(2000+)</p>
+                    <p className="font-large pl-2">
+                      {ratings.find(
+                        (item) => item.restaurantName === element.restaurantName
+                      )?.rating || "0"}
+                    </p>
+                    <p className="font-large pl-2">
+                      ({element.comments.length}+)
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-row w-full h-full text-xs font-medium text-gray-400 pb-1">

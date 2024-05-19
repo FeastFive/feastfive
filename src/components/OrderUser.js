@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import styles from "../style/OrderUser.module.css";
 import ReactStars from "react-rating-stars-component";
 import { FaAngleDown } from "react-icons/fa";
+import { addComment } from "../utils/comment/addComment";
+import { ShowAlert } from "./alert/ShowAlert";
 
 const OrderUser = ({ order }) => {
-  console.log(order); // Include an expression here
+  console.log(order.orders);
 
-  // Ensure order.orders exists and is an array before proceeding
   const orderLength = order.orders ? order.orders.length : 0;
   const [textareaValue, setTextareaValue] = useState("");
+  const [rating, setRating] = useState();
+  const [open, setOpen] = useState(false);
   const [expanderStatus, setExpanderStatus] = useState(
     Array(orderLength).fill(false)
   );
+
+  console.log(expanderStatus);
 
   const expandOnClick = (index) => {
     setExpanderStatus((prev) => {
@@ -35,6 +40,7 @@ const OrderUser = ({ order }) => {
 
   const ratingChanged = (newRating) => {
     console.log(newRating);
+    setRating(newRating);
   };
 
   const calculateTotalPrice = (food) => {
@@ -42,18 +48,48 @@ const OrderUser = ({ order }) => {
   };
 
   const calculateInnerCartTotal = (cart) => {
+    if (!Array.isArray(cart)) {
+      return 0;
+    }
     return cart.reduce((acc, food) => {
       return acc + calculateTotalPrice(food);
     }, 0);
   };
 
-  if (!order.orders || order.orders.length === 0) {
+  if (!order?.orders || order?.orders.length === 0) {
     return <div>No orders found</div>;
   }
+  const handleCommentSubmit = async (restaurantId, userId) => {
+    try {
+      if (!rating || !textareaValue) {
+        ShowAlert(3, "Please provide rating and comment");
+        return;
+      }
+
+      const obj = {
+        restId: restaurantId,
+        userId: userId,
+        rating: rating,
+        comment: textareaValue,
+      };
+
+      const response = await addComment(obj);
+      setOpen(true);
+      if (response.ok) {
+        const result = await response.json();
+        ShowAlert(1, "Saved successfully");
+      } else {
+        ShowAlert(3, "An error occurred while saving comments");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      ShowAlert(3, "An error occurred while saving comments");
+    }
+  };
 
   return (
     <div className={styles.orderContainer}>
-      {order.orders.map((element, index) => (
+      {order?.orders?.map((element, index) => (
         <div className={styles.cartComponent} key={index}>
           <div className={styles.innerCartComponent}>
             {Array.isArray(element.cartFoodList) ? (
@@ -79,7 +115,7 @@ const OrderUser = ({ order }) => {
               {element.activate ? "InProgress" : "Done"}
             </p>
           </div>
-          {!element.activate ? (
+          {!element.activate && !open ? (
             <div className={styles.expander}>
               <div>
                 <button
@@ -113,7 +149,12 @@ const OrderUser = ({ order }) => {
                   <div className={styles.submitContainer}>
                     <button
                       className={styles.submitButton}
-                      onClick={() => submitCommendOnClick(index)}
+                      onClick={() =>
+                        handleCommentSubmit(
+                          element.restaurantId,
+                          element.userId
+                        )
+                      }
                     >
                       Submit
                     </button>

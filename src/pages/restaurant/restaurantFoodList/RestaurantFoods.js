@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addFoodToCard, resetAll } from "../../../store/slices/cartSlice";
 import Navbar from "../../../components/Navbar";
 import { getSpecificRestaurant } from "../../../utils/restaurant/getSpecificRestaurant";
+import ReactStars from "react-rating-stars-component";
 export default function RestaurantFoods() {
   let { restaurandId, foodName } = useParams();
   const navigate = useNavigate();
@@ -14,6 +15,22 @@ export default function RestaurantFoods() {
   const [comments, setComments] = useState([]);
   console.log(comments);
   const [restaurant, setRestaurant] = useState();
+  const [averageRating, setAverageRating] = useState();
+
+  useEffect(() => {
+    if (comments.length > 0) {
+      const totalRating = comments.reduce(
+        (total, comment) => total + comment.rating,
+        0
+      );
+      const averageRating = (totalRating / comments.length).toFixed(1);
+      setAverageRating(averageRating);
+      console.log("Total Rating:", totalRating);
+      console.log("Average Rating:", averageRating);
+    } else {
+      console.log("Comments array is null or empty");
+    }
+  }, [comments]);
 
   const [foodObject, setFoodObject] = useState({
     foodName: "",
@@ -339,8 +356,8 @@ export default function RestaurantFoods() {
             <p className="text-gray-400">20.10.2021</p>
           </div>
           <p className="pb-4">
-            <span className="font-semibold text-gray-700">4.9</span>
-            <span className="text-yellow-300 text-xl">★</span> (180)
+            <span className="font-semibold text-gray-700">{averageRating}</span>
+            <span className="text-yellow-300 text-xl">★</span> {comments.length}
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             {foodList ? (
@@ -401,7 +418,7 @@ export default function RestaurantFoods() {
               Comments ({comments.length})
             </h3>
             <p className="font-semibold">
-              4.5 <span className="text-yellow-300 text-xl">★</span>
+              {averageRating} <span className="text-yellow-300 text-xl">★</span>
             </p>
           </div>
           {comments.map((comment) => (
@@ -410,10 +427,19 @@ export default function RestaurantFoods() {
               className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20"
             >
               <div className="flex flex-row justify-between pb-2">
-                <h3 className="text-lg font-semibold">{comment.user}</h3>
-                <p>{comment.date}</p>
+                <h3 className="text-lg font-semibold">{comment?.username}</h3>
+                <ReactStars
+                  count={5}
+                  size={24}
+                  isHalf={true}
+                  emptyIcon={<i className="far fa-star"></i>}
+                  halfIcon={<i className="fa fa-star-half-alt"></i>}
+                  fullIcon={<i className="fa fa-star"></i>}
+                  activeColor="#ffd700"
+                  value={comment?.rating}
+                />
               </div>
-              <p className="">{comment.content}</p>
+              <p className="">{comment?.comment}</p>
             </div>
           ))}
         </div>

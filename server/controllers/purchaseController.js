@@ -23,8 +23,11 @@ const addOrder = asyncHandler(async (req, res) => {
     const orderId = uuidv4();
     const parsedCartFoodList = JSON.parse(cartFoodList);
     const newOrder = {
+      restaurantId: restaurantId,
+      userId: userId,
       orderId: orderId,
       cartFoodList: parsedCartFoodList,
+      status: "In Progress",
       activate: true,
     };
     console.log(cartFoodList[0]);

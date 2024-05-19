@@ -169,6 +169,7 @@ const addMeal = asyncHandler(async (req, res) => {
 
 const addComment = asyncHandler(async (req, res) => {
   const { restId, userId, rating, comment } = req.body;
+  console.log(req.body);
 
   try {
     if (!restId || !userId || !rating || !comment) {
@@ -185,7 +186,7 @@ const addComment = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const newComment = { id: uuidv4(), rating, comment };
+    const newComment = { id: uuidv4(), username: user.name, rating, comment };
 
     restaurant.comments.push(newComment);
     user.comments.push(newComment);
