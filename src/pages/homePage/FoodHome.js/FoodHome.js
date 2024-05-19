@@ -4,6 +4,7 @@ import Navbar from "../../../components/Navbar";
 import { getRestaurant } from "../../../utils/restaurant/getRestaurant";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../../components/Loader";
 
 export default function FoodHome() {
   const navigate = useNavigate();
@@ -85,7 +86,9 @@ export default function FoodHome() {
   return (
     <>
       <Navbar></Navbar>
+      
       <div className=" grid grid-cols-5 md:px-12 lg-px-24 gap-6 pt-12 ">
+        
         <div className="col-span-1 w-full h-screen sticky top-0 overflow-scrool  px-3 pl-5 pt-6 bg-[#F9FCFB] border-2 rounded-md shadow-md border-slate-100 hidden md:hidden lg:block">
           <div className="flex flex-row justify-between">
             <h3 className="font-semibold text-xl">Filter</h3>
@@ -153,13 +156,14 @@ export default function FoodHome() {
             Filter
           </button>
         </div>
-        <div className=" col-span-5 md:col-span-5 lg:col-span-4 w-full h-auto px-4 pt-6   ">
+        <div className=" col-span-5 md:col-span-5 relative lg:col-span-4 w-full h-auto px-4 pt-6   ">
           <h3 className="text-2xl">Restaurants found</h3>
+          
           <div>
               {filtered.length > 0 ? (
                 <HomeGrid list={filtered}></HomeGrid>
               ) : (
-                <h3>No restaurants</h3>
+                <h3></h3>
               )}
           </div>
         </div>

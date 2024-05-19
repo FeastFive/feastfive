@@ -4,6 +4,13 @@ import { getRestaurant } from "../../../utils/restaurant/getRestaurant";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import Navbar from "../../../components/Navbar";
 import styles from "./Filter.module.css";
+import HomeGrid from "../HomeGrid";
+import ClipLoader from "react-spinners/ClipLoader";
+import MoonLoader  from "react-spinners/MoonLoader";
+import SyncLoader  from "react-spinners/SyncLoader";
+ 
+import ClockLoader  from "react-spinners/ClockLoader";
+import Loader from "../../../components/Loader";
 
 const FilterCuisine = () => {
   const [filtered, setFiltered] = useState([]);
@@ -52,61 +59,29 @@ const FilterCuisine = () => {
 
   return (
     <div className="pb-24 overflow-x-hidden">
+      
       <Navbar></Navbar>
-      <div className="pt-4">
-        <div className={styles.container}>
+      <div className="pt-4 px-8 md:px-16 lg:px-32">
+
+        <div className="flex flex-row justify-left gap-3 pb-7 pt-8 border-b-2 border-gray-300 w-full lg:w-[400px] relative">
           <img
             src={cuisine.image}
             alt="cuisine"
-            className={styles.imgcontainer}
+            className="rounded-md shadow-lg h-[140px] w-auto"
           />
-
-          <div className={styles.textblock}>
-            <h4>{cuisine.name}</h4>
-          </div>
+          <h3 className="text-3xl font-bold  pt-1 pl-2">{cuisine.name}</h3>
         </div>
-        <div className=" pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center  pt-3 justify-left gap-8 justify-left ">
+  
+        <div className=" pt-8 lg:pt-4 relative pb-12">
+          <h3 className="text-3xl font-semibold">Restaurants with <span className="text-[#DB3748]">{cuisine.name}</span></h3>
+     
+
           {filtered?.length > 0 ? (
-            filtered.map((element, index) => (
-              <div
-                key={index}
-                className="w-full h-auto pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200 hover:scale-[103%] overflow-hidden"
-                // onClick={() => goRetaurant(element)}
-              >
-                <div className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-60px] overflow-hidden rounded-md">
-                  <img
-                    src={
-                      "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
-                    }
-                    className="object-cover object-bottom bg-red-400 overflow-hidden rounded-md"
-                    alt=""
-                  />
-                </div>
-                <div className="flex flex-col px-2 pt-3 ">
-                  <div className="flex flex-row w-full h-full justify-between">
-                    <h3 className="text-md font-semibold">
-                      {element && element.restaurantName
-                        ? element.restaurantName
-                        : "The Hunger"}
-                    </h3>
-                    <div className="flex flex-row">
-                      <span className="text-yellow-400 text-lg mt[-2px]">
-                        ★
-                      </span>
-                      <p className="font-large pl-2">(2000+)</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-row w-full h-full text-xs font-medium text-gray-400 pb-1">
-                    150 TL minimum
-                  </div>
-                  <div className="flex flex-row w-full h-full text-sm font-medium ">
-                    30 min <span className="text-pink-600 pl-2">Ücretsiz</span>
-                  </div>
-                </div>
-              </div>
-            ))
+            <HomeGrid list={filtered}></HomeGrid>
           ) : (
-            <h3>No restaurants</h3>
+            <div>
+              
+            </div>
           )}
         </div>
       </div>

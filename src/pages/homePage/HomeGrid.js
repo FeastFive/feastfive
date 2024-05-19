@@ -6,6 +6,7 @@ import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useNavigate } from "react-router-dom";
 import { cookieHandler } from "../../components/CookieHandler";
 import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
   const [restaurantFilterList, setRestaurantFilterList] = useState();
@@ -105,8 +106,9 @@ export default function HomeGrid({ list }) {
   };
 
   return (
-    <div>
-      <div className=" pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center  pt-3 justify-left gap-8 justify-left ">
+    <div className="relative  py-2">
+      <Loader></Loader>
+      <div className=" pt-6 grid grid-cols-1 relative   sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center  pt-3 justify-left gap-4 lg:gap-8 justify-left ">
         {foods?.length > 0 ? (
           foods.map((element, index) => (
             <div
@@ -114,7 +116,7 @@ export default function HomeGrid({ list }) {
               className="w-full h-auto pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200 hover:scale-[103%] overflow-hidden"
               onClick={() => goRetaurant(element)}
             >
-              <div className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-60px] overflow-hidden rounded-md">
+              <div className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-20px] lg:mt-[-60px] overflow-hidden rounded-md">
                 <img
                   src={
                     "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
