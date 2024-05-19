@@ -149,11 +149,7 @@ const Navbar = () => {
           <button
             className={styles.navMobileButton}
             onClick={() =>
-              navigate(
-                checkUserRole === "user"
-                  ? "/restaurantPanel"
-                  : "/restaurantPanel"
-              )
+              navigate(checkUserRole === "user" ? "/food" : "/restaurantPanel")
             }
           >
             {menu.button2}
