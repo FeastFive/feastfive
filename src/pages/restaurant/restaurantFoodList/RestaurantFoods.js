@@ -230,19 +230,19 @@ export default function RestaurantFoods() {
       <Navbar></Navbar>
 
       <div className="w-full pb-24 relative flex flex-row flex-col lg:flex-row justify-between">
-      <Loader></Loader>
+        <Loader></Loader>
 
         <Cart></Cart>
 
         {choosedFood ? (
-          <div className="w-full h-auto sticky top-0  bg-[#FFFFFF] flex justify-center pb-48 mt-[-10px]">,
+          <div className="w-full h-auto sticky top-0  bg-[#FFFFFF] flex justify-center pb-48 mt-[-10px]">
+            ,
             <button
               onClick={() => reset()}
               className="absolute top-0 left-0 bg-red-200 bg-opacity-30 rounded-md shadow-sm ml-4 mt-4 px-6 py-2 hover:bg-opacity-90 duration-200 ease"
             >
               Geri
             </button>
-
             <div className="flex flex-col md:w-[80%] lg:w-[65%] pt-12 rounded-lg  px-2">
               <div className="flex flex-col flex-col-reverse	 lg:flex-row W-[100%] justify-between h-auto border-b-[3px]  px-12 py-4 rounded-t-md rounded-bottom-0">
                 <div className="flex flex-col w-[100%]">
@@ -433,6 +433,7 @@ export default function RestaurantFoods() {
               <div className="flex flex-row justify-between pb-2">
                 <h3 className="text-lg font-semibold">{comment?.username}</h3>
                 <ReactStars
+                  edit={false}
                   count={5}
                   size={24}
                   isHalf={true}
