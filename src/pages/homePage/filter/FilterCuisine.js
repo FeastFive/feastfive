@@ -73,7 +73,7 @@ const FilterCuisine = () => {
           {filtered?.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
-            <div></div>
+            <div className="text-lg text-gray-500 pt-4">There is no restaurant with {cuisine.name}...</div>
           )}
         </div>
       </div>
