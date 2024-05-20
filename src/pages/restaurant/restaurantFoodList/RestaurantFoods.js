@@ -413,7 +413,7 @@ export default function RestaurantFoods() {
 
         <div
           className={
-            " flex flex-col pt-8 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md" +
+            " flex flex-col pt-6 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md h-[540px]   overflow-y-scroll" +
             (choosedFood ? " hidden " : " block ")
           }
         >
@@ -428,7 +428,7 @@ export default function RestaurantFoods() {
           {comments.map((comment) => (
             <div
               style={{ boxShadow: "0px 11px 10px -5px rgba(203,203,203,0.25)" }}
-              className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20"
+              className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20 "
             >
               <div className="flex flex-row justify-between pb-2">
                 <h3 className="text-lg font-semibold">{comment?.username}</h3>
