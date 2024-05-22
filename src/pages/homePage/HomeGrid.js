@@ -16,6 +16,24 @@ export default function HomeGrid({ list }) {
   useEffect(() => {
     if (list) {
       setFoods(list);
+      const calculatedRatings = list.map((restaurant) => {
+        if (restaurant.comments.length > 0) {
+          const totalRating = restaurant.comments.reduce(
+            (total, comment) => total + comment.rating,
+            0
+          );
+          const averageRating = (
+            totalRating / restaurant.comments.length
+          ).toFixed(1);
+          return {
+            restaurantName: restaurant.restaurantName,
+            rating: averageRating,
+          };
+        } else {
+          return { restaurantName: restaurant.restaurantName, rating: 0 };
+        }
+      });
+      setRatings(calculatedRatings);
     }
   }, [list]);
 
