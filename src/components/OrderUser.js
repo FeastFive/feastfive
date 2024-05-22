@@ -5,6 +5,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { addComment } from "../utils/comment/addComment";
 import { ShowAlert } from "./alert/ShowAlert";
 import { checkComment } from "../utils/comment/checkComment";
+import Loader from "./Loader";
 
 const OrderUser = ({ order }) => {
   const orderLength = Array.isArray(order.orders) ? order.orders.length : 0;
@@ -15,6 +16,7 @@ const OrderUser = ({ order }) => {
   );
   const [ordersWithComments, setOrdersWithComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [delayOver, setDelayOver] = useState(Array(orderLength).fill(false));
 
   useEffect(() => {
     const fetchCommentsForOrders = async () => {
@@ -48,6 +50,24 @@ const OrderUser = ({ order }) => {
     };
 
     fetchCommentsForOrders();
+  }, [order.orders]);
+
+  useEffect(() => {
+    if (!Array.isArray(order.orders)) return;
+
+    const timers = order.orders.map((_, index) => {
+      return setTimeout(() => {
+        setDelayOver((prev) => {
+          const newDelayOver = [...prev];
+          newDelayOver[index] = true;
+          return newDelayOver;
+        });
+      }, 4000);
+    });
+
+    return () => {
+      timers.forEach(clearTimeout);
+    };
   }, [order.orders]);
 
   const expandOnClick = (index) => {
@@ -110,7 +130,11 @@ const OrderUser = ({ order }) => {
   };
 
   if (loading) {
-    return <div className={styles.loader}>Loading...</div>; // Ensure to include the loader styles
+    return (
+      <div className={styles.loader}>
+        <Loader />
+      </div>
+    );
   }
 
   if (!Array.isArray(order.orders) || order.orders.length === 0) {
@@ -146,7 +170,8 @@ const OrderUser = ({ order }) => {
             </p>
           </div>
           {!element.activate &&
-          !ordersWithComments.includes(element.orderId) ? (
+          !ordersWithComments.includes(element.orderId) &&
+          delayOver[index] ? (
             <div className={styles.expander}>
               <div>
                 <button
