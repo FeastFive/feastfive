@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 2rem;
   margin: 2rem 0;
+  position: relative;
 }
 .cartComponent {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -130,4 +131,7 @@
 }
 .submitButton:hover {
   background-color: #9e2834;
+}
+.loader {
+  position: relative;
 }

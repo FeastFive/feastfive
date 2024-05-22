@@ -6,6 +6,7 @@ import { addComment } from "../utils/comment/addComment";
 import { ShowAlert } from "./alert/ShowAlert";
 import { checkComment } from "../utils/comment/checkComment";
 import Loader from "./Loader";
+import Loader4sec from "./Loader4sec";
 
 const OrderUser = ({ order }) => {
   const orderLength = Array.isArray(order.orders) ? order.orders.length : 0;
@@ -143,6 +144,7 @@ const OrderUser = ({ order }) => {
 
   return (
     <div className={styles.orderContainer}>
+      <Loader4sec />
       {order.orders.map((element, index) => (
         <div className={styles.cartComponent} key={index}>
           <div className={styles.innerCartComponent}>
