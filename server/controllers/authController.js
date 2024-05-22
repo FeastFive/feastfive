@@ -82,6 +82,27 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const editUser = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  const { id, name, surname, email } = req.body;
+  // Find user by ID
+  const user = await User.findById(id);
+
+  if (user) {
+    user.name = name || user.name;
+    user.surname = surname || user.surname;
+    // user.image = image || user.image;
+
+    const updatedUser = await user.save();
+
+    res
+      .status(200)
+      .json({ name: user.name, surname: user.surname, email: user.email });
+  } else {
+    res.status(404).json({ state: "fail", message: "User not found" });
+  }
+});
+
 const activateAccount = asyncHandler(async (req, res) => {
   try {
     const { uniqueId } = req.params;
@@ -153,4 +174,5 @@ module.exports = {
   loginUser,
   activateAccount,
   getOrders,
+  editUser,
 };

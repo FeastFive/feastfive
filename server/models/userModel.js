@@ -39,10 +39,14 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    logs: {
+    address: {
       type: Array,
       default: [],
     },
+    // image: {
+    //   type: String,
+    //   default: "",
+    // },
     activated: {
       type: Boolean,
       default: false,

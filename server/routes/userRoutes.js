@@ -6,9 +6,11 @@ const {
   loginUser,
   activateAccount,
   getOrders,
+  editUser,
 } = require("../controllers/authController");
 router.post("/", registerUser);
 router.post("/login", loginUser);
+router.post("/editUser", editUser);
 router.post("/getOrders", getOrders);
 router.get("/verify/:uniqueId", activateAccount);
 
