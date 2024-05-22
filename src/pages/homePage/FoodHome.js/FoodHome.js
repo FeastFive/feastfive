@@ -85,6 +85,12 @@ export default function FoodHome() {
         const avgRatingB = calculateAverageRating(b);
         return avgRatingB - avgRatingA;
       });
+    } else if (selectedRadio === "Most preferred") {
+      filteredRestaurants.sort((a, b) => {
+        const commentCountA = a.comments.length;
+        const commentCountB = b.comments.length;
+        return commentCountB - commentCountA;
+      });
     }
 
     setFiltered(filteredRestaurants);
