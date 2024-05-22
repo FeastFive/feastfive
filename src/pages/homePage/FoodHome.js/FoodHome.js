@@ -170,7 +170,7 @@ export default function FoodHome() {
               </li>
             ))}
           </ul>
-          <div>
+          {/* <div>
             <h3 className="mt-2 text-sm">Price</h3>
             <input
               placeholder="min $"
@@ -180,9 +180,9 @@ export default function FoodHome() {
               placeholder="max $"
               className="border-2 border-slate-200 shadow-md focus:outline-none rounded-lg pl-2 w-[60%] text-sm py-1 pb-2 mt-2"
             ></input>
-          </div>
+          </div> */}
           <button
-            className="w-full h-8 bg-[#db3748] hover:bg-orange-500 duration-200 text-slate-100 mt-3  rounded-xl shadow-lg"
+            className="w-full h-10 mt-6 bg-[#db3748] hover:bg-orange-500 duration-200 text-slate-100 mt-3  rounded-xl shadow-lg"
             onClick={handleFilter}
           >
             Filter
