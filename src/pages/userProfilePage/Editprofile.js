@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editUser } from "../../utils/user/editUser";
 import { ShowAlert } from "../../components/alert/ShowAlert";
-import { setUser } from "../../store/slices/userSlice";
+import { setUsers } from "../../store/slices/userSlice";
 
 export default function Editprofile() {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ export default function Editprofile() {
         console.log(result);
 
         try {
-          dispatch(setUser({ name: result.name, surname: result.surname }));
+          dispatch(setUsers({ name: result.name, surname: result.surname }));
           ShowAlert(1, "Saved successfully");
         } catch (dispatchError) {
           console.error("Dispatch Error:", dispatchError);
