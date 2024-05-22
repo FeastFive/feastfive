@@ -2,18 +2,36 @@ import React from "react";
 import styles from "../style/OrderRestaurant.module.css";
 import { HiMiniCheck } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
+import { doneOrder } from "../utils/order/doneOrder";
 
 const OrderRestaurant = ({ order }) => {
-  // Function to calculate total price for a food item
+  console.log(order);
   const calculateTotalPrice = (food) => {
     return (food.price / 100) * food.quantity;
   };
 
-  // Function to calculate total price for all items within an innerCart
   const calculateInnerCartTotal = (cart) => {
     return cart.reduce((acc, food) => {
       return acc + calculateTotalPrice(food);
     }, 0);
+  };
+  const handleDoneOrder = async (restaurantId, userId, orderId) => {
+    try {
+      const response = await doneOrder({ restaurantId, userId, orderId });
+
+      if (response.status === 200) {
+        const result = await response.json();
+        console.log(result.state);
+        window.location.reload();
+        return result.state;
+      } else if (response.status === 404) {
+        console.error("Restaurant or user not found");
+      } else {
+        console.error("An error occurred while completing order");
+      }
+    } catch (error) {
+      console.error("Error completing order:", error);
+    }
   };
 
   return (
@@ -29,7 +47,6 @@ const OrderRestaurant = ({ order }) => {
                     {food.price / 100}$ x {food.quantity} :{" "}
                     {calculateTotalPrice(food).toFixed(2)}$
                   </p>
-                  {/* Display total price for the food item */}
 
                   <ul>
                     {food?.foodInfo?.map((info, i) => (
@@ -40,7 +57,6 @@ const OrderRestaurant = ({ order }) => {
               </div>
             ))}
           </div>
-          {/* Display total price for all items within the innerCart */}
           <p className={styles.innerCartTotal}>
             Inner Cart Total:{" "}
             {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
@@ -53,13 +69,24 @@ const OrderRestaurant = ({ order }) => {
             {element.activate ? (
               <div className={styles.acceptButtonContainer}>
                 <div className={styles.acceptButtonCont}>
-                  <button>Accept</button>
+                  <button
+                    onClick={() =>
+                      handleDoneOrder(
+                        element.restaurantId,
+                        element.userId,
+                        element.orderId
+                      )
+                    }
+                  >
+                    Accept
+                  </button>
+
                   <HiMiniCheck />
                 </div>
-                <div className={styles.acceptButtonCont}>
+                {/* <div className={styles.acceptButtonCont}>
                   <button>Reject</button>
                   <RxCross2 />
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className={styles.done}>Done</div>

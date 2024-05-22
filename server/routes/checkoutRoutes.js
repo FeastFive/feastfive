@@ -43,7 +43,6 @@ router.post("/create-checkout-session", async (req, res) => {
 
   res.json({ id: session.id });
 });
-
 router.get("/purchaseAccepted", addOrder);
 
 module.exports = router;
