@@ -73,7 +73,7 @@
 .acceptButtonCont {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   transition: all 0.3s ease;
   width: 5rem;
   color: #787878;
