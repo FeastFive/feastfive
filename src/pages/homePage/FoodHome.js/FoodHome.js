@@ -91,6 +91,8 @@ export default function FoodHome() {
         const commentCountB = b.comments.length;
         return commentCountB - commentCountA;
       });
+    } else if (selectedRadio === "Suggested") {
+      console.log("suggested");
     }
 
     setFiltered(filteredRestaurants);
