@@ -66,6 +66,7 @@ const GivenOrders = () => {
 
   return (
     <div>
+      <Navbar />
       <div className={styles.mainContainer}>
         {checkUserRole == "user" ? (
           <OrderUser order={orderUser} />

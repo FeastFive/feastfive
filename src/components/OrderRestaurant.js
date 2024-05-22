@@ -22,6 +22,7 @@ const OrderRestaurant = ({ order }) => {
       if (response.status === 200) {
         const result = await response.json();
         console.log(result.state);
+        window.location.reload();
         return result.state;
       } else if (response.status === 404) {
         console.error("Restaurant or user not found");
@@ -77,7 +78,7 @@ const OrderRestaurant = ({ order }) => {
                       )
                     }
                   >
-                    Done
+                    Accept
                   </button>
 
                   <HiMiniCheck />
