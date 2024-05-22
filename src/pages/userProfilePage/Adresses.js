@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { useSelector } from "react-redux";
+import { getAddress } from "../../utils/user/getAddress";
+import { addAdress } from "../../utils/user/addAddress";
 
 export default function Adresses() {
   const user = useSelector((state) => state.user);
 
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const [add, setAdd] = useState([]);
+  console.log(add);
 
   const [selectedProvinces, setSelectedProvinces] = useState({});
   const [selectedDistricts, setSelectesDistricts] = useState(null);
   const [adressName, setAdressName] = useState("");
   const [adressDescp, setAdressDescp] = useState("");
+
+  console.log(selectedProvinces, selectedDistricts, adressName, adressDescp);
 
   useEffect(() => {
     // Verileri API'den çekiyoruz
@@ -43,24 +49,72 @@ export default function Adresses() {
       });
   }
 
-  function saveAdress(){
-    if(selectedProvinces && selectedDistricts && adressName && adressDescp){
-      let newAdress = {"id":user.id,"adress":{"adressName":adressName, "province":selectedProvinces,"districts":selectedDistricts,"addresDescp":adressDescp}}
-      console.log(newAdress)
-      ShowAlert(1,"Succesfully added adress.")
+  const saveAdress = async () => {
+    if (selectedProvinces && selectedDistricts && adressName && adressDescp) {
+      let newAdress = {
+        id: user.id,
+        adress: {
+          adressName: adressName,
+          province: selectedProvinces,
+          districts: selectedDistricts,
+          addresDescp: adressDescp,
+        },
+      };
 
+      try {
+        const response = await addAdress(newAdress);
+
+        if (response.status === 200) {
+          const result = await response.json();
+          console.log(result);
+          ShowAlert(1, "Succesfully added adress.");
+        } else if (response.status === 404) {
+          ShowAlert(3, "No user found by id");
+        } else {
+          ShowAlert(3, "An error occurred while updating address");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        ShowAlert(3, "An error occurred while updating address");
+      }
+    } else {
+      ShowAlert(2, "Fill the blanks !");
     }
-    else{
-      ShowAlert(2,"Fill the blanks !")
-    }
-   
-  }
+  };
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      try {
+        const userId = user.id;
+        const response = await getAddress(userId);
+
+        if (response.ok) {
+          const result = await response.json();
+          setAdd(result.address.address);
+          console.log(result.address.address);
+        } else if (response.status === 404) {
+          ShowAlert(3, "An error occurred while fetching address");
+        } else {
+          ShowAlert(3, "An error occurred while fetching address");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        ShowAlert(3, "An error occurred while fetching address");
+      }
+    };
+
+    fetchAddress();
+  }, []);
+
   return (
     <div className="flex flex-col lg:flex-row justify-center place-items-center px-4 lg:px-[15%] gap-12">
       <div className="flex flex-col w-auto h-auto ">
         <div className="flex flex-col pb-3">
           <label className="font-semibold pb-1 pt-3">Adress Name: </label>
-          <input onChange={(e) => setAdressName(e.target.value)} className="border-2 border-gray-900 pl-2 py-2 w-[450px] rounded-sm shadow-md focus:outline-none"></input>
+          <input
+            onChange={(e) => setAdressName(e.target.value)}
+            className="border-2 border-gray-900 pl-2 py-2 w-[450px] rounded-sm shadow-md focus:outline-none"
+          ></input>
         </div>
 
         <div className="flex flex-row w-auto justify-center gap-3">
@@ -109,12 +163,18 @@ export default function Adresses() {
           <label className="font-semibold pb-1 pt-3">
             Address Description:{" "}
           </label>
-          <input onChange={(e)=> setAdressDescp(e.target.value)} className="border-2 border-gray-900 pl-2 py-2 w-[450px] rounded-sm shadow-md focus:outline-none"></input>
+          <input
+            onChange={(e) => setAdressDescp(e.target.value)}
+            className="border-2 border-gray-900 pl-2 py-2 w-[450px] rounded-sm shadow-md focus:outline-none"
+          ></input>
         </div>
 
         {/* Save */}
 
-        <button onClick={()=> saveAdress()} className="bg-gray-900 mt-4 w-[450px] rounded-sm shadow-md hover:bg-gray-700 duration-200 ease cursor-pointer py-2 text-slate-50 ">
+        <button
+          onClick={() => saveAdress()}
+          className="bg-gray-900 mt-4 w-[450px] rounded-sm shadow-md hover:bg-gray-700 duration-200 ease cursor-pointer py-2 text-slate-50 "
+        >
           Save
         </button>
       </div>
@@ -123,20 +183,22 @@ export default function Adresses() {
         <h3 className="text-2xl font-semibold pb-4 sticky top-0 bg-[#FFFFFF]">
           Your Adresses
         </h3>
-      
-       {[1,2,3].map((e)=>(
-        <div>
-        <h1 className="px-2 text-xl fontsemibold pb-2 font-semibold">Üniversitem</h1>
-        <div className="flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ">
-          <div className="flex flex-row">
-            <h3 className="-font-semibold text-lg mr-2">Bursa</h3>
-            <h3 className="-font-semibold text-lg mr-2">Mudanya</h3>
+        {add.map((item, index) => (
+          <div key={index}>
+            <h1 className="px-2 text-xl fontsemibold pb-2 font-semibold">
+              {item.adressName}
+            </h1>
+            <div className="flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ">
+              <div className="flex flex-row">
+                <h3 className="-font-semibold text-lg mr-2">{item.province}</h3>
+                <h3 className="-font-semibold text-lg mr-2">
+                  {item.districts}
+                </h3>
+              </div>
+              <div>{item.addresDescp}</div>
+            </div>
           </div>
-
-          <div>Dikyamaç Sokak Yeşil Vadi Evleri A blok Kat 4 No 9</div>
-        </div>
-      </div>
-       ))}
+        ))}
       </div>
     </div>
   );

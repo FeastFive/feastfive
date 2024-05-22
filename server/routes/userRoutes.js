@@ -7,11 +7,15 @@ const {
   activateAccount,
   getOrders,
   editUser,
+  addAdress,
+  getAdress,
 } = require("../controllers/authController");
 router.post("/", registerUser);
 router.post("/login", loginUser);
 router.post("/editUser", editUser);
+router.post("/addAdress", addAdress);
 router.post("/getOrders", getOrders);
+router.post("/getAdress", getAdress);
 router.get("/verify/:uniqueId", activateAccount);
 
 module.exports = router;

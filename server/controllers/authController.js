@@ -152,6 +152,57 @@ const getOrders = asyncHandler(async (req, res) => {
   }
 });
 
+const addAdress = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  const { id, adress } = req.body;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ state: "fail", message: "No user found by id" });
+    }
+
+    user.address.push(adress);
+
+    await user.save();
+
+    res
+      .status(200)
+      .json({ state: "success", message: "Address updated successfully" });
+  } catch (error) {
+    console.error("Error updating address in database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+const getAdress = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  const { id } = req.body;
+  console.log(id);
+  try {
+    const user = await User.findById(id, {
+      address: 1,
+    });
+
+    console.log(user);
+
+    if (!user) {
+      res.status(404).json({ message: "No user found" });
+      return;
+    }
+
+    res.status(200).json({
+      address: user,
+    });
+  } catch (error) {
+    console.error("Error retrieving address from database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const randString = () => {
   const len = 8;
   let randStr = "";
@@ -175,4 +226,6 @@ module.exports = {
   activateAccount,
   getOrders,
   editUser,
+  addAdress,
+  getAdress,
 };

@@ -1,17 +1,17 @@
-const editUser = async (userObj) => {
+const addAdress = async (obj) => {
   try {
-    const url = "http://127.0.0.1:4000/api/users/editUser";
+    const url = "http://127.0.0.1:4000/api/users/addAdress";
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userObj),
+      body: JSON.stringify(obj),
     });
     return response;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching address:", error);
     throw error;
   }
 };
-export { editUser };
+export { addAdress };
