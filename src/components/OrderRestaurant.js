@@ -3,6 +3,7 @@ import styles from "../style/OrderRestaurant.module.css";
 import { HiMiniCheck } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
 import { doneOrder } from "../utils/order/doneOrder";
+import { rejectOrder } from "../utils/order/rejectOrder";
 
 const OrderRestaurant = ({ order }) => {
   console.log(order);
@@ -18,6 +19,24 @@ const OrderRestaurant = ({ order }) => {
   const handleDoneOrder = async (restaurantId, userId, orderId) => {
     try {
       const response = await doneOrder({ restaurantId, userId, orderId });
+
+      if (response.status === 200) {
+        const result = await response.json();
+        console.log(result.state);
+        window.location.reload();
+        return result.state;
+      } else if (response.status === 404) {
+        console.error("Restaurant or user not found");
+      } else {
+        console.error("An error occurred while completing order");
+      }
+    } catch (error) {
+      console.error("Error completing order:", error);
+    }
+  };
+  const handleRejectOrder = async (restaurantId, userId, orderId) => {
+    try {
+      const response = await rejectOrder({ restaurantId, userId, orderId });
 
       if (response.status === 200) {
         const result = await response.json();
@@ -83,10 +102,10 @@ const OrderRestaurant = ({ order }) => {
 
                   <HiMiniCheck />
                 </div>
-                {/* <div className={styles.acceptButtonCont}>
+                <div className={styles.acceptButtonCont}>
                   <button>Reject</button>
                   <RxCross2 />
-                </div> */}
+                </div>
               </div>
             ) : (
               <div className={styles.done}>Done</div>
