@@ -120,7 +120,12 @@ const Navbar = () => {
         <div className={styles.mobileButtonContainer}>
           <div className={styles.mobilRegistrationContainer}>
             {user.isLogin || restaurant.isLogin ? (
-              <button className={styles.mobilProfileBtn}>Profile</button>
+              <button
+                className={styles.mobilProfileBtn}
+                onClick={() => navigate("/profile")}
+              >
+                Profile
+              </button>
             ) : (
               <>
                 <button
@@ -184,7 +189,14 @@ const Navbar = () => {
         exit="exit"
         className={styles.iconDropdown}
       >
-        <button className={styles.iconDropdownBtn}>Profile</button>
+        {user.isLogin ? (
+          <button
+            className={styles.iconDropdownBtn}
+            onClick={() => navigate("/profile")}
+          >
+            Profile
+          </button>
+        ) : null}
         {user.isLogin ? (
           <button
             className={styles.iconDropdownBtn}

@@ -13,7 +13,7 @@
   flex-direction: column;
   gap: 2rem;
   align-items: center;
-  padding-top: 5rem;
+  padding-top: 2rem;
 }
 .profileIconNoPhoto {
   font-size: 180px;
@@ -24,11 +24,12 @@
   border-radius: 50%;
 }
 .rightCart {
-  padding: 0 3rem;
+  padding: 0 20rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  
 }
 .nameLabel {
   display: flex;
@@ -81,9 +82,13 @@
   color: #f0f0f0;
 }
 
+
 @media (max-width: 890px) {
   .mainContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1.5fr;
+  }
+  .rightCart{
+    padding: 0  6rem;
   }
 }
