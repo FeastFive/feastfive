@@ -317,6 +317,59 @@ const updateComment = asyncHandler(async (req, res) => {
   }
 });
 
+const doneOrder = asyncHandler(async (req, res) => {
+  try {
+    const { restaurantId, userId, orderId } = req.body;
+    console.log(restaurantId, userId, orderId);
+
+    const [restaurant, user] = await Promise.all([
+      Restaurant.findById(restaurantId),
+      User.findById(userId),
+    ]);
+
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const orderIndexInRestaurant = restaurant.orders.findIndex(
+      (order) => order.orderId === orderId
+    );
+    const orderIndexInUser = user.orders.findIndex(
+      (order) => order.orderId === orderId
+    );
+
+    if (orderIndexInRestaurant === -1) {
+      return res.status(404).json({ message: "Order not found in restaurant" });
+    }
+    if (orderIndexInUser === -1) {
+      return res.status(404).json({ message: "Order not found in user" });
+    }
+    const activate = false;
+    restaurant.orders[orderIndexInRestaurant] = {
+      ...restaurant.orders[orderIndexInRestaurant],
+      activate: activate,
+    };
+
+    user.orders[orderIndexInUser] = {
+      ...user.orders[orderIndexInUser],
+      activate: activate,
+    };
+
+    await restaurant.save();
+    await user.save();
+
+    // await Promise.all([restaurant.save(), user.save()]);
+
+    res.status(200).json({ state: "success" });
+  } catch (error) {
+    console.error("Error done order:", error);
+    res.status(500).json({ state: "fail", message: "Internal server error" });
+  }
+});
+
 module.exports = {
   addMeal,
   updateMeal,
@@ -325,4 +378,5 @@ module.exports = {
   addComment,
   checkComment,
   updateComment,
+  doneOrder,
 };
