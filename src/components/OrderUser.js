@@ -168,7 +168,7 @@ const OrderUser = ({ order }) => {
               {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
             </p>
             <p className={element.activate ? styles.statusP : styles.statusD}>
-              {element.activate ? "InProgress" : "Done"}
+              {element.status}
             </p>
           </div>
           {!element.activate &&
