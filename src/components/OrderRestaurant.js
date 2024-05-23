@@ -59,7 +59,7 @@ const OrderRestaurant = ({ order }) => {
       {order.orders?.map((element, index) => (
         <div
           className={`${styles.cartComponent} ${
-            element.status === "Accepted"
+            element.status === "Done"
               ? styles.cartComponentA
               : element.status === "Rejected"
               ? styles.cartComponentR
