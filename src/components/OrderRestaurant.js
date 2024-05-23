@@ -63,7 +63,7 @@ const OrderRestaurant = ({ order }) => {
               ? styles.cartComponentA
               : element.status === "Rejected"
               ? styles.cartComponentR
-              : 
+              : element.status === "In Progress"
               ? styles.cartComponentI
               : ""
           }`}
