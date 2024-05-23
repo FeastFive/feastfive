@@ -57,7 +57,18 @@ const OrderRestaurant = ({ order }) => {
   return (
     <div className={styles.orderContainer}>
       {order.orders?.map((element, index) => (
-        <div className={styles.cartComponent} key={index}>
+        <div
+          className={`${styles.cartComponent} ${
+            element.status === "Accepted"
+              ? styles.cartComponentA
+              : element.status === "Rejected"
+              ? styles.cartComponentR
+              : element.status === "In Progress"
+              ? styles.cartComponentI
+              : ""
+          }`}
+          key={index}
+        >
           <div className={styles.foodList}>
             {element?.cartFoodList?.map((food, foodIndex) => (
               <div className={styles.innerCart} key={foodIndex}>
@@ -81,46 +92,40 @@ const OrderRestaurant = ({ order }) => {
             Inner Cart Total:{" "}
             {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
           </p>
-          <p
-            className={
-              element.activate ? styles.statusActive : styles.statusInactive
-            }
-          >
-            {element.activate && element.status !== "Rejected" ? (
+          <p>
+            {element.status !== "Rejected" && element.status !== "Accepted" ? (
               <div className={styles.acceptButtonContainer}>
-                <div className={styles.acceptButtonCont}>
-                  <button
-                    onClick={() =>
-                      handleDoneOrder(
-                        element.restaurantId,
-                        element.userId,
-                        element.orderId
-                      )
-                    }
-                  >
-                    Accept
-                  </button>
+                <div
+                  onClick={() =>
+                    handleDoneOrder(
+                      element.restaurantId,
+                      element.userId,
+                      element.orderId
+                    )
+                  }
+                  className={styles.acceptButtonCont}
+                >
+                  <button>Accept</button>
                   <HiMiniCheck />
                 </div>
-                <div className={styles.acceptButtonCont}>
-                  <button
-                    onClick={() =>
-                      handleRejectOrder(
-                        element.restaurantId,
-                        element.userId,
-                        element.orderId
-                      )
-                    }
-                  >
-                    Reject
-                  </button>
+                <div
+                  onClick={() =>
+                    handleRejectOrder(
+                      element.restaurantId,
+                      element.userId,
+                      element.orderId
+                    )
+                  }
+                  className={styles.acceptButtonCont}
+                >
+                  <button>Reject</button>
                   <RxCross2 />
                 </div>
               </div>
             ) : element.status === "Rejected" ? (
               <div className={styles.done}>Rejected</div>
             ) : (
-              <div className={styles.done}>Done</div>
+              <div className={styles.done}>Accepted</div>
             )}
           </p>
         </div>
