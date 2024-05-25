@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "../../utils/user/editUser";
-import { ShowAlert } from "../../components/alert/ShowAlert";
-import { setUsers } from "../../store/slices/userSlice";
+import { editUser } from "../../../utils/user/editUser";
+import { ShowAlert } from "../../../components/alert/ShowAlert";
+import { setUsers } from "../../../store/slices/userSlice";
 
 export default function Editprofile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [base64Image, setBase64Image] = useState(null); // Define setBase64Image state setter
 
   const [userObj, setUserObj] = useState({
     id: null,
@@ -26,17 +25,6 @@ export default function Editprofile() {
     });
   }, []);
 
-  const handleFileInputChangeUser = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setBase64Image(reader.result);
-        setUserObj({ ...userObj, image: reader.result });
-      };
-    }
-  };
   const handleEditUser = async () => {
     try {
       const response = await editUser(userObj);
@@ -102,22 +90,6 @@ export default function Editprofile() {
           className="border-2 border-gray-900 pl-2 py-2 mb-4 w-[450px] rounded-sm shadow-md focus:outline-none"
           disabled
         ></input>
-
-        {/* <label className="font-semibold pb-1 pt-3">Image</label>
-
-        <input
-          type="file"
-          accept="image/*"
-          className="block w-full text-sm text-slate-500 border-2 border-slate-200 px-4 py-4 rounded-md shadow-md cursor-pointer duration-200
-file:mr-4 file:py-2 file:px-4
-file:cursor-pointer
-file:rounded-md file:border-0
-file:text-sm file:font-semibold
-file:bg-[#db3748] file:bg-opacity-20 file:text-[#db3748] file:duration-200
-hover:file:bg-opacity-40
-"
-          onChange={handleFileInputChangeUser}
-        /> */}
       </div>
 
       <button

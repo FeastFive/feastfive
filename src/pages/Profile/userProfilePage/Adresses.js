@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { ShowAlert } from "../../components/alert/ShowAlert";
+import { ShowAlert } from "../../../components/alert/ShowAlert";
 import { useSelector } from "react-redux";
-import { getAddress } from "../../utils/user/getAddress";
-import { addAdress } from "../../utils/user/addAddress";
+import { getAddress } from "../../../utils/user/getAddress";
+import { addAdress } from "../../../utils/user/addAddress";
 
 export default function Adresses() {
   const user = useSelector((state) => state.user);
