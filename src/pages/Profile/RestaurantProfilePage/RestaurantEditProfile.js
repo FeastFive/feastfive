@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editUser } from "../../../utils/user/editUser";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
-import { setUsers } from "../../../store/slices/userSlice";
+import { setRestaurant } from "../../../store/slices/restaurantSlice";
 import { editRestaurant } from "../../../utils/restaurant/editRestaurant";
 
 export default function RestaurantEditProfile() {
@@ -49,7 +49,14 @@ export default function RestaurantEditProfile() {
         console.log(result);
 
         try {
-          // dispatch(setUsers({ name: result.name, surname: result.surname }));
+          dispatch(
+            setRestaurant({
+              restaurantName: result.restaurantName,
+              ownerName: result.ownerName,
+              ownerSurname: result.ownerSurname,
+              adress: result.adress,
+            })
+          );
           ShowAlert(1, "Saved successfully");
         } catch (dispatchError) {
           console.error("Dispatch Error:", dispatchError);

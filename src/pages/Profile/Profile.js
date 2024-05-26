@@ -30,6 +30,19 @@ const Profile = () => {
     "Delete My Account",
   ]);
 
+  function formatDate(dateString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZone: "UTC",
+    };
+    return new Date(dateString).toLocaleString("en-US", options);
+  }
+
   function deleteRestaurant() {}
   const restaurantUser = (
     <div>
@@ -42,7 +55,10 @@ const Profile = () => {
             <div className="w-32 h-32 rounded-full  pt-6">
               <img
                 className="w-full h-auto"
-                src={`${restaurant.image ?? "https://t3.ftcdn.net/jpg/06/33/54/78/360_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg"}`}
+                src={`${
+                  restaurant.image ??
+                  "https://t3.ftcdn.net/jpg/06/33/54/78/360_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg"
+                }`}
               ></img>
             </div>
 
@@ -56,16 +72,9 @@ const Profile = () => {
               <h3>
                 {" "}
                 <span className="pr-2 text-lg font-semibold">
-                  Owner Name:
+                  Restaurant Owner:
                 </span>{" "}
-                {restaurant.ownerName}
-              </h3>
-              <h3>
-                {" "}
-                <span className="pr-2 text-lg font-semibold">
-                  Owner Surname:
-                </span>{" "}
-                {restaurant.ownerSurname}
+                {restaurant.ownerName} {restaurant.ownerSurname}
               </h3>
               <h3>
                 {" "}
@@ -75,14 +84,21 @@ const Profile = () => {
               <h3>
                 {" "}
                 <span className="pr-2 text-lg font-semibold">
+                  Restaurant Adress:
+                </span>{" "}
+                {restaurant?.adress?.province} {restaurant?.adress?.district}
+              </h3>
+              <h3>
+                {" "}
+                <span className="pr-2 text-lg font-semibold">
                   Registration Date:
                 </span>
-                {restaurant.created_at}{" "}
+                {formatDate(restaurant.created_at)}{" "}
               </h3>
               <h3>
                 {" "}
                 <span className="pr-2 text-lg font-semibold">Last Login:</span>
-                {restaurant.loginDate}{" "}
+                {formatDate(restaurant.loginDate)}{" "}
               </h3>
             </div>
           </div>
@@ -202,7 +218,7 @@ const Profile = () => {
         {choose === 3 && (
           <div className="w-full h-full pt-12 flex flex-col justfiy-center place-items-center">
             <h2 className="text-3xl font-semibold">
-              Are you sure want to delete your Restaurant ?
+              Are you sure want to delete your User ?
             </h2>
             <div className="flex flex-row pt-4 gap-3">
               <button
@@ -226,7 +242,6 @@ const Profile = () => {
 
   return (
     <div>
-
       <div>
         {user.isLogin ? normalUser : null}
         {restaurant.isLogin ? restaurantUser : null}

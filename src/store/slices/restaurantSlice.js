@@ -7,6 +7,7 @@ const initialState = {
   ownerName: "",
   ownerSurname: "",
   email: null,
+  adress: "",
   created_at: null,
   loginDate: null,
   role: "",
@@ -26,6 +27,7 @@ const restaurantSlice = createSlice({
       state.ownerName = action.payload.ownerName;
       state.ownerSurname = action.payload.ownerSurname;
       state.email = action.payload.email;
+      state.adress = action.payload.adress;
       state.created_at = action.payload.createdAt;
       state.loginDate = action.payload.loginDate;
       state.role = action.payload.role;
@@ -41,9 +43,20 @@ const restaurantSlice = createSlice({
     setLabels: (state, action) => {
       state.labels = action.payload.labels;
     },
+    setRestaurant: (state, action) => {
+      state.restaurantName = action.payload.restaurantName;
+      state.ownerName = action.payload.ownerName;
+      state.ownerSurname = action.payload.ownerSurname;
+      state.adress = action.payload.adress;
+    },
   },
 });
-export const { setActiveRestaurant, restaurantLogout, setMeal, setLabels } =
-  restaurantSlice.actions;
+export const {
+  setActiveRestaurant,
+  restaurantLogout,
+  setRestaurant,
+  setMeal,
+  setLabels,
+} = restaurantSlice.actions;
 
 export default restaurantSlice.reducer;

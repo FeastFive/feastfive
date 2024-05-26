@@ -192,7 +192,7 @@ const editRestaurant = asyncHandler(async (req, res) => {
     res.status(200).json({
       ownerName: updatedRestaurant.ownerName,
       ownerSurname: updatedRestaurant.ownerSurname,
-      address: updatedRestaurant.address,
+      adress: updatedRestaurant.adress,
       restaurantName: updatedRestaurant.restaurantName,
       image: updatedRestaurant.image,
     });
