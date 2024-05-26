@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import Navbar from "../../components/Navbar";
 import { useSelector } from "react-redux";
 import Editprofile from "./userProfilePage/Editprofile";
@@ -8,8 +9,16 @@ import GivenOrders from "../orderPages/GivenOrders";
 import RestaurantEditProfile from "./RestaurantProfilePage/RestaurantEditProfile";
 import RestaurantPanelPage from "../restaurantPanelPage/RestaurantPanelPage";
 import RestaurantCharts from "./RestaurantProfilePage/RestaurantCharts";
+import { deleteRestaurant } from "../../utils/restaurant/deleteRestaurant";
+import { deleteUser } from "../../utils/user/deleteUser";
+import { useNavigate } from "react-router-dom";
+import { ShowAlert } from "../../components/alert/ShowAlert";
+import { restaurantLogout } from "../../store/slices/restaurantSlice";
+import { logout } from "../../store/slices/userSlice";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
 
@@ -43,7 +52,40 @@ const Profile = () => {
     return new Date(dateString).toLocaleString("en-US", options);
   }
 
-  function deleteRestaurant() {}
+  const handleDeleteRestaurant = async () => {
+    try {
+      const id = restaurant.id;
+      const response = await deleteRestaurant(id);
+
+      if (response.ok) {
+        ShowAlert(1, "Restaurant deleted successfully");
+        dispatch(restaurantLogout());
+        navigate("/");
+      } else {
+        console.error("Failed to delete restaurant");
+        ShowAlert(3, "Failed to delete restaurant");
+      }
+    } catch (error) {
+      console.error("Error deleting restaurant:", error);
+    }
+  };
+  const handleDeleteUser = async () => {
+    try {
+      const id = user.id;
+      const response = await deleteUser(id);
+
+      if (response.ok) {
+        ShowAlert(1, "User deleted successfully");
+        dispatch(logout());
+        navigate("/");
+      } else {
+        console.error("Failed to delete restaurant");
+        ShowAlert(3, "Failed to delete restaurant");
+      }
+    } catch (error) {
+      console.error("Error deleting restaurant:", error);
+    }
+  };
   const restaurantUser = (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 h-auto px-12 md:px-24 lg:px-32 py-12 border-b-2">
@@ -132,7 +174,7 @@ const Profile = () => {
             </h2>
             <div className="flex flex-row pt-4 gap-3">
               <button
-                onClick={() => deleteRestaurant()}
+                onClick={() => handleDeleteRestaurant()}
                 className="bg-red-400 rounded-md shadow-sm w-auto px-8 py-2 hover:bg-red-600 duration-200 cursor-pointer text-slate-50 text-lg font-semibold"
               >
                 Yes I'm sure
@@ -222,7 +264,7 @@ const Profile = () => {
             </h2>
             <div className="flex flex-row pt-4 gap-3">
               <button
-                onClick={() => deleteRestaurant()}
+                onClick={() => handleDeleteUser()}
                 className="bg-red-400 rounded-md shadow-sm w-auto px-8 py-2 hover:bg-red-600 duration-200 cursor-pointer text-slate-50 text-lg font-semibold"
               >
                 Yes I'm sure

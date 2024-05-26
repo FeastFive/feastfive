@@ -201,6 +201,21 @@ const editRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteRestaurant = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+
+  const deletedRestaurant = await Restaurant.findByIdAndDelete(id);
+
+  if (deletedRestaurant) {
+    res.status(200).json({
+      status: "success",
+      message: "Restaurant deleted successfully",
+    });
+  } else {
+    res.status(404).json({ status: "fail", message: "Restaurant not found" });
+  }
+});
+
 //get restaurant
 // route api/restaurants/getSpecificRestaurant
 const getSpecificRestaurant = asyncHandler(async (req, res) => {
@@ -335,4 +350,5 @@ module.exports = {
   getSearchRestaurants,
   getOrders,
   editRestaurant,
+  deleteRestaurant,
 };
