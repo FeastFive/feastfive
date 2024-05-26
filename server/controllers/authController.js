@@ -2,7 +2,7 @@ const User = require("./../models/userModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { sendActivationEmail } = require("./mailer");
+const { sendActivationEmail, forgotPasswordEmail } = require("./mailer");
 
 // register a new user
 // route /api/users
@@ -115,6 +115,78 @@ const deleteUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404).json({ status: "fail", message: "User not found" });
+  }
+});
+
+const forgotPassUser = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    res.status(400).json({ message: "Please include all fields" });
+    return;
+  }
+
+  try {
+    const userExists = await User.findOne({ email });
+    if (!userExists) {
+      res.status(404).json({ message: "User does not exist" });
+      return;
+    }
+    await forgotPasswordEmail(userExists.uniqueId, userExists.email);
+    res.status(200).json({ message: "Password reset email sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+const forgotPassRedirect = asyncHandler(async (req, res) => {
+  try {
+    const { uniqueId } = req.params;
+
+    console.log("Activation code, uniqueId:", uniqueId);
+
+    const user = await User.findOne({ uniqueId: uniqueId });
+
+    if (user) {
+      return res.redirect(
+        `http://localhost:3000/changePassword?uniqueId=${uniqueId}`
+      );
+    } else {
+      return res.status(404).json({ error: "User with provided ID not found" });
+    }
+  } catch (error) {
+    console.error("Error activating account:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  try {
+    // const { uniqueId } = req.query;
+    const { uniqueId, newPassword } = req.body;
+    console.log("uniqueId");
+    console.log(uniqueId);
+
+    if (!newPassword) {
+      return res.status(400).json({ error: "Password does not exist" });
+    }
+
+    const user = await User.findOne({ uniqueId: uniqueId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password successfully changed" });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -244,4 +316,7 @@ module.exports = {
   deleteUser,
   addAdress,
   getAdress,
+  forgotPassUser,
+  forgotPassRedirect,
+  changePassword,
 };
