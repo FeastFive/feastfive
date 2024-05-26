@@ -12,6 +12,7 @@ const {
   getSearchRestaurants,
   getOrders,
   editRestaurant,
+  deleteRestaurant,
 } = require("../controllers/authRestaurantController");
 
 router.post("/", registerRestaurant);
@@ -19,6 +20,7 @@ router.post("/login", loginRestaurant);
 router.post("/updateRestaurant", updateRestaurant);
 router.post("/updateLabel", updateLabel);
 router.post("/editRestaurant", editRestaurant);
+router.post("/deleteRestaurant", deleteRestaurant);
 router.post("/getSearchRestaurants", getSearchRestaurants);
 router.get("/verify/:uniqueId", activateRestaurantAccount);
 router.get("/getRestaurant", getRestaurant);
