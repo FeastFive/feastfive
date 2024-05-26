@@ -9,6 +9,7 @@ import { ShowAlert } from "../../components/alert/ShowAlert";
 const ChangePassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [readyPassword, setReadyPassword] = useState(true);
   const [uniqueId, setUniqueId] = useState(null);
   const [formData, setFormData] = useState({
     password: "",
@@ -21,7 +22,7 @@ const ChangePassword = () => {
     setUniqueId(id);
   }, [location]);
 
-  console.log(uniqueId);
+  // console.log(uniqueId);
 
   const handleChange = (event) => {
     setFormData((prevState) => ({
@@ -29,35 +30,54 @@ const ChangePassword = () => {
       [event.target.name]: event.target.value,
     }));
   };
-
+  const checkPassword = (pass) => {
+    if (
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pass) &&
+      pass.length >= 8
+    ) {
+      setReadyPassword(false);
+      return true;
+    } else {
+      setReadyPassword(true);
+      return false;
+    }
+  };
   const handleChangePass = async () => {
     const { password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
-    }
-    console.log(uniqueId);
-    try {
-      const response = await changePassword({
-        uniqueId,
-        newPassword: password,
-      });
+    } else if (!checkPassword(formData.password)) {
+      ShowAlert(
+        3,
+        `Invalid password! Your password must be at least 8 characters long
+        and include at least one uppercase letter, one lowercase letter,
+        and one number for security purposes.`
+      );
+      setReadyPassword(false);
+    } else {
+      try {
+        const response = await changePassword({
+          uniqueId,
+          newPassword: password,
+        });
 
-      if (response.status === 200) {
-        const result = await response.json();
-        ShowAlert(1, "Password changed successfully");
-        // navigate("/home");
-      } else if (response.status === 404) {
-        console.error("User not found");
-        ShowAlert(0, "User not found");
-      } else {
-        console.error("An error occurred while changing password");
-        ShowAlert(0, "An error occurred while changing password");
+        if (response.status === 200) {
+          const result = await response.json();
+          ShowAlert(1, "Password changed successfully");
+          navigate("/login");
+        } else if (response.status === 404) {
+          console.error("User not found");
+          ShowAlert(0, "User not found");
+        } else {
+          console.error("An error occurred while changing password");
+          ShowAlert(0, "An error occurred while changing password");
+        }
+      } catch (error) {
+        console.error("Error changing password:", error);
+        ShowAlert(0, "Error changing password");
       }
-    } catch (error) {
-      console.error("Error changing password:", error);
-      ShowAlert(0, "Error changing password");
     }
   };
 
