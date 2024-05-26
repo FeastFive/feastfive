@@ -162,8 +162,10 @@ const forgotPassRedirect = asyncHandler(async (req, res) => {
 
 const changePassword = asyncHandler(async (req, res) => {
   try {
-    const { uniqueId } = req.query;
-    const { newPassword } = req.body;
+    // const { uniqueId } = req.query;
+    const { uniqueId, newPassword } = req.body;
+    console.log("uniqueId");
+    console.log(uniqueId);
 
     if (!newPassword) {
       return res.status(400).json({ error: "Password does not exist" });
