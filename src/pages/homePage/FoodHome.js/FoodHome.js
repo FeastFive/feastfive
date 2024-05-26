@@ -122,7 +122,6 @@ export default function FoodHome() {
 
   return (
     <>
-      <Navbar />
       <div className="grid grid-cols-5 md:px-12 lg-px-24 gap-6 pt-12">
         <div className="col-span-1 w-full h-screen sticky top-0 overflow-scroll px-3 pl-5 pt-6 bg-[#F9FCFB] border-2 rounded-md shadow-md border-slate-100 hidden md:hidden lg:block">
           <div className="flex flex-row justify-between">

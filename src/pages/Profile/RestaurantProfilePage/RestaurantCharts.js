@@ -25,16 +25,25 @@ export default function RestaurantCharts() {
       });
 
   return (
-    <div className='flex flex-row flex-wrap justify-center place-items-center gap-12 px-24 lg:px-4'>
-      <div className='w-[480px] lg:w-[670px] flex justify-center'>
-        <BarChart chartData={userData} />
-      </div>
-      <div className='w-[480px] lg:w-[670px] flex justify-center'>
-        <LineChart chartData={userData} />
-      </div>
-      <div className='w-[480px] lg:w-[670px] flex justify-center'>
-        <PieChart chartData={userData} />
+    <div>
+                <h2 className='text-center text-3xl font-semibold py-4 pb-6 px-4 text-slate-900'>Restaurant Statistics</h2>
+                <div className='flex flex-row flex-wrap justify-center place-items-center gap-12 px-24 lg:px-4 pb-24'>
+        
+
+        <div className='w-[480px] lg:w-[640px] flex justify-center py-6'>
+          <BarChart chartData={userData} />
+        </div>
+        <div className='w-[480px] lg:w-[640px] flex justify-center py-6'>
+          <LineChart chartData={userData} />
+        </div>
+        <div className='w-[480px] lg:w-[640px] flex justify-center py-6'>
+          <PieChart chartData={userData} />
+        </div>
+        <div className='w-[480px] lg:w-[640px] flex justify-center py-6'>
+          <PieChart chartData={userData} />
+        </div>
       </div>
     </div>
+   
   );
 }
