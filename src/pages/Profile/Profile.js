@@ -10,9 +10,11 @@ import RestaurantEditProfile from "./RestaurantProfilePage/RestaurantEditProfile
 import RestaurantPanelPage from "../restaurantPanelPage/RestaurantPanelPage";
 import RestaurantCharts from "./RestaurantProfilePage/RestaurantCharts";
 import { deleteRestaurant } from "../../utils/restaurant/deleteRestaurant";
+import { deleteUser } from "../../utils/user/deleteUser";
 import { useNavigate } from "react-router-dom";
 import { ShowAlert } from "../../components/alert/ShowAlert";
 import { restaurantLogout } from "../../store/slices/restaurantSlice";
+import { logout } from "../../store/slices/userSlice";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -55,11 +57,26 @@ const Profile = () => {
       const id = restaurant.id;
       const response = await deleteRestaurant(id);
 
-      console.log();
-
       if (response.ok) {
         ShowAlert(1, "Restaurant deleted successfully");
         dispatch(restaurantLogout());
+        navigate("/");
+      } else {
+        console.error("Failed to delete restaurant");
+        ShowAlert(3, "Failed to delete restaurant");
+      }
+    } catch (error) {
+      console.error("Error deleting restaurant:", error);
+    }
+  };
+  const handleDeleteUser = async () => {
+    try {
+      const id = user.id;
+      const response = await deleteUser(id);
+
+      if (response.ok) {
+        ShowAlert(1, "User deleted successfully");
+        dispatch(logout());
         navigate("/");
       } else {
         console.error("Failed to delete restaurant");
@@ -247,7 +264,7 @@ const Profile = () => {
             </h2>
             <div className="flex flex-row pt-4 gap-3">
               <button
-                onClick={() => deleteRestaurant()}
+                onClick={() => handleDeleteUser()}
                 className="bg-red-400 rounded-md shadow-sm w-auto px-8 py-2 hover:bg-red-600 duration-200 cursor-pointer text-slate-50 text-lg font-semibold"
               >
                 Yes I'm sure

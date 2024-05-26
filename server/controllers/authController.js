@@ -103,6 +103,21 @@ const editUser = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteUser = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+
+  const deletedUser = await User.findByIdAndDelete(id);
+
+  if (deletedUser) {
+    res.status(200).json({
+      status: "success",
+      message: "User deleted successfully",
+    });
+  } else {
+    res.status(404).json({ status: "fail", message: "User not found" });
+  }
+});
+
 const activateAccount = asyncHandler(async (req, res) => {
   try {
     const { uniqueId } = req.params;
@@ -226,6 +241,7 @@ module.exports = {
   activateAccount,
   getOrders,
   editUser,
+  deleteUser,
   addAdress,
   getAdress,
 };
