@@ -169,10 +169,41 @@ const updateRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
+const editRestaurant = asyncHandler(async (req, res) => {
+  console.log(req.body.address);
+  const { id, ownerName, ownerSurname, restaurantName, adress, image } =
+    req.body;
+
+  const updatedRestaurant = await Restaurant.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        ownerName,
+        ownerSurname,
+        restaurantName,
+        adress: adress,
+        image: image,
+      },
+    },
+    { new: true, upsert: true, runValidators: true }
+  );
+
+  if (updatedRestaurant) {
+    res.status(200).json({
+      ownerName: updatedRestaurant.ownerName,
+      ownerSurname: updatedRestaurant.ownerSurname,
+      address: updatedRestaurant.address,
+      restaurantName: updatedRestaurant.restaurantName,
+      image: updatedRestaurant.image,
+    });
+  } else {
+    res.status(404).json({ status: "fail", message: "Restaurant not found" });
+  }
+});
+
 //get restaurant
 // route api/restaurants/getSpecificRestaurant
 const getSpecificRestaurant = asyncHandler(async (req, res) => {
-  console.log("burdayim");
   console.log(req.body);
   const { id } = req.body;
   console.log(id);
@@ -303,4 +334,5 @@ module.exports = {
   getSpecificRestaurant,
   getSearchRestaurants,
   getOrders,
+  editRestaurant,
 };
