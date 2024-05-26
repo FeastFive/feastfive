@@ -189,7 +189,7 @@ const Navbar = () => {
         exit="exit"
         className={styles.iconDropdown}
       >
-        {user.isLogin ? (
+        {user.isLogin || restaurant.isLogin ? (
           <button
             className={styles.iconDropdownBtn}
             onClick={() => navigate("/profile")}
