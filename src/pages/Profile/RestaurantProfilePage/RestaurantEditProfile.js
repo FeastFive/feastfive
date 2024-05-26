@@ -27,6 +27,9 @@ export default function RestaurantEditProfile() {
   });
 
   useEffect(() => {
+    if (restaurant.adress.province) {
+      fetchDistrict(restaurant.adress.province);
+    }
     setRestaurantObj({
       id: restaurant.id,
       restaurantName: restaurant.restaurantName,
@@ -35,15 +38,13 @@ export default function RestaurantEditProfile() {
       email: restaurant.email,
       image: null,
       adress: {
-        province: restaurant.province,
-        district: restaurant.district,
-        addressDescp: restaurant.addressDescp,
+        province: restaurant.adress.province,
+        district: restaurant.adress.district,
+        addressDescp: restaurant.adress.addressDescp,
       },
     });
 
-    if (restaurantObj.adress.province) {
-      fetchDistrict(restaurantObj.adress.province);
-    }
+   
   }, []);
   const handleEditRestaurant = async () => {
     try {
