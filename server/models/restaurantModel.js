@@ -14,7 +14,10 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide restaurant name"],
     },
-    address: {
+    adress: {
+      type: Object,
+    },
+    image: {
       type: String,
     },
     email: {

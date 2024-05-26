@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editUser } from "../../../utils/user/editUser";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
 import { setUsers } from "../../../store/slices/userSlice";
+import { editRestaurant } from "../../../utils/restaurant/editRestaurant";
 
 export default function RestaurantEditProfile() {
   const dispatch = useDispatch();
@@ -15,33 +16,58 @@ export default function RestaurantEditProfile() {
   const [add, setAdd] = useState([]);
   console.log(add);
 
-
   const [restaurantObj, setRestaurantObj] = useState({
     id: null,
     restaurantName: "",
     ownerName: "",
-    ownerSurname:"",
+    ownerSurname: "",
     email: "",
     image: null,
-    adress:{province:"",district:"",addressDescp:""}
+    adress: { province: "", district: "", addressDescp: "" },
   });
 
   useEffect(() => {
     setRestaurantObj({
-        id: restaurant.id,
-        restaurantName: restaurant.restaurantName,
-        ownerName: restaurant.ownerName,
-        ownerSurname:restaurant.ownerSurname,
-        email: restaurant.email,
-        image: null,
-        adress:{province:"",district:"",addressDescp:""}
-
+      id: restaurant.id,
+      restaurantName: restaurant.restaurantName,
+      ownerName: restaurant.ownerName,
+      ownerSurname: restaurant.ownerSurname,
+      email: restaurant.email,
+      image: null,
+      adress: { province: "", district: "", addressDescp: "" },
     });
 
-    if(restaurantObj.adress.province){
-        fetchDistrict(restaurantObj.adress.province)
+    if (restaurantObj.adress.province) {
+      fetchDistrict(restaurantObj.adress.province);
     }
   }, []);
+  const handleEditRestaurant = async () => {
+    try {
+      const response = await editRestaurant(restaurantObj);
+      if (response.status === 200) {
+        const result = await response.json();
+        console.log(result);
+
+        try {
+          // dispatch(setUsers({ name: result.name, surname: result.surname }));
+          ShowAlert(1, "Saved successfully");
+        } catch (dispatchError) {
+          console.error("Dispatch Error:", dispatchError);
+          ShowAlert(
+            3,
+            "An error occurred while updating the restaurant in the state"
+          );
+        }
+      } else if (response.status === 404) {
+        ShowAlert(3, "User not found");
+      } else {
+        ShowAlert(3, "An error occurred while editing restaurant");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      ShowAlert(3, "An error occurred while editing restaurant");
+    }
+  };
 
   const handleFileInputChangeUser = (event) => {
     const file = event.target.files[0];
@@ -54,40 +80,6 @@ export default function RestaurantEditProfile() {
       };
     }
   };
-
-  const handleEditUser = async () => {
-    console.log(restaurantObj)
-  }
-  /* 
-   const handleEditUser = async () => {
-    try {
-      const response = await editUser(userObj);
-      if (response.status === 200) {
-        const result = await response.json();
-        console.log(result);
-
-        try {
-          dispatch(setUsers({ name: result.name, surname: result.surname }));
-          ShowAlert(1, "Saved successfully");
-        } catch (dispatchError) {
-          console.error("Dispatch Error:", dispatchError);
-          ShowAlert(
-            3,
-            "An error occurred while updating the user in the state"
-          );
-        }
-      } else if (response.status === 404) {
-        ShowAlert(3, "User not found");
-      } else {
-        ShowAlert(3, "An error occurred while editing user");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      ShowAlert(3, "An error occurred while editing user");
-    }
-  };
-  */
- 
 
   useEffect(() => {
     // Verileri API'den çekiyoruz
@@ -102,7 +94,10 @@ export default function RestaurantEditProfile() {
   }, []);
 
   function selectingProvince(province) {
-    setRestaurantObj({...restaurantObj,adress:{...restaurantObj.adress, province:province}})
+    setRestaurantObj({
+      ...restaurantObj,
+      adress: { ...restaurantObj.adress, province: province },
+    });
     fetchDistrict(province);
   }
 
@@ -127,7 +122,9 @@ export default function RestaurantEditProfile() {
           <label className="font-semibold pb-1">Owner Name: </label>
           <input
             value={restaurantObj.ownerName}
-            onChange={(e) => setRestaurantObj({ ...restaurantObj, ownerName: e.target.value })}
+            onChange={(e) =>
+              setRestaurantObj({ ...restaurantObj, ownerName: e.target.value })
+            }
             className="border-[2px] border-gray-900 pl-2 py-2 w-[220px] rounded-sm shadow-md focus:outline-none"
           ></input>
         </div>
@@ -138,7 +135,10 @@ export default function RestaurantEditProfile() {
           <input
             value={restaurantObj.ownerSurname}
             onChange={(e) =>
-                setRestaurantObj({ ...restaurantObj, ownerSurname: e.target.value })
+              setRestaurantObj({
+                ...restaurantObj,
+                ownerSurname: e.target.value,
+              })
             }
             className="border-2 border-gray-900 pl-2 py-2 rounded-sm w-[220px] focus:outline-none"
           ></input>
@@ -151,7 +151,12 @@ export default function RestaurantEditProfile() {
         <label className="font-semibold pb-1 pt-3">Restaurant Name: </label>
         <input
           value={restaurantObj.restaurantName}
-          onChange={(e) => setRestaurantObj({ ...restaurantObj, restaurantName: e.target.value })}
+          onChange={(e) =>
+            setRestaurantObj({
+              ...restaurantObj,
+              restaurantName: e.target.value,
+            })
+          }
           className="border-2 border-gray-900 pl-2 py-2 mb-4 w-[450px] rounded-sm shadow-md focus:outline-none"
         ></input>
         <label className="font-semibold pb-1 pt-3">Email: </label>
@@ -193,7 +198,12 @@ export default function RestaurantEditProfile() {
               className="border-2 border-gray-900 pl-2 py-2 rounded-sm w-[220px] focus:outline-none"
               id="ilce"
               value={restaurantObj.adress.district}
-              onChange={(e) => setRestaurantObj({...restaurantObj,adress:{...restaurantObj.adress, district:e.target.value}})}
+              onChange={(e) =>
+                setRestaurantObj({
+                  ...restaurantObj,
+                  adress: { ...restaurantObj.adress, district: e.target.value },
+                })
+              }
             >
               <option value="">Seçiniz</option>
               {districts.map((dist, index) => (
@@ -211,7 +221,15 @@ export default function RestaurantEditProfile() {
           </label>
           <input
             value={restaurantObj.adress.addressDescp ?? ""}
-            onChange={(e) => setRestaurantObj({...restaurantObj,adress:{...restaurantObj.adress,addressDescp:e.target.value}})}
+            onChange={(e) =>
+              setRestaurantObj({
+                ...restaurantObj,
+                adress: {
+                  ...restaurantObj.adress,
+                  addressDescp: e.target.value,
+                },
+              })
+            }
             className="border-2 border-gray-900 pl-2 py-2 w-[450px] rounded-sm shadow-md focus:outline-none"
           ></input>
         </div>
@@ -233,7 +251,7 @@ hover:file:bg-opacity-40
         {/* Save */}
       </div>
       <button
-        onClick={handleEditUser}
+        onClick={handleEditRestaurant}
         className="bg-gray-900 mt-4 w-[450px] rounded-sm shadow-md hover:bg-gray-700 duration-200 ease cursor-pointer py-2 text-slate-50 "
       >
         Save
