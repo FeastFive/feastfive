@@ -34,7 +34,11 @@ export default function RestaurantEditProfile() {
       ownerSurname: restaurant.ownerSurname,
       email: restaurant.email,
       image: null,
-      adress: { province: "", district: "", addressDescp: "" },
+      adress: {
+        province: restaurant.province,
+        district: restaurant.district,
+        addressDescp: restaurant.addressDescp,
+      },
     });
 
     if (restaurantObj.adress.province) {
