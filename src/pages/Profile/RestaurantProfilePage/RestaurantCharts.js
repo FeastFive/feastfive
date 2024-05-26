@@ -25,7 +25,10 @@ export default function RestaurantCharts() {
       });
 
   return (
-    <div className='flex flex-row flex-wrap justify-center place-items-center gap-12 px-24 lg:px-4'>
+   <div>
+<h3 className='text-3xl font-semibold text-center py-8'> Statistics
+</h3>
+<div className='flex flex-row flex-wrap justify-center place-items-center gap-12 lg:gap-24 px-32 lg:px-4'>
       <div className='w-[480px] lg:w-[670px] flex justify-center'>
         <BarChart chartData={userData} />
       </div>
@@ -35,6 +38,10 @@ export default function RestaurantCharts() {
       <div className='w-[480px] lg:w-[670px] flex justify-center'>
         <PieChart chartData={userData} />
       </div>
+      <div className='w-[480px] lg:w-[670px] flex justify-center'>
+        <PieChart chartData={userData} />
+      </div>
     </div>
+   </div>
   );
 }
