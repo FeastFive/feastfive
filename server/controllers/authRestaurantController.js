@@ -76,6 +76,7 @@ const loginRestaurant = asyncHandler(async (req, res) => {
         ownerName: restaurant.ownerName,
         ownerSurname: restaurant.ownerSurname,
         email: restaurant.email,
+        adress: restaurant.adress,
         uniqueId: restaurant.uniqueId,
         createdAt: restaurant.createdAt,
         loginDate: restaurant.loginDate,
