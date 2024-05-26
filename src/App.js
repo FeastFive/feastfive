@@ -34,7 +34,7 @@ function App() {
     <>
       <BrowserRouter>
         <Navbar></Navbar>      
-        <ToastContainer style={{ zIndex: "928273690" }} />
+        <ToastContainer style={{ zIndex: "928273690" }} />  
 
         <Routes>
           <Route index element={<HomePage />} />

@@ -7,6 +7,7 @@ import Adresses from "./userProfilePage/Adresses";
 import GivenOrders from "../orderPages/GivenOrders";
 import RestaurantEditProfile from "./RestaurantProfilePage/RestaurantEditProfile";
 import RestaurantPanelPage from "../restaurantPanelPage/RestaurantPanelPage";
+import RestaurantCharts from "./RestaurantProfilePage/RestaurantCharts";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
@@ -25,6 +26,7 @@ const Profile = () => {
     "Edit Restaurant Profile",
     "Edit Restaurant Menü",
     "Orders",
+    "Statistics",
     "Delete My Account",
   ]);
 
@@ -105,7 +107,9 @@ const Profile = () => {
         {choose === 0 && <RestaurantEditProfile></RestaurantEditProfile>}
         {choose === 1 && <RestaurantPanelPage></RestaurantPanelPage>}
         {choose === 2 && <GivenOrders></GivenOrders>}
-        {choose === 3 && (
+        {choose === 3 && <RestaurantCharts></RestaurantCharts>}
+
+        {choose === 4 && (
           <div className="w-full h-full pt-12 flex flex-col justfiy-center place-items-center">
             <h2 className="text-3xl font-semibold">
               Are you sure want to delete your Restaurant ?
