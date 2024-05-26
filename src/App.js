@@ -8,7 +8,7 @@ import RestaurantSignup from "./pages/restaurantRegistiration/RestaurantSignup";
 import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
 import ChangePassword from "./pages/changePassword/ChangePassword";
 import RestaurantPanelPage from "./pages/restaurantPanelPage/RestaurantPanelPage";
-import Profile from "./pages/userProfilePage/Profile";
+import Profile from "./pages/Profile/Profile";
 import GivenOrders from "./pages/orderPages/GivenOrders";
 import NoPage from "./pages/notFound/NoPage";
 import { ToastContainer } from "react-toastify";
@@ -33,7 +33,8 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <ToastContainer style={{ zIndex: "928273690" }} />
+        <Navbar></Navbar>      
+        <ToastContainer style={{ zIndex: "928273690" }} />  
 
         <Routes>
           <Route index element={<HomePage />} />

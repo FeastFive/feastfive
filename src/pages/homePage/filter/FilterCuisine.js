@@ -53,7 +53,6 @@ const FilterCuisine = () => {
 
   return (
     <div className="pb-24 overflow-x-hidden">
-      <Navbar></Navbar>
       <div className="pt-4 px-8 md:px-16 lg:px-32">
         <div className="flex flex-row justify-left gap-3 pb-7 pt-8 border-b-2 border-gray-300 w-full lg:w-[400px] relative">
           <img

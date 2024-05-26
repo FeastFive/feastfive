@@ -227,7 +227,6 @@ export default function RestaurantFoods() {
 
   return (
     <>
-      <Navbar></Navbar>
 
       <div className="w-full pb-24 relative flex flex-row flex-col lg:flex-row justify-between">
         <Loader></Loader>

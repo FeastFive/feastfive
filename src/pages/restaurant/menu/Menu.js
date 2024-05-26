@@ -142,7 +142,6 @@ export default function Menu() {
 
   return (
     <>
-      <Navbar></Navbar>
       <div className="flex flex-col place-items-center pt-12 px-8  sm:px-0 sm:w-[60%] md:w-[50%] lg:w-[30%] m-auto py-12 gap-1 pb-12">
         <IoArrowBack
           className={styles.backIcon}

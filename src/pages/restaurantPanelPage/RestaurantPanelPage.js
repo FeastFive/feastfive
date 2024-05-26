@@ -83,7 +83,6 @@ const RestaurantPanelPage = () => {
 
   return (
     <div>
-      <Navbar />
       <div className={styles.mainContainer}>
         <div className={styles.headCont}>
           <div className={styles.addLabelDiv}>Add Label</div>

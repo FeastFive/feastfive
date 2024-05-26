@@ -23,7 +23,10 @@ const Navbar = () => {
   // console.log(user);
   const restaurant = useSelector((state) => state.restaurant);
   // console.log(restaurant);
+  const [href , setHref] = useState(window.location.href)
+  const { pathname } = window.location;
 
+  console.log(pathname)
   useEffect(() => {
     if (user.role === "user") {
       setCheckUserRole("user");
@@ -189,7 +192,7 @@ const Navbar = () => {
         exit="exit"
         className={styles.iconDropdown}
       >
-        {user.isLogin ? (
+        {user.isLogin || restaurant.isLogin ? (
           <button
             className={styles.iconDropdownBtn}
             onClick={() => navigate("/profile")}
@@ -214,7 +217,10 @@ const Navbar = () => {
   };
 
   return (
-    <header className={styles.headerContainer}>
+    <>
+      {(pathname !== "/login" && pathname !== "/signUp" && pathname !== "/restaurantLogin" && pathname !== "/restaurantSignUp" && pathname !== "/forgotPassword") ?
+      
+      <header className={styles.headerContainer}>
       <div className={styles.buttonContainer}>
         <button
           className={styles.navButton}
@@ -262,7 +268,7 @@ const Navbar = () => {
                       Hello, {restaurant.restaurantName}
                     </p>
                   )}
-
+  
                   <MdKeyboardArrowDown
                     className={styles.userDropdownArrowIcon}
                   />
@@ -289,7 +295,7 @@ const Navbar = () => {
             </>
           )}
         </div>
-
+  
         <div className={styles.responsiveDropdown}>
           <BsJustify
             className={styles.dropdownIcon}
@@ -301,6 +307,9 @@ const Navbar = () => {
         </div>
       </div>
     </header>
+    :<></>
+      }
+    </>
   );
 };
 
