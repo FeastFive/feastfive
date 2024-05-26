@@ -47,7 +47,6 @@ export default function CartPage() {
   };
   return (
     <div className="overflow-x-hidden pb-32">
-      <Navbar></Navbar>
       <div className="w-[90%] sm:w-[90%] md:w-[80%] lg:w-[65%] m-auto px-12 sm:px-12 md:px-6 lg:px-12 pt-12">
         <h3 className="font-semibold text-2xl pb-4"> Cart </h3>
 

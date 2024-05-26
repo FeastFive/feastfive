@@ -222,7 +222,6 @@ const Profile = () => {
 
   return (
     <div>
-      <Navbar />
 
       <div>
         {user.isLogin ? normalUser : null}

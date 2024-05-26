@@ -33,6 +33,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <Navbar></Navbar>      
         <ToastContainer style={{ zIndex: "928273690" }} />
 
         <Routes>

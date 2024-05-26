@@ -13,7 +13,6 @@ const HomePage = () => {
   return (
     <div>
       <div className="pb-24 overflow-x-hidden">
-        <Navbar></Navbar>
         <HomeEntry></HomeEntry>
 
         <div className="px-12 sm:px-24">
