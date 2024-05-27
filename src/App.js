@@ -29,6 +29,8 @@ import Cart from "./pages/Cart/Cart";
 import RestaurantCharts from "./pages/Profile/RestaurantProfilePage/RestaurantCharts";
 import RestaurantHome from "./pages/Profile/RestaurantProfilePage/RestaurantHome";
 import RestaurantForgotPassword from "./pages/restaurantForgotPassword/RestaurantForgotPassword";
+import RestaurantChangePassword from "./pages/restaurantChangePassword/RestaurantChangePassword";
+
 function App() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
@@ -227,6 +229,16 @@ function App() {
             element={
               <ProtectedRoute
                 element={ChangePassword}
+                redirectTo="/home"
+                condition={!restaurant.isLogin && !user.isLogin}
+              />
+            }
+          />
+          <Route
+            path="/restaurantChangePassword"
+            element={
+              <ProtectedRoute
+                element={RestaurantChangePassword}
                 redirectTo="/home"
                 condition={!restaurant.isLogin && !user.isLogin}
               />
