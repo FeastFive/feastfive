@@ -34,7 +34,7 @@ const Navbar = () => {
         button1: "Home",
         button2: "Restaurants",
         button3: "Orders",
-        button4: "Campaign",
+        button4: "Favorite",
       });
     } else if (restaurant.role === "restaurant") {
       setCheckUserRole("restaurant");
@@ -42,7 +42,7 @@ const Navbar = () => {
         button1: "Home",
         button2: "Menu",
         button3: "Orders",
-        button4: "Campaign",
+        button4: "Profile",
       });
     } else {
       setCheckUserRole("");
@@ -254,7 +254,14 @@ const Navbar = () => {
             >
               {menu.button3}
             </button>
-            <button className={styles.navButton}>{menu.button4}</button>
+            <button
+              className={styles.navButton}
+              onClick={() =>
+                navigate(checkUserRole === "user" ? "/favorities" : "/profile")
+              }
+            >
+              {menu.button4}
+            </button>
             <div className={styles.registrationContainer}>
               {user.isLogin || restaurant.isLogin ? (
                 <div className={styles.registeredUserContainer}>
