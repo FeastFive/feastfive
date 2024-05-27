@@ -120,10 +120,12 @@ export default function HomeGrid({ list }) {
               <div className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-20px] lg:mt-[-60px] overflow-hidden rounded-md">
                 <img
                   src={
-                    "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
+                    element.image
+                      ? element.image
+                      : "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
                   }
+                  alt="Delicious Food"
                   className="object-cover object-bottom bg-red-400 overflow-hidden rounded-md"
-                  alt=""
                 />
               </div>
               <div className="flex flex-col px-2 pt-3 ">

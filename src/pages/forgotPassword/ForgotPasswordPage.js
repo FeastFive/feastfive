@@ -4,6 +4,8 @@ import imageLogo from "../../images//logo-black.png";
 import { IoHomeSharp, IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import styles from "./ForgotPasswordPage.module.css";
+import { forgotPassUser } from "../../utils/user/forgotPassUser";
+import { ShowAlert } from "../../components/alert/ShowAlert";
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
@@ -14,6 +16,21 @@ const ForgotPasswordPage = () => {
   const [formData, setFormData] = useState({
     email: "",
   });
+
+  const handleForgotPassUser = async () => {
+    try {
+      const response = await forgotPassUser(formData);
+
+      if (response.status === 200) {
+        ShowAlert(1, "Email sent succesfully");
+      } else {
+        ShowAlert(3, "Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
   return (
     <div className={styles.pageContainer}>
       <IoArrowBack
@@ -41,7 +58,9 @@ const ForgotPasswordPage = () => {
           />
         </label>
 
-        <button className={styles.subbmitButton}>Submit</button>
+        <button className={styles.subbmitButton} onClick={handleForgotPassUser}>
+          Submit
+        </button>
       </div>
     </div>
   );

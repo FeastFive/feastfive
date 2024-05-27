@@ -65,6 +65,30 @@ const sendActivationEmail = (uniqueId, mailAddress) => {
   return sendMail(mailAddress, subject, mailBody);
 };
 
+const forgotPasswordEmail = (uniqueId, mailAddress) => {
+  const mailBody = `
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>FeastFive Recover Password</title>
+</head>
+<body>
+  <div> 
+    <h3>FeastFive Recover Password</h3>
+    <p>This email is sent to you to recover your FeastFive password.</p>
+    <p>Press <a href="http://localhost:4000/api/users/forgot/${uniqueId}">here</a> to recover your account.</p>
+    <p></p>
+    <p>Thanks!</p>
+    <b>FeastFive</b>
+  </div>
+</body>
+</html>
+`;
+  const subject = "FeastFive Recover Password";
+
+  return sendMail(mailAddress, subject, mailBody);
+};
+
 const sendActivationRestaurantEmail = (uniqueId, mailAddress) => {
   const mailBody = `
   <!DOCTYPE html>
@@ -93,4 +117,5 @@ module.exports = {
   sendMail,
   sendActivationEmail,
   sendActivationRestaurantEmail,
+  forgotPasswordEmail,
 };
