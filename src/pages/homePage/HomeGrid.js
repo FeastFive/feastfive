@@ -10,7 +10,7 @@ import Loader from "../../components/Loader";
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
   const [restaurantFilterList, setRestaurantFilterList] = useState();
-  console.log(list)
+  console.log(list);
   const [labelList, setLabelList] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
   const [foods, setFoods] = useState([]);
@@ -27,7 +27,7 @@ export default function HomeGrid({ list }) {
         if (response.status === 200) {
           const result = await response.json();
           setFoods(result.restaurants);
-          console.log(result.restaurants)
+          console.log(result.restaurants);
         } else if (response.status === 403) {
           ShowAlert(3, "An error occurred while fetching restaurant");
         } else {
@@ -120,7 +120,7 @@ export default function HomeGrid({ list }) {
               <div className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-20px] lg:mt-[-60px] overflow-hidden rounded-md">
                 <img
                   src={
-                    element.image
+                    element && element.image
                       ? element.image
                       : "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
                   }

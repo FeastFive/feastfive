@@ -23,10 +23,10 @@ const Navbar = () => {
   // console.log(user);
   const restaurant = useSelector((state) => state.restaurant);
   // console.log(restaurant);
-  const [href , setHref] = useState(window.location.href)
+  const [href, setHref] = useState(window.location.href);
   const { pathname } = window.location;
 
-  console.log(pathname)
+  console.log(pathname);
   useEffect(() => {
     if (user.role === "user") {
       setCheckUserRole("user");
@@ -165,7 +165,7 @@ const Navbar = () => {
           <button
             className={styles.navMobileButton}
             onClick={() =>
-              navigate(checkUserRole === "user" ? "/food" : "/orders")
+              navigate(checkUserRole === "user" ? "/orders" : "/orders")
             }
           >
             {menu.button3}
@@ -218,97 +218,105 @@ const Navbar = () => {
 
   return (
     <>
-      {(pathname !== "/login" && pathname !== "/signUp" && pathname !== "/restaurantLogin" && pathname !== "/restaurantSignUp" && pathname !== "/forgotPassword") ?
-      
-      <header className={styles.headerContainer}>
-      <div className={styles.buttonContainer}>
-        <button
-          className={styles.navButton}
-          onClick={() => navigate(checkUserRole === "user" ? "/home" : "/home")}
-        >
-          {menu.button1}
-        </button>
-        <button
-          className={styles.navButton}
-          onClick={() =>
-            navigate(checkUserRole === "user" ? "/food" : "/restaurantPanel")
-          }
-        >
-          {menu.button2}
-        </button>
-        <div className={styles.iconContainer}>
-          <img src={navIconNoBack} alt="" className={styles.navIcon} />
-        </div>
-        <button
-          className={styles.navButton}
-          onClick={() =>
-            navigate(checkUserRole === "user" ? "/orders" : "/orders")
-          }
-        >
-          {menu.button3}
-        </button>
-        <button className={styles.navButton}>{menu.button4}</button>
-        <div className={styles.registrationContainer}>
-          {user.isLogin || restaurant.isLogin ? (
-            <div className={styles.registeredUserContainer}>
-              <button
-                className={styles.registeredUserButton}
-                onClick={() => {
-                  setNavProfileDropdownOpen(!navProfileDropdownOpen);
-                }}
-              >
-                <FaCircleUser className={styles.userDropdownProfileIcon} />
-                <div className={styles.userDropdownContainer}>
-                  {checkUserRole === "user" ? (
-                    <p className={styles.userDropdownText}>
-                      Hello, {user.name}
-                    </p>
-                  ) : (
-                    <p className={styles.userDropdownText}>
-                      Hello, {restaurant.restaurantName}
-                    </p>
-                  )}
-  
-                  <MdKeyboardArrowDown
-                    className={styles.userDropdownArrowIcon}
-                  />
+      {pathname !== "/login" &&
+      pathname !== "/signUp" &&
+      pathname !== "/restaurantLogin" &&
+      pathname !== "/restaurantSignUp" &&
+      pathname !== "/forgotPassword" ? (
+        <header className={styles.headerContainer}>
+          <div className={styles.buttonContainer}>
+            <button
+              className={styles.navButton}
+              onClick={() =>
+                navigate(checkUserRole === "user" ? "/home" : "/home")
+              }
+            >
+              {menu.button1}
+            </button>
+            <button
+              className={styles.navButton}
+              onClick={() =>
+                navigate(
+                  checkUserRole === "user" ? "/food" : "/restaurantPanel"
+                )
+              }
+            >
+              {menu.button2}
+            </button>
+            <div className={styles.iconContainer}>
+              <img src={navIconNoBack} alt="" className={styles.navIcon} />
+            </div>
+            <button
+              className={styles.navButton}
+              onClick={() =>
+                navigate(checkUserRole === "user" ? "/orders" : "/orders")
+              }
+            >
+              {menu.button3}
+            </button>
+            <button className={styles.navButton}>{menu.button4}</button>
+            <div className={styles.registrationContainer}>
+              {user.isLogin || restaurant.isLogin ? (
+                <div className={styles.registeredUserContainer}>
+                  <button
+                    className={styles.registeredUserButton}
+                    onClick={() => {
+                      setNavProfileDropdownOpen(!navProfileDropdownOpen);
+                    }}
+                  >
+                    <FaCircleUser className={styles.userDropdownProfileIcon} />
+                    <div className={styles.userDropdownContainer}>
+                      {checkUserRole === "user" ? (
+                        <p className={styles.userDropdownText}>
+                          Hello, {user.name}
+                        </p>
+                      ) : (
+                        <p className={styles.userDropdownText}>
+                          Hello, {restaurant.restaurantName}
+                        </p>
+                      )}
+
+                      <MdKeyboardArrowDown
+                        className={styles.userDropdownArrowIcon}
+                      />
+                    </div>
+                  </button>
+                  <AnimatePresence>
+                    {navProfileDropdownOpen && <IconDropdown />}
+                  </AnimatePresence>
                 </div>
-              </button>
+              ) : (
+                <>
+                  <button
+                    className={styles.loginButton}
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className={styles.singupButton}
+                    onClick={() => navigate("/signUp")}
+                  >
+                    SignUp
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className={styles.responsiveDropdown}>
+              <BsJustify
+                className={styles.dropdownIcon}
+                onClick={() => setNavDropdownOpen(true)}
+              />
               <AnimatePresence>
-                {navProfileDropdownOpen && <IconDropdown />}
+                {navDropdownOpen && <MobileDropdown />}
               </AnimatePresence>
             </div>
-          ) : (
-            <>
-              <button
-                className={styles.loginButton}
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </button>
-              <button
-                className={styles.singupButton}
-                onClick={() => navigate("/signUp")}
-              >
-                SignUp
-              </button>
-            </>
-          )}
-        </div>
-  
-        <div className={styles.responsiveDropdown}>
-          <BsJustify
-            className={styles.dropdownIcon}
-            onClick={() => setNavDropdownOpen(true)}
-          />
-          <AnimatePresence>
-            {navDropdownOpen && <MobileDropdown />}
-          </AnimatePresence>
-        </div>
-      </div>
-    </header>
-    :<></>
-      }
+          </div>
+        </header>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

@@ -53,36 +53,40 @@ const FilterCuisine = () => {
     handleRestaurant();
   }, [selectedCategories]);
 
-  useEffect(()=>{
-    if(!isEmpty){
-      setTimeout(()=>{
-        setIsEmpty(true)
-      },[1400])
+  useEffect(() => {
+    if (!isEmpty) {
+      setTimeout(() => {
+        setIsEmpty(true);
+      }, [1400]);
     }
-  },[])
+  }, []);
   return (
     <div className="pb-24 overflow-x-hidden">
       <div className="pt-4 px-8 md:px-16 lg:px-32">
         <div className="flex flex-row justify-left gap-3 pb-7 pt-8 border-b-2 border-gray-300 w-full lg:w-[400px] relative">
           <img
-            src={cuisine.image}
+            src={cuisine?.image}
             alt="cuisine"
             className="rounded-md shadow-lg h-[140px] w-auto"
           />
-          <h3 className="text-3xl font-bold  pt-1 pl-2">{cuisine.name}</h3>
+          <h3 className="text-3xl font-bold  pt-1 pl-2">{cuisine?.name}</h3>
         </div>
 
         <div className=" pt-8 lg:pt-4 relative pb-12">
           <h3 className="text-3xl font-semibold">
             Restaurants with{" "}
-            <span className="text-[#DB3748]">{cuisine.name}</span>
+            <span className="text-[#DB3748]">{cuisine?.name}</span>
           </h3>
 
           {filtered?.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
             <>
-              {isEmpty && <div className="text-lg text-gray-500 pt-4">There is no restaurant with {cuisine.name}...</div>}
+              {isEmpty && (
+                <div className="text-lg text-gray-500 pt-4">
+                  There is no restaurant with {cuisine?.name}...
+                </div>
+              )}
             </>
           )}
         </div>

@@ -246,7 +246,7 @@ function App() {
             path="/orders"
             element={
               <ProtectedRoute
-                element={FilterCuisine}
+                element={GivenOrders}
                 redirectTo="/login"
                 condition={restaurant.isLogin || user.isLogin}
               />
