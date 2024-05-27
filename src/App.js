@@ -27,6 +27,7 @@ import FilterCuisine from "./pages/homePage/filter/FilterCuisine";
 import Favoritie from "./pages/favorities/Favoritie";
 import Cart from "./pages/Cart/Cart";
 import RestaurantCharts from "./pages/Profile/RestaurantProfilePage/RestaurantCharts";
+import RestaurantHome from "./pages/Profile/RestaurantProfilePage/RestaurantHome";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -67,7 +68,7 @@ function App() {
             path="/panel"
             element={
               <ProtectedRoute
-                element={RestaurantCharts }
+                element={RestaurantHome}
                 redirectTo="/login"
                 condition={restaurant.isLogin}
               />
@@ -245,7 +246,7 @@ function App() {
             path="/orders"
             element={
               <ProtectedRoute
-                element={GivenOrders}
+                element={FilterCuisine}
                 redirectTo="/login"
                 condition={restaurant.isLogin || user.isLogin}
               />

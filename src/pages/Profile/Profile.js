@@ -35,7 +35,6 @@ const Profile = () => {
     "Edit Restaurant Profile",
     "Edit Restaurant Menü",
     "Orders",
-    "Statistics",
     "Delete My Account",
   ]);
 
@@ -165,9 +164,8 @@ const Profile = () => {
         {choose === 0 && <RestaurantEditProfile></RestaurantEditProfile>}
         {choose === 1 && <RestaurantPanelPage></RestaurantPanelPage>}
         {choose === 2 && <GivenOrders></GivenOrders>}
-        {choose === 3 && <RestaurantCharts></RestaurantCharts>}
 
-        {choose === 4 && (
+        {choose === 3 && (
           <div className="w-full h-full pt-12 flex flex-col justfiy-center place-items-center">
             <h2 className="text-3xl font-semibold">
               Are you sure want to delete your Restaurant ?
