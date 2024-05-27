@@ -96,6 +96,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     if (checkUserRole === "user") {
+      localStorage.removeItem("adress");
       dispatch(logout());
     } else if (checkUserRole === "restaurant") {
       dispatch(restaurantLogout());
@@ -165,7 +166,7 @@ const Navbar = () => {
           <button
             className={styles.navMobileButton}
             onClick={() =>
-              navigate(checkUserRole === "user" ? "/orders" : "/orders")
+              navigate(checkUserRole === "user" ? "/food" : "/orders")
             }
           >
             {menu.button3}
@@ -223,8 +224,7 @@ const Navbar = () => {
       pathname !== "/restaurantLogin" &&
       pathname !== "/restaurantSignUp" &&
       pathname !== "/forgotPassword" &&
-      pathname !== "/purchaseAccepted" &&
-      pathname !== "/purchaseRejected" ? (
+      pathname !== "/purchaseAccepted" ? (
         <header className={styles.headerContainer}>
           <div className={styles.buttonContainer}>
             <button

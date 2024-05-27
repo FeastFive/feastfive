@@ -9,6 +9,7 @@ const initialState = {
   created_at: null,
   loginDate: null,
   role: "",
+  adress: "",
   favorites: [],
   orders: [],
   logs: [],
@@ -24,6 +25,7 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.surname = action.payload.surname;
       state.email = action.payload.email;
+      state.adress = action.payload.adress;
       state.created_at = action.payload.createdAt;
       state.loginDate = action.payload.loginDate;
       state.role = action.payload.role;
@@ -36,9 +38,12 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.surname = action.payload.surname;
     },
+    setAdress: (state, action) => {
+      state.adress = action.payload.adress;
+    },
   },
 });
 
-export const { setActiveUser, setUsers, logout } = userSlice.actions;
+export const { setActiveUser, setUsers, setAdress, logout } = userSlice.actions;
 
 export default userSlice.reducer;

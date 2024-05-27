@@ -22,7 +22,7 @@ const Profile = () => {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
 
-  const [choose, setChoose] = useState(1);
+  const [choose, setChoose] = useState(0);
 
   const [profileOptions, setProfileOptions] = useState([
     "Edit User Profile",
