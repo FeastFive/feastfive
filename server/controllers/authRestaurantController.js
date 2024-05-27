@@ -172,21 +172,23 @@ const updateRestaurant = asyncHandler(async (req, res) => {
 });
 
 const editRestaurant = asyncHandler(async (req, res) => {
-  console.log(req.body.address);
   const { id, ownerName, ownerSurname, restaurantName, adress, image } =
     req.body;
 
+  const updateData = {
+    ownerName,
+    ownerSurname,
+    restaurantName,
+    adress,
+  };
+
+  if (image) {
+    updateData.image = image;
+  }
+
   const updatedRestaurant = await Restaurant.findByIdAndUpdate(
     id,
-    {
-      $set: {
-        ownerName,
-        ownerSurname,
-        restaurantName,
-        adress: adress,
-        image: image,
-      },
-    },
+    { $set: updateData },
     { new: true, upsert: true, runValidators: true }
   );
 
