@@ -290,10 +290,18 @@ const getSearchRestaurants = asyncHandler(async (req, res) => {
       {
         password: 0,
         meals: 0,
+        image: 0,
         labels: 0,
         orders: 0,
+      },
+      {
+        sort: {
+          restaurantName: 1,
+          labels: 1,
+        },
+        limit: 3000,
       }
-    ).limit(3000);
+    );
 
     if (filteredRestaurants.length > 0) {
       res.status(200).send(filteredRestaurants);
