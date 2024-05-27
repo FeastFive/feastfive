@@ -7,6 +7,11 @@ import styles from "./Filter.module.css";
 import HomeGrid from "../HomeGrid";
 
 const FilterCuisine = () => {
+  const [choosedAdress, setChoosedAdress] = useState(
+    localStorage.getItem("adress")
+      ? JSON.parse(localStorage.getItem("adress"))
+      : {}
+  );
   const [filtered, setFiltered] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -28,18 +33,29 @@ const FilterCuisine = () => {
         if (response.status === 200) {
           const result = await response.json();
           if (result.restaurants.length > 0) {
-            if (!selectedCategories.length) {
-              setFiltered([]);
-            } else {
-              const filteredRestaurants = result.restaurants.filter(
-                (restaurant) =>
-                  restaurant.labels.some((label) =>
-                    selectedCategories.includes(label.value)
-                  )
-              );
+            let filteredRestaurants = result.restaurants;
 
-              setFiltered(filteredRestaurants);
+            // Filter by selected categories
+            if (selectedCategories.length > 0) {
+              filteredRestaurants = filteredRestaurants.filter((restaurant) =>
+                restaurant.labels.some((label) =>
+                  selectedCategories.includes(label.value)
+                )
+              );
             }
+
+            // Filter by address
+            if (choosedAdress.province && choosedAdress.districts) {
+              filteredRestaurants = filteredRestaurants.filter(
+                (restaurant) =>
+                  restaurant.adress?.province === choosedAdress.province &&
+                  restaurant.adress?.district === choosedAdress.districts
+              );
+            }
+
+            setFiltered(filteredRestaurants);
+          } else {
+            setFiltered([]);
           }
         } else {
           ShowAlert(3, "An error occurred while fetching restaurant");
@@ -51,7 +67,7 @@ const FilterCuisine = () => {
     };
 
     handleRestaurant();
-  }, [selectedCategories]);
+  }, [selectedCategories, choosedAdress]);
 
   useEffect(() => {
     if (!isEmpty) {

@@ -12,6 +12,11 @@ function debounce(func, wait) {
 }
 
 function SearchBar({ setResults, setSearch }) {
+  const [choosedAdress, setChoosedAdress] = useState(
+    localStorage.getItem("adress")
+      ? JSON.parse(localStorage.getItem("adress"))
+      : {}
+  );
   const [input, setInput] = useState("");
   const [close, setClose] = useState(false);
 
@@ -24,7 +29,14 @@ function SearchBar({ setResults, setSearch }) {
         console.log(response);
         if (response.status === 200) {
           const result = await response.json();
-          setResults(result);
+
+          const filteredResults = result.filter(
+            (restaurant) =>
+              restaurant.adress?.province === choosedAdress.province &&
+              restaurant.adress?.district === choosedAdress.districts
+          );
+
+          setResults(filteredResults);
         } else if (response.status === 404) {
           // setResults([]);
         } else {

@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../../components/Loader";
 
 export default function FoodHome() {
+  const [choosedAdress, setChoosedAdress] = useState(
+    localStorage.getItem("adress")
+      ? JSON.parse(localStorage.getItem("adress"))
+      : {}
+  );
   const navigate = useNavigate();
   const [radioList, setRadioList] = useState([
     "Suggested",
@@ -55,8 +60,15 @@ export default function FoodHome() {
         const response = await getRestaurant();
         if (response.status === 200) {
           const result = await response.json();
-          setRestaurants(result.restaurants);
-          setFiltered(result.restaurants);
+
+          const filteredRestaurants = result.restaurants.filter(
+            (restaurant) =>
+              restaurant.adress?.province === choosedAdress.province &&
+              restaurant.adress?.district === choosedAdress.districts
+          );
+
+          setRestaurants(filteredRestaurants);
+          setFiltered(filteredRestaurants);
         } else {
           console.log("error");
         }
@@ -66,7 +78,7 @@ export default function FoodHome() {
     };
 
     fetchRestaurants();
-  }, []);
+  }, [choosedAdress]);
 
   const handleFilter = () => {
     let filteredRestaurants = [...restaurants];

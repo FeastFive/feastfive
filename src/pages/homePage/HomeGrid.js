@@ -8,9 +8,12 @@ import Loader from "../../components/Loader";
 import { useSelector } from "react-redux";
 
 export default function HomeGrid({ list }) {
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-  console.log(user);
+  const [choosedAdress, setChoosedAdress] = useState(
+    localStorage.getItem("adress")
+      ? JSON.parse(localStorage.getItem("adress"))
+      : {}
+  );
+  console.log(choosedAdress);
   const [favorities, setFavorities] = useState([]);
   const [foods, setFoods] = useState([]);
   console.log(foods);
@@ -39,20 +42,26 @@ export default function HomeGrid({ list }) {
       setRatings(calculatedRatings);
     }
   }, [list]);
-
   useEffect(() => {
+    console.log("Entering useEffect");
     const handleRestaurant = async () => {
       try {
         const response = await getRestaurant();
 
         if (response.status === 200) {
           const result = await response.json();
-          console.log(result.restaurants);
 
-          // Restoranları yükle
-          setFoods(result.restaurants);
+          const filteredRestaurants = result.restaurants.filter(
+            (restaurant) =>
+              restaurant.adress?.province === choosedAdress.province &&
+              restaurant.adress?.district === choosedAdress.districts
+          );
 
-          const calculatedRatings = result.restaurants.map((restaurant) => {
+          console.log("Filtered Restaurants:", filteredRestaurants);
+
+          setFoods(filteredRestaurants);
+
+          const calculatedRatings = filteredRestaurants.map((restaurant) => {
             if (restaurant.comments.length > 0) {
               const totalRating = restaurant.comments.reduce(
                 (total, comment) => total + comment.rating,
@@ -82,7 +91,7 @@ export default function HomeGrid({ list }) {
     if (!list && foods.length === 0) {
       handleRestaurant();
     }
-  }, [list, foods]);
+  }, [list, choosedAdress]);
 
   function goRestaurant(element, setRating) {
     navigate(`/restaurantFoods/${element?._id}`);
