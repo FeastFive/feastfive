@@ -225,6 +225,7 @@ const Navbar = () => {
       pathname !== "/restaurantSignUp" &&
       pathname !== "/forgotPassword" &&
       pathname !== "/restaurantForgotPassword" &&
+      pathname !== "/restaurantChangePassword" &&
       pathname !== "/purchaseAccepted" ? (
         <header className={styles.headerContainer}>
           <div className={styles.buttonContainer}>
