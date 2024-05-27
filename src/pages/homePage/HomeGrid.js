@@ -10,7 +10,7 @@ import Loader from "../../components/Loader";
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
   const [restaurantFilterList, setRestaurantFilterList] = useState();
-  console.log(list)
+  console.log(list);
   const [labelList, setLabelList] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
   const [foods, setFoods] = useState([]);
@@ -27,7 +27,7 @@ export default function HomeGrid({ list }) {
         if (response.status === 200) {
           const result = await response.json();
           setFoods(result.restaurants);
-          console.log(result.restaurants)
+          console.log(result.restaurants);
         } else if (response.status === 403) {
           ShowAlert(3, "An error occurred while fetching restaurant");
         } else {
@@ -107,9 +107,9 @@ export default function HomeGrid({ list }) {
   };
 
   return (
-    <div className="relative py-2">
+    <div className="relative py-2 pb-24">
       <Loader></Loader>
-      <div className=" pt-6 grid grid-cols-1 relative   sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center  pt-3 justify-left gap-4 lg:gap-8 justify-left ">
+      <div className=" pt-6 grid grid-cols-1 relative   sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 place-items-center  pt-3 justify-left gap-4 lg:gap-8 justify-left px-2">
         {foods?.length > 0 ? (
           foods.map((element, index) => (
             <div
@@ -117,17 +117,17 @@ export default function HomeGrid({ list }) {
               className="w-full h-auto pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200 hover:scale-[103%] overflow-hidden"
               onClick={() => goRetaurant(element)}
             >
-              <div className="w-full h-[69%] md:h-[60%] bg-red-400 mt-[-20px] lg:mt-[-60px] overflow-hidden rounded-md">
+                <div className="h-[270px] overflow-hidden">
                 <img
                   src={
                     element.image
                       ? element.image
-                      : "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
+                      : "	https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg"
                   }
                   alt="Delicious Food"
-                  className="object-cover object-bottom bg-red-400 overflow-hidden rounded-md"
+                  className="object-cover object-bottom md:h-[170px] lg:h-auto  overflow-hidden rounded-md"
                 />
-              </div>
+                </div>
               <div className="flex flex-col px-2 pt-3 ">
                 <div className="flex flex-row w-full h-full justify-between">
                   <h3 className="text-md font-semibold">

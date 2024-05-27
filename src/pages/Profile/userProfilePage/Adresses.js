@@ -16,7 +16,7 @@ export default function Adresses() {
   const [selectedDistricts, setSelectesDistricts] = useState(null);
   const [adressName, setAdressName] = useState("");
   const [adressDescp, setAdressDescp] = useState("");
-
+  const [choosedAdress, setChoosedAdress] = useState(localStorage.getItem("adress") ? JSON.parse(localStorage.getItem("adress")) : {})
   console.log(selectedProvinces, selectedDistricts, adressName, adressDescp);
 
   useEffect(() => {
@@ -106,6 +106,22 @@ export default function Adresses() {
     fetchAddress();
   }, []);
 
+  function chooseCurrentAdress(adress){
+    console.log(adress)
+    setChoosedAdress(adress)
+    localStorage.setItem("adress",JSON.stringify(adress))
+  }
+  function checkCurrentAdress(givenAdress){
+    let currentAdress = localStorage.getItem("adress");
+    if(currentAdress){
+      let jsonCurrentAdress = JSON.parse(currentAdress);
+      if(jsonCurrentAdress.addresDescp == givenAdress.addresDescp){
+        return true;
+      }
+    }
+
+    return false;
+  }
   return (
     <div className="flex flex-col lg:flex-row justify-center place-items-center px-4 lg:px-[15%] gap-12">
       <div className="flex flex-col w-auto h-auto ">
@@ -184,11 +200,11 @@ export default function Adresses() {
           Your Adresses
         </h3>
         {add.map((item, index) => (
-          <div key={index}>
+          <div key={index} onClick={()=> chooseCurrentAdress(item)}>
             <h1 className="px-2 text-xl fontsemibold pb-2 font-semibold">
               {item.adressName}
             </h1>
-            <div className="flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ">
+            <div className={`flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ` + (choosedAdress?.addresDescp === item.addresDescp ? " border-green-300" : " ")} >
               <div className="flex flex-row">
                 <h3 className="-font-semibold text-lg mr-2">{item.province}</h3>
                 <h3 className="-font-semibold text-lg mr-2">
