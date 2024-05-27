@@ -7,6 +7,7 @@ import { rejectOrder } from "../utils/order/rejectOrder";
 
 const OrderRestaurant = ({ order }) => {
   console.log(order);
+
   const calculateTotalPrice = (food) => {
     return (food.price / 100) * food.quantity;
   };
@@ -16,6 +17,7 @@ const OrderRestaurant = ({ order }) => {
       return acc + calculateTotalPrice(food);
     }, 0);
   };
+
   const handleDoneOrder = async (restaurantId, userId, orderId) => {
     try {
       const response = await doneOrder({ restaurantId, userId, orderId });
@@ -93,7 +95,9 @@ const OrderRestaurant = ({ order }) => {
             {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
           </p>
           <p>
-            {element.status !== "Rejected" && element.status !== "Accepted" ? (
+            {element.status !== "Rejected" &&
+            element.status !== "Accepted" &&
+            element.status !== "Done" ? (
               <div className={styles.acceptButtonContainer}>
                 <div
                   onClick={() =>
@@ -124,8 +128,10 @@ const OrderRestaurant = ({ order }) => {
               </div>
             ) : element.status === "Rejected" ? (
               <div className={styles.done}>Rejected</div>
-            ) : (
+            ) : element.status === "Done" ? (
               <div className={styles.done}>Accepted</div>
+            ) : (
+              <div className={styles.done}>No Status</div>
             )}
           </p>
         </div>
