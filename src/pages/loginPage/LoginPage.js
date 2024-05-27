@@ -32,6 +32,7 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         const result = await response.json();
+        console.log(result);
         dispatch(setActiveUser(result));
         ShowAlert(1, "Logged in successfully");
         navigate("/home");

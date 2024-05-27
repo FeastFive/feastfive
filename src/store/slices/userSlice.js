@@ -9,7 +9,7 @@ const initialState = {
   created_at: null,
   loginDate: null,
   role: "",
-  adress: "",
+  address: [],
   favorites: [],
   orders: [],
   logs: [],
@@ -25,7 +25,7 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.surname = action.payload.surname;
       state.email = action.payload.email;
-      state.adress = action.payload.adress;
+      state.address = action.payload.address;
       state.created_at = action.payload.createdAt;
       state.loginDate = action.payload.loginDate;
       state.role = action.payload.role;
@@ -39,7 +39,7 @@ const userSlice = createSlice({
       state.surname = action.payload.surname;
     },
     setAdress: (state, action) => {
-      state.adress = action.payload.adress;
+      state.address = action.payload.address;
     },
   },
 });

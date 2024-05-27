@@ -56,29 +56,33 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  //find user
-  const user = await User.findOne({ email });
 
+  // Find user by email
+  const user = await User.findOne({ email });
   if (user && (await bcrypt.compare(password, user.password))) {
     if (user.activated) {
       user.loginDate = new Date();
       await user.save();
-      res.status(200).json({
+
+      const responseData = {
         _id: user._id,
         name: user.name,
         surname: user.surname,
         email: user.email,
+        address: user?.address || null,
         createdAt: user.createdAt,
         loginDate: user.loginDate,
         role: user.role,
         logs: user.logs,
         activated: user.activated,
-      });
+      };
+
+      res.status(200).json(responseData);
     } else {
       res.status(403).json({ state: "fail", message: "Non activated account" });
     }
   } else {
-    res.status(401).json({ state: "fail", message: "Invalid credential" });
+    res.status(401).json({ state: "fail", message: "Invalid credentials" });
   }
 });
 

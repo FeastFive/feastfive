@@ -282,7 +282,10 @@ const getSearchRestaurants = asyncHandler(async (req, res) => {
   try {
     const filteredRestaurants = await Restaurant.find(
       {
-        restaurantName: { $regex: regex },
+        $or: [
+          { restaurantName: { $regex: regex } },
+          { labels: { $elemMatch: { label: { $regex: regex } } } },
+        ],
       },
       {
         password: 0,

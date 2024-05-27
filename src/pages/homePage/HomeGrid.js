@@ -5,9 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { cookieHandler } from "../../components/CookieHandler";
 import Cookies from "js-cookie";
 import Loader from "../../components/Loader";
+import { useSelector } from "react-redux";
 
 export default function HomeGrid({ list }) {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  console.log(user);
   const [favorities, setFavorities] = useState([]);
   const [foods, setFoods] = useState([]);
   console.log(foods);
