@@ -8,6 +8,8 @@ import HomeGrid from "../HomeGrid";
 
 const FilterCuisine = () => {
   const [filtered, setFiltered] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
+
   const location = useLocation();
   const { cuisine } = location.state || {};
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -51,6 +53,13 @@ const FilterCuisine = () => {
     handleRestaurant();
   }, [selectedCategories]);
 
+  useEffect(()=>{
+    if(!isEmpty){
+      setTimeout(()=>{
+        setIsEmpty(true)
+      },[1400])
+    }
+  },[])
   return (
     <div className="pb-24 overflow-x-hidden">
       <div className="pt-4 px-8 md:px-16 lg:px-32">
@@ -72,7 +81,9 @@ const FilterCuisine = () => {
           {filtered?.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
-            <div className="text-lg text-gray-500 pt-4">There is no restaurant with {cuisine.name}...</div>
+            <>
+              {isEmpty && <div className="text-lg text-gray-500 pt-4">There is no restaurant with {cuisine.name}...</div>}
+            </>
           )}
         </div>
       </div>

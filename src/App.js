@@ -26,6 +26,7 @@ import PurchaseRejected from "./pages/afterPurchasePages/PurchaseRejected";
 import FilterCuisine from "./pages/homePage/filter/FilterCuisine";
 import Favoritie from "./pages/favorities/Favoritie";
 import Cart from "./pages/Cart/Cart";
+import RestaurantCharts from "./pages/Profile/RestaurantProfilePage/RestaurantCharts";
 import RestaurantHome from "./pages/Profile/RestaurantProfilePage/RestaurantHome";
 
 function App() {

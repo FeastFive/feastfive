@@ -3,8 +3,9 @@ import RestaurantCharts from './RestaurantCharts'
 
 export default function RestaurantHome() {
   return (
-    <div className='pt-12'>
+    <div className='flex flex-col'>
         <RestaurantCharts></RestaurantCharts>
+
     </div>
   )
 }
