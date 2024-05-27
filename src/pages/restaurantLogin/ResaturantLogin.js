@@ -103,6 +103,14 @@ const ResaturantLogin = () => {
           <button
             className={styles.otherOptions}
             onClick={() => {
+              navigate("/restaurantForgotPassword");
+            }}
+          >
+            Forgot password?
+          </button>
+          <button
+            className={styles.otherOptions}
+            onClick={() => {
               navigate("/restaurantSignUp");
             }}
           >

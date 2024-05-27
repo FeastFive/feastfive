@@ -28,7 +28,7 @@ import Favoritie from "./pages/favorities/Favoritie";
 import Cart from "./pages/Cart/Cart";
 import RestaurantCharts from "./pages/Profile/RestaurantProfilePage/RestaurantCharts";
 import RestaurantHome from "./pages/Profile/RestaurantProfilePage/RestaurantHome";
-
+import RestaurantForgotPassword from "./pages/restaurantForgotPassword/RestaurantForgotPassword";
 function App() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
@@ -207,6 +207,16 @@ function App() {
             element={
               <ProtectedRoute
                 element={ForgotPasswordPage}
+                redirectTo="/home"
+                condition={!restaurant.isLogin && !user.isLogin}
+              />
+            }
+          />
+          <Route
+            path="/restaurantForgotPassword"
+            element={
+              <ProtectedRoute
+                element={RestaurantForgotPassword}
                 redirectTo="/home"
                 condition={!restaurant.isLogin && !user.isLogin}
               />
