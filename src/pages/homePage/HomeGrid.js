@@ -44,7 +44,7 @@ export default function HomeGrid({ list }) {
 
         if (response.status === 200) {
           const result = await response.json();
-          console.log(result.restaurants);
+          // console.log(result.restaurants[15].image);
 
           // Restoranları yükle
           setFoods(result.restaurants);
@@ -216,10 +216,12 @@ export default function HomeGrid({ list }) {
               >
                 <img
                   src={
-                    "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
+                    element.image
+                      ? element.image
+                      : "https://img.freepik.com/premium-photo/photo-top-view-table-full-delicious-food-composition_1089395-1125.jpg?w=1380"
                   }
+                  alt="Delicious Food"
                   className="object-cover object-bottom bg-red-400 overflow-hidden rounded-md"
-                  alt=""
                 />
               </div>
               <div
