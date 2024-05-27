@@ -13,10 +13,11 @@ export default function HomeGrid({ list }) {
       ? JSON.parse(localStorage.getItem("adress"))
       : {}
   );
-  console.log(choosedAdress);
+  const navigate = useNavigate();
+  // console.log(choosedAdress);
   const [favorities, setFavorities] = useState([]);
   const [foods, setFoods] = useState([]);
-  console.log(foods);
+  // console.log(foods);
   const [ratings, setRatings] = useState([]);
 
   useEffect(() => {

@@ -6,6 +6,12 @@ import Navbar from "../../components/Navbar";
 import { loadStripe } from "@stripe/stripe-js";
 
 export default function CartPage() {
+  const [choosedAdress, setChoosedAdress] = useState(
+    localStorage.getItem("adress")
+      ? JSON.parse(localStorage.getItem("adress"))
+      : {}
+  );
+  console.log(choosedAdress);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
@@ -21,6 +27,7 @@ export default function CartPage() {
       products: cart.cartFoodList,
       restaurantId: cart.restaurantId,
       userId: user.id,
+      adress: choosedAdress,
 
       // price: cart.totalPrice,
     };

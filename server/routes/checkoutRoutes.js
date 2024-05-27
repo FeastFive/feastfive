@@ -6,7 +6,7 @@ const Stripe = require("stripe")(
 );
 
 router.post("/create-checkout-session", async (req, res) => {
-  const { products, restaurantId, userId } = req.body;
+  const { products, restaurantId, userId, adress } = req.body;
   console.log(products);
 
   const lineItems = products.map((product) => ({
@@ -37,7 +37,8 @@ router.post("/create-checkout-session", async (req, res) => {
     mode: "payment",
     success_url: `http://localhost:4000/api/purchaseAccepted?restaurantId=${restaurantId}&userId=${userId}&cartFoodList=${encodeURIComponent(
       JSON.stringify(send)
-    )}`,
+    )}&adress=${encodeURIComponent(JSON.stringify(adress))}`,
+
     cancel_url: "http://localhost:3000/purchaseRejected",
   });
 

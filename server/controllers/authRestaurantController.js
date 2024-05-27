@@ -12,7 +12,7 @@ const registerRestaurant = asyncHandler(async (req, res) => {
   //validation
   if (!restaurantName || !ownerName || !ownerSurname || !email || !password) {
     res.status(400);
-    console.log(restaurantName, ownerName, ownerSurname, email, password);
+    // console.log(restaurantName, ownerName, ownerSurname, email, password);
     throw new Error("Please include all fields");
   }
 
@@ -40,7 +40,7 @@ const registerRestaurant = asyncHandler(async (req, res) => {
   });
 
   if (restaurant) {
-    console.log(restaurant.email);
+    // console.log(restaurant.email);
     sendActivationRestaurantEmail(restaurant.uniqueId, restaurant.email);
     res.status(201).json({
       _id: restaurant._id,
@@ -98,14 +98,14 @@ const loginRestaurant = asyncHandler(async (req, res) => {
 const activateRestaurantAccount = asyncHandler(async (req, res) => {
   try {
     const { uniqueId } = req.params;
-    console.log("Activation code, uniqueId:", uniqueId);
+    // console.log("Activation code, uniqueId:", uniqueId);
 
     const restaurant = await Restaurant.findOne({ uniqueId: uniqueId });
 
     if (restaurant) {
       restaurant.activated = true;
       await restaurant.save();
-      console.log(restaurant);
+      // console.log(restaurant);
       return res.redirect("http://localhost:3000/restaurantLogin");
     } else {
       return res.status(404).json({ error: "User with provided ID not found" });
@@ -125,7 +125,7 @@ const getRestaurant = asyncHandler(async (req, res) => {
       { password: 0, meals: 0, orders: 0 }
     );
 
-    console.log(rest);
+    // console.log(rest);
 
     if (!rest || rest.length === 0) {
       res.status(404).json({ message: "No kitchens found" });
@@ -223,9 +223,9 @@ const deleteRestaurant = asyncHandler(async (req, res) => {
 //get restaurant
 // route api/restaurants/getSpecificRestaurant
 const getSpecificRestaurant = asyncHandler(async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { id } = req.body;
-  console.log(id);
+  // console.log(id);
   try {
     const rest = await Restaurant.findById(id, {
       password: 0,
@@ -252,14 +252,13 @@ const getSpecificRestaurant = asyncHandler(async (req, res) => {
 // route api/restaurants/getOrders
 const getOrders = asyncHandler(async (req, res) => {
   const { id } = req.body;
-  console.log(id);
   try {
     const order = await Restaurant.findById(id, {
       _id: 0,
       orders: 1,
     });
 
-    console.log(order);
+    // console.log(order);
 
     if (!order) {
       res.status(404).json({ message: "No order found" });

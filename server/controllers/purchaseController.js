@@ -4,9 +4,9 @@ const asyncHandler = require("express-async-handler");
 const { v4: uuidv4 } = require("uuid");
 
 const addOrder = asyncHandler(async (req, res) => {
-  const { restaurantId, userId, cartFoodList } = req.query;
+  const { restaurantId, userId, cartFoodList, adress } = req.query;
 
-  // console.log(req.query);
+  console.log(adress);
 
   try {
     const restaurant = await findRestaurantById(restaurantId);
@@ -26,6 +26,7 @@ const addOrder = asyncHandler(async (req, res) => {
       restaurantId: restaurantId,
       userId: userId,
       orderId: orderId,
+      adress: adress,
       cartFoodList: parsedCartFoodList,
       status: "In Progress",
       activate: true,
