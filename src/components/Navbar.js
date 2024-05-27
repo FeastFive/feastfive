@@ -224,6 +224,7 @@ const Navbar = () => {
       pathname !== "/restaurantLogin" &&
       pathname !== "/restaurantSignUp" &&
       pathname !== "/forgotPassword" &&
+      pathname !== "/changePassword" &&
       pathname !== "/restaurantForgotPassword" &&
       pathname !== "/restaurantChangePassword" &&
       pathname !== "/purchaseAccepted" ? (

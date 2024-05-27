@@ -1,11 +1,47 @@
 import React, { useState, useEffect } from "react";
-import imageLogo from "../../images/logo-white.png";
+import imageLogo from "../../images/Restaurant.png";
 import { IoHomeSharp } from "react-icons/io5";
 import { useNavigate, useLocation } from "react-router-dom";
-import styles from "./ChangePassword.module.css";
+import styles from "./RestaurantChangePassword.module.css";
 
 const RestaurantChangePassword = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [readyPassword, setReadyPassword] = useState(true);
+  const [uniqueId, setUniqueId] = useState(null);
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const id = params.get("uniqueId");
+    setUniqueId(id);
+  }, [location]);
+
+  // console.log(uniqueId);
+
+  const handleChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  };
+  const checkPassword = (pass) => {
+    if (
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pass) &&
+      pass.length >= 8
+    ) {
+      setReadyPassword(false);
+      return true;
+    } else {
+      setReadyPassword(true);
+      return false;
+    }
+  };
+  const handleChangePass = async () => {};
+
   return (
     <div className={styles.pageContainer}>
       <IoHomeSharp
