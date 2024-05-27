@@ -102,7 +102,7 @@ const SignupPage = () => {
           navigate("/restaurantSignUp");
         }}
       >
-        User Login
+        Restaurant Signup
       </div>
 
       <IoHomeSharp
