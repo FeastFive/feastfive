@@ -8,7 +8,7 @@ const User = require("../../models/userModel");
 jest.mock("../../models/userModel");
 
 const { registerUser } = require("../../controllers/authController");
-const sendActivationEmail = require("../../controllers/mailer");
+const { sendActivationEmail } = require("../../controllers/mailer");
 jest.mock("../../controllers/mailer", () => jest.fn().mockResolvedValue(true));
 
 const randString = jest.fn(() => "uniqueId");
