@@ -4,10 +4,10 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 
-const User = require("../models/userModel");
-jest.mock("../models/userModel");
+const User = require("../../models/userModel");
+jest.mock("../../models/userModel");
 
-const loginUser = require("../controllers/authController").loginUser;
+const loginUser = require("../../controllers/authController").loginUser;
 
 const app = express();
 app.use(express.json());
