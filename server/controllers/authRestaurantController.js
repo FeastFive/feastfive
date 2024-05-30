@@ -282,34 +282,32 @@ const getSearchRestaurants = asyncHandler(async (req, res) => {
   const regex = new RegExp(`^${key}`, "i");
 
   try {
-    const filteredRestaurants = await Restaurant.find(
-      {
-        $or: [
-          { restaurantName: { $regex: regex } },
-          { labels: { $elemMatch: { label: { $regex: regex } } } },
-        ],
-      },
-      {
-        password: 0,
-        meals: 0,
-        image: 0,
-        labels: 0,
-        orders: 0,
-      },
-      {
-        sort: {
-          restaurantName: 1,
-          labels: 1,
-        },
-        limit: 3000,
-      }
-    );
+    const restaurantsByName = await Restaurant.find(
+      { restaurantName: { $regex: regex } },
+      { password: 0, meals: 0, image: 0, labels: 0, orders: 0 }
+    )
+      .sort({ restaurantName: 1 })
+      .limit(3000);
 
-    if (filteredRestaurants.length > 0) {
-      res.status(200).send(filteredRestaurants);
-    } else {
-      res.status(404).send({ state: "fail", cause: "Can't find products" });
+    const restaurantsByLabel = await Restaurant.find(
+      { labels: { $elemMatch: { label: { $regex: regex } } } },
+      { password: 0, meals: 0, image: 0, labels: 0, orders: 0 }
+    )
+      .sort({ labels: 1 })
+      .limit(3000);
+
+    if (restaurantsByName.length === 0 && restaurantsByLabel.length === 0) {
+      return res
+        .status(404)
+        .send({ state: "fail", cause: "Can't find products" });
     }
+
+    const filteredRestaurants = {
+      byName: restaurantsByName,
+      byLabel: restaurantsByLabel,
+    };
+    console.log(filteredRestaurants);
+    res.status(200).send(filteredRestaurants);
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
