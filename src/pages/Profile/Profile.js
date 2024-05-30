@@ -32,7 +32,6 @@ const Profile = () => {
   ]);
 
   const [restaurantProfileOptions, setRestaurantProfileOptions] = useState([
-    "Home",
     "Edit Restaurant Profile",
     "Edit Restaurant Menü",
     "Orders",
@@ -162,12 +161,11 @@ const Profile = () => {
       </div>
 
       <div className="pt-5 h-full pb-24 overflow-x-hidden">
-        {choose === 0 && <RestaurantCharts></RestaurantCharts>}
-        {choose === 1 && <RestaurantEditProfile></RestaurantEditProfile>}
-        {choose === 2 && <RestaurantPanelPage></RestaurantPanelPage>}
-        {choose === 3 && <GivenOrders></GivenOrders>}
-
-        {choose === 4 && (
+        {choose === 0 && <RestaurantEditProfile></RestaurantEditProfile>}
+        {choose === 1 && <RestaurantPanelPage></RestaurantPanelPage>}
+        {choose === 2 && <GivenOrders></GivenOrders>}
+                                  
+        {choose === 3 && (
           <div className="w-full h-full pt-12 flex flex-col justfiy-center place-items-center">
             <h2 className="text-3xl font-semibold">
               Are you sure want to delete your Restaurant ?

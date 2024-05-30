@@ -19,12 +19,14 @@
   border-radius: 15px;
   transition: all 0.5s ease;
   border: #91db37 solid 2px;
+  margin-top: 20px;
+
+
 }
 .cartComponentR {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
     0 2px 4px -2px var(--tw-shadow-color);
@@ -34,6 +36,8 @@
   border-radius: 15px;
   transition: all 0.5s ease;
   border: #db3747 solid 2px;
+  margin-top: 20px;
+
 }
 .cartComponentI {
   display: flex;
@@ -49,6 +53,7 @@
   border-radius: 15px;
   transition: all 0.5s ease;
   border: #dbcb37 solid 2px;
+  margin-top: 20px;
 }
 .foodList {
   display: flex;

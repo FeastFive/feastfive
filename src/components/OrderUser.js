@@ -12,6 +12,8 @@ const OrderUser = ({ order }) => {
   const orderLength = Array.isArray(order.orders) ? order.orders.length : 0;
   const [textareaValue, setTextareaValue] = useState("");
   const [rating, setRating] = useState();
+  const [choose, setChoose] = useState(1);
+
   const [expanderStatus, setExpanderStatus] = useState(
     Array(orderLength).fill(false)
   );
@@ -142,11 +144,66 @@ const OrderUser = ({ order }) => {
     return <div>No orders found</div>;
   }
 
+  function handleClick(option) {
+    if (option !== choose) {
+      setChoose(option);
+    }
+  }
+  const getStatusToShow = (choose) => {
+    switch (choose) {
+      case 0:
+        return "Done";
+      case 1:
+        return "In Progress";
+      case 2:
+        return "Rejected";
+      default:
+        return "";
+    }
+  };
+
+  const statusToShow = getStatusToShow(choose);
   return (
     <div className={styles.orderContainer}>
       <Loader4sec />
-   
-      {order.orders.map((element, index) => (
+      <div className="flex flex-row gap-4">
+        <button
+          onClick={() => handleClick(0)}
+          className={
+            `border-2  w-auto px-4 py-2 rounded-sm shadow-sm  duration-200 font-semibold text-sm` +
+            (choose == 0
+              ? " bg-green-500 text-slate-50 hover:bg-green-500 border-green-500 "
+              : " hover:bg-green-200 border-green-300 text-slate-900  ")
+          }
+        >
+          Done
+        </button>
+        <button
+          onClick={() => handleClick(1)}
+          className={
+            `border-2  w-auto px-4 py-2 rounded-sm shadow-sm duration-200 font-semibold text-sm` +
+            (choose == 1
+              ? " bg-yellow-400 text-slate-50 hover:bg-yellow-400 border-yellow-400 "
+              : " hover:bg-yellow-200  border-yellow-300 text-slate-900  ")
+          }
+        >
+          Waiting
+        </button>
+        <button
+          onClick={() => handleClick(2)}
+          className={
+            `border-2  w-auto px-4 py-2 rounded-sm shadow-sm  duration-200 font-semibold text-sm` +
+            (choose == 2
+              ? " bg-red-500 text-slate-50 hover:bg-red-500 border-red-500 "
+              : " hover:bg-red-200 border-red-300 text-slate-900  ")
+          }
+        >
+          Rejected
+        </button>
+      </div>
+      {order.orders
+          ?.filter((element) => element.status === statusToShow)
+          .map((element, index) => (
         <div className={styles.cartComponent} key={index}>
           <div className={styles.innerCartComponent}>
             {Array.isArray(element.cartFoodList) ? (
