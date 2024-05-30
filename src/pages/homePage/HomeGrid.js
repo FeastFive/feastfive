@@ -257,7 +257,7 @@ export default function HomeGrid({ list }) {
                   </div>
                 </div>
                 <div className="flex flex-row w-full h-full text-xs font-medium text-gray-400 pb-1">
-                  150 TL minimum
+                  150 $ minimum
                 </div>
                 <div className="flex flex-row w-full h-full text-sm font-medium">
                   30 min <span className="text-pink-600 pl-2">Ücretsiz</span>

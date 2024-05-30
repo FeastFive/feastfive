@@ -227,7 +227,6 @@ export default function RestaurantFoods() {
 
   return (
     <>
-
       <div className="w-full pb-24 relative flex flex-row flex-col lg:flex-row justify-between">
         <Loader></Loader>
 
@@ -322,7 +321,7 @@ export default function RestaurantFoods() {
                   <div className="flex flex-row pt-4">
                     <h3 className=" text-lg font-large w-[50%] sm:w-[30%] pt-2 mt-2">
                       <span className="font-semibold pr-2">Total Price:</span>{" "}
-                      {foodObject.price} TL
+                      {foodObject?.price} $
                     </h3>
                     <button
                       onClick={() => orderMeal()}
@@ -336,7 +335,7 @@ export default function RestaurantFoods() {
                 <div className="w-[100%] lg:w-[50%]  h-auto ">
                   <img
                     className="rounded-md shadow-md"
-                    src={choosedFood.image}
+                    src={choosedFood?.image}
                   ></img>
                 </div>
               </div>
@@ -374,12 +373,12 @@ export default function RestaurantFoods() {
                     <div className="w-[40%] rounded-md pt-2">
                       <img
                         className="object-cover rounded-md shadow-lg"
-                        src={food.image}
+                        src={food?.image}
                       ></img>
                     </div>
                     <div className="w-full flex flex-col lg:pl-4 pl-2">
-                      <h4 className="text-lg font-semibold">{food.name}</h4>
-                      <p>{food.price} TL</p>
+                      <h4 className="text-lg font-semibold">{food?.name}</h4>
+                      <p>{food?.price} $</p>
                       <p className="text-sm">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Fusce varius gravida odio,{" "}
@@ -424,7 +423,7 @@ export default function RestaurantFoods() {
               {averageRating} <span className="text-yellow-300 text-xl">★</span>
             </p>
           </div>
-          {comments.map((comment) => (
+          {comments?.map((comment) => (
             <div
               style={{ boxShadow: "0px 11px 10px -5px rgba(203,203,203,0.25)" }}
               className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20 "

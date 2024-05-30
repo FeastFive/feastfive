@@ -1,11 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFoodToCard, removeFromCart, resetAll } from "../../store/slices/cartSlice";
+import {
+  addFoodToCard,
+  removeFromCart,
+  resetAll,
+} from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { ShowAlert } from "../../components/alert/ShowAlert";
 export default function Cart() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
   const panel = useRef();
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,6 +29,14 @@ export default function Cart() {
       }, 500);
     }
   }, [isOpen]);
+
+  const buyOnClick = () => {
+    if (user.isLogin) {
+      navigate("/cart");
+    } else {
+      ShowAlert(3, "Please, login first!");
+    }
+  };
 
   return (
     <div className="">
@@ -74,18 +88,18 @@ export default function Cart() {
         <>
           {cart.cartFoodList.length > 0 ? (
             <div key={"cart"} className="overflow-y-scroll pr-10">
-              {cart.cartFoodList.map((food, _index) => (
+              {cart?.cartFoodList?.map((food, _index) => (
                 <div key={_index} className="h-auto  pt-2 pb-4 ">
                   <div className="flex flex-row ">
                     <h4 className=" border-b-[2px]  border-gray-400 ">
-                      {food.count ?? 1}x
+                      {food?.count ?? 1}x
                     </h4>
 
                     <h3
                       key={"food"}
                       className="text-lg font-semibold pb-1  border-b-[2px] border-gray-400 w-auto pl-2 pr-5 "
                     >
-                      {food.foodName}
+                      {food?.foodName}
                     </h3>
                   </div>
                   <div>
@@ -96,15 +110,15 @@ export default function Cart() {
                             <p>{info.count} Adet </p>
                             <div className="pl-2 font-semibold">
                               {" "}
-                              {info.price} TL
+                              {info?.price} $
                             </div>
                           </div>
                           <div className="flex flex-row gap-2 flex-wrap">
                             <p className="font-semibold ">Seçenekler: </p>
-                            <div className="">{info.singleOption}</div>
+                            <div className="">{info?.singleOption}</div>
 
                             <div className="flex flex-row flex-wrap gap-2">
-                              {info.options.map((opt, index) => (
+                              {info?.options.map((opt, index) => (
                                 <p key={index} className="text-sm">
                                   , {opt}
                                 </p>
@@ -133,17 +147,36 @@ export default function Cart() {
                             />
                           </svg>
                         </a>
-                        
+
                         <a
                           onClick={() =>
-                            dispatch(addFoodToCard({ foodDescp:food?.foodDescp, foodImage:food?.foodImage, foodName:food?.foodName, options:info?.options,price:info?.price,singleOption:info?.singleOption }))
+                            dispatch(
+                              addFoodToCard({
+                                foodDescp: food?.foodDescp,
+                                foodImage: food?.foodImage,
+                                foodName: food?.foodName,
+                                options: info?.options,
+                                price: info?.price,
+                                singleOption: info?.singleOption,
+                              })
+                            )
                           }
                           className="bg-red-200 bg-opacity-30 hover:bg-opacity-90 duration-200 px-2 rounded-md shadow-sm cursor-pointer ml-2 h-6"
                         >
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-</svg>
-
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
+                            />
+                          </svg>
                         </a>
                       </div>
                     ))}
@@ -152,18 +185,23 @@ export default function Cart() {
               ))}
 
               <div className="absolute bottom-0 mb-2 font-semibold flex flex-row w-full pb-2 justify-between bg-[#FFFFFF] pt-3">
-                <button className="bg-red-400 w-full" onClick={()=> dispatch(resetAll())}>clear</button>
-                <p className="w-full pt-1">Total: {cart.totalPrice} TL</p>
+                <button
+                  className="bg-red-400 w-full"
+                  onClick={() => dispatch(resetAll())}
+                >
+                  clear
+                </button>
+                <p className="w-full pt-1">Total: {cart?.totalPrice} $</p>
 
                 <button
-                  onClick={() => navigate("/cart")}
+                  onClick={buyOnClick}
                   className="bg-red-300 bg-opacity-40 rounded-md shadow-sm hover:bg-opacity-100 duration-200 py-1 w-[80%] mr-20"
                 >
                   Buy
                 </button>
               </div>
             </div>
-           ) : (
+          ) : (
             <h4 className="font-semibold text-LG text-center">Cart is Empty</h4>
           )}
         </>
