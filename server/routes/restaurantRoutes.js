@@ -13,6 +13,9 @@ const {
   getOrders,
   editRestaurant,
   deleteRestaurant,
+  forgotPassRestaurant,
+  forgotPassRedirect,
+  changePassword,
 } = require("../controllers/authRestaurantController");
 
 router.post("/", registerRestaurant);
@@ -26,5 +29,8 @@ router.get("/verify/:uniqueId", activateRestaurantAccount);
 router.get("/getRestaurant", getRestaurant);
 router.post("/getOrders", getOrders);
 router.post("/getSpecificRestaurant", getSpecificRestaurant);
+router.post("/forgotPassRestaurant", forgotPassRestaurant);
+router.get("/forgot/:uniqueId", forgotPassRedirect);
+router.post("/changePassword", changePassword);
 
 module.exports = router;

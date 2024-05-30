@@ -336,6 +336,78 @@ const updateLabel = asyncHandler(async (req, res) => {
   }
 });
 
+const forgotPassRestaurant = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    res.status(400).json({ message: "Please include all fields" });
+    return;
+  }
+
+  try {
+    const resExists = await Restaurant.findOne({ email });
+    if (!resExists) {
+      res.status(404).json({ message: "User does not exist" });
+      return;
+    }
+    await forgotPasswordEmail(resExists.uniqueId, resExists.email);
+    res.status(200).json({ message: "Password reset email sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+const forgotPassRedirect = asyncHandler(async (req, res) => {
+  try {
+    const { uniqueId } = req.params;
+
+    console.log("Activation code, uniqueId:", uniqueId);
+
+    const restaurant = await Restaurant.findOne({ uniqueId: uniqueId });
+
+    if (restaurant) {
+      return res.redirect(
+        `http://localhost:3000/restaurantChangePassword?uniqueId=${uniqueId}`
+      );
+    } else {
+      return res.status(404).json({ error: "User with provided ID not found" });
+    }
+  } catch (error) {
+    console.error("Error activating account:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  try {
+    // const { uniqueId } = req.query;
+    const { uniqueId, newPassword } = req.body;
+    // console.log("uniqueId");
+    // console.log(uniqueId);
+
+    if (!newPassword) {
+      return res.status(400).json({ error: "Password does not exist" });
+    }
+
+    const restaurant = await Restaurant.findOne({ uniqueId: uniqueId });
+
+    if (!restaurant) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    restaurant.password = hashedPassword;
+    await restaurant.save();
+
+    res.status(200).json({ message: "Password successfully changed" });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 const randString = () => {
   const len = 8;
   let randStr = "";
@@ -365,4 +437,7 @@ module.exports = {
   getOrders,
   editRestaurant,
   deleteRestaurant,
+  forgotPassRestaurant,
+  forgotPassRedirect,
+  changePassword,
 };
