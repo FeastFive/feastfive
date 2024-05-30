@@ -145,6 +145,7 @@ const OrderUser = ({ order }) => {
   return (
     <div className={styles.orderContainer}>
       <Loader4sec />
+   
       {order.orders.map((element, index) => (
         <div className={styles.cartComponent} key={index}>
           <div className={styles.innerCartComponent}>
