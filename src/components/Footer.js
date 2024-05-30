@@ -21,6 +21,10 @@ const Footer = () => {
       "/restaurantForgotPassword",
       "/restaurantChangePassword",
       "/purchaseAccepted",
+      "/purchaseRejected",
+      "/profile",
+      "/favorities",
+      "/orders",
     ];
     return !excludedPaths.includes(currentPath);
   };
