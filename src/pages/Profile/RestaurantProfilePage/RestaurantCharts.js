@@ -1,59 +1,113 @@
-import React, { useState } from "react";
-import { UserData } from "./Data";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import BarChart from "./Charts/BarChart";
 import LineChart from "./Charts/LineChart";
 import PieChart from "./Charts/PieChart";
 
 export default function RestaurantCharts() {
-  const [userData, setUserData] = useState({
-    labels: UserData.map((data) => data.year),
+  const restaurant = useSelector((state) => state.restaurant);
+  console.log(restaurant.orders);
+  const [totalEarnings, setTotalEarnings] = useState(0);
+  const [uniqueUsers, setUniqueUsers] = useState(0);
+
+  const calculateTotalEarnings = (orders) => {
+    return orders.reduce((total, order) => {
+      if (order.status === "Done") {
+        const orderTotal = order.cartFoodList.reduce((orderSum, item) => {
+          return orderSum + (item.price || 0);
+        }, 0);
+        return total + orderTotal;
+      }
+      return total;
+    }, 0);
+  };
+
+  const calculateUniqueUsers = (orders) => {
+    const userIds = new Set();
+    orders.forEach((order) => {
+      userIds.add(order.userId);
+    });
+    return userIds.size;
+  };
+
+  useEffect(() => {
+    if (restaurant.orders) {
+      const earnings = calculateTotalEarnings(restaurant.orders);
+      setTotalEarnings(earnings);
+
+      const uniqueUserCount = calculateUniqueUsers(restaurant.orders);
+      setUniqueUsers(uniqueUserCount);
+    }
+  }, [restaurant.orders]);
+
+  const barChartData = {
+    labels: restaurant.orders.map((_, index) => index + 1),
     datasets: [
       {
-        label: "Orders Completed",
-        data: UserData.map((data) => data.ordersCompleted),
-        backgroundColor: [
-          "rgba(75,192,192,1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0",
-        ],
+        label: "Order Totals",
+        data: restaurant.orders.map((order) => calculateTotalEarnings([order])),
+        backgroundColor: "rgba(75,192,192,1)",
         borderColor: "black",
-        borderWidth: 2,
+        borderWidth: 1,
       },
     ],
-  });
+  };
+
+  const lineChartData = {
+    labels: restaurant.orders.map((_, index) => index + 1),
+    datasets: [
+      {
+        label: "Total Earnings Over Time",
+        data: restaurant.orders.map((order) => calculateTotalEarnings([order])),
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const pieChartData = {
+    labels: ["Unique Users", "Other Users"],
+    datasets: [
+      {
+        data: [uniqueUsers, restaurant.orders.length - uniqueUsers],
+        backgroundColor: ["#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
 
   return (
-    <div className="">
-  
-      {/* <div className="flex flex-row flex-wrap justify-center place-items-center gap-6   lg:px-4">
-        <div className="w-[480px] sm:w-[550px] lg:w-[29%] flex justify-center">
-          <BarChart chartData={userData} />
-        </div>
-        <div className="w-[480px] sm:w-[550px] lg:w-[29%] flex justify-center">
-          <LineChart chartData={userData} />
-        </div>
-        <div className="w-[480px] sm:w-[550px] lg:w-[29%] flex justify-center">
-          <BarChart chartData={userData} />
-        </div>
-      </div> */}
-
+    <div>
       <div className="flex flex-row flex-wrap justify-center gap-6 pt-12 py-24">
         <div className="bg-cyan-300 bg-opacity-40 w-[500px] lg:w-[470px] h-[200px] rounded-md shadow-md px-12 py-12">
-          <h3 className="text-right text-4xl font-semibold pr-2 py-1">12</h3>
-
-          <h3 className="text-right text-4xl font-bold">Total Visits</h3>
-        </div>
-        <div className="bg-violet-300 bg-opacity-40 w-[600px] lg:w-[470px]  h-[200px] rounded-md shadow-md px-12 py-12">
-          <h3 className="text-right text-4xl font-semibold pr-2 py-1">4</h3>
-
-          <h3 className="text-right text-4xl font-bold">Daily Orders</h3>
-        </div>
-        <div className="bg-orange-300 bg-opacity-40 w-[600px] lg:w-[470px]  h-[200px] rounded-md shadow-md px-12 py-12">
-          <h3 className="text-right text-4xl font-semibold pr-2 py-1">27</h3>
-
+          <h3 className="text-right text-4xl font-semibold pr-2 py-1">
+            {restaurant?.orders.length}
+          </h3>
           <h3 className="text-right text-4xl font-bold">Total Orders</h3>
+        </div>
+        <div className="bg-violet-300 bg-opacity-40 w-[600px] lg:w-[470px] h-[200px] rounded-md shadow-md px-12 py-12">
+          <h3 className="text-right text-4xl font-semibold pr-2 py-1">
+            ${totalEarnings.toFixed(2)}
+          </h3>
+          <h3 className="text-right text-4xl font-bold">Total Earnings</h3>
+        </div>
+        <div className="bg-orange-300 bg-opacity-40 w-[600px] lg:w-[470px] h-[200px] rounded-md shadow-md px-12 py-12">
+          <h3 className="text-right text-4xl font-semibold pr-2 py-1">
+            {uniqueUsers}
+          </h3>
+          <h3 className="text-right text-4xl font-bold">Unique Users</h3>
+        </div>
+      </div>
+      <div className="flex flex-row flex-wrap justify-center gap-6 pt-12 py-24">
+        <div className="w-full lg:w-1/2 p-4">
+          <BarChart chartData={barChartData} />
+        </div>
+        <div className="w-full lg:w-1/2 p-4">
+          <LineChart chartData={lineChartData} />
+        </div>
+        <div className="w-full lg:w-1/3 p-4">
+          <PieChart chartData={pieChartData} />
         </div>
       </div>
     </div>
