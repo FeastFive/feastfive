@@ -90,8 +90,8 @@ const OrderRestaurant = ({ order }) => {
               </div>
             ))}
           </div>
-          <p className={styles.innerCartTotal}>
-            Inner Cart Total:{" "}
+          <p className="ml-auto font-semibold pr-6">
+            Cart Total:{" "}
             {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
           </p>
           <p>

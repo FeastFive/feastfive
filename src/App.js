@@ -70,7 +70,7 @@ function App() {
             path="/panel"
             element={
               <ProtectedRoute
-                element={RestaurantHome}
+                element={Profile}
                 redirectTo="/login"
                 condition={restaurant.isLogin}
               />

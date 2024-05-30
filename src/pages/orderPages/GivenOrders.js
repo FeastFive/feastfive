@@ -34,7 +34,9 @@ const GivenOrders = () => {
           const response = await getUserOrders(userId);
           if (response.status === 200) {
             const result = await response.json();
-            setOrderUser(result.orders);
+            const reverseList = result.orders.orders.reverse()
+
+            setOrderUser({"orders":reverseList});
           } else if (response.status === 403) {
             ShowAlert(3, "An error occurred while fetching orders");
           } else {
@@ -44,7 +46,10 @@ const GivenOrders = () => {
           const response = await getOrders(restId);
           if (response.status === 200) {
             const result = await response.json();
-            console.log(result.orders);
+            console.log(result.orders.orders);
+            const reverseList = result.orders.orders.reverse()
+            setOrderUser({"orders":reverseList});
+
             setOrderRest(result.orders);
           } else if (response.status === 403) {
             ShowAlert(3, "An error occurred while fetching orders");

@@ -25,12 +25,9 @@ export default function RestaurantCharts() {
   });
 
   return (
-    <div className="ml-10 mr-10">
-      <h3 className="text-4xl font-semibold text-left my-2 py-8 flex flex-col">
-        {" "}
-        Restaurant Dashboard
-      </h3>
-      <div className="flex flex-row flex-wrap justify-center place-items-center gap-6   lg:px-4">
+    <div className="">
+  
+      {/* <div className="flex flex-row flex-wrap justify-center place-items-center gap-6   lg:px-4">
         <div className="w-[480px] sm:w-[550px] lg:w-[29%] flex justify-center">
           <BarChart chartData={userData} />
         </div>
@@ -40,10 +37,10 @@ export default function RestaurantCharts() {
         <div className="w-[480px] sm:w-[550px] lg:w-[29%] flex justify-center">
           <BarChart chartData={userData} />
         </div>
-      </div>
+      </div> */}
 
       <div className="flex flex-row flex-wrap justify-center gap-6 pt-12 py-24">
-        <div className="bg-cyan-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[200px] rounded-md shadow-md px-12 py-12">
+        <div className="bg-cyan-300 bg-opacity-40 w-[500px] lg:w-[470px] h-[200px] rounded-md shadow-md px-12 py-12">
           <h3 className="text-right text-4xl font-semibold pr-2 py-1">12</h3>
 
           <h3 className="text-right text-4xl font-bold">Total Visits</h3>

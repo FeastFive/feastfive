@@ -5,6 +5,7 @@
   gap: 2rem;
   margin: 2rem 0;
   position: relative;
+  
 }
 .cartComponent {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -12,14 +13,16 @@
     0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  border-radius: 15px;
-  transition: all 0.5s ease;
+  border-radius: 5px;
+  transition: all 0.35s ease;
 }
 .innerCartComponent {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
+  gap: 2rem;
   align-items: center;
   position: relative;
+  padding: 1rem;
 }
 .cartComponent:hover {
   transform: scale(1.015);
@@ -28,6 +31,7 @@
   display: flex;
   align-items: center;
 }
+
 .orderImage {
   width: 200px;
   border-radius: 15px;
@@ -37,11 +41,12 @@
   height: 100%;
 }
 .mealTitle {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 600;
 }
 .price {
   font-weight: 500;
+  color: #787878;
 }
 .statusP {
   margin-right: 15px;

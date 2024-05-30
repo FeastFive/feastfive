@@ -163,8 +163,8 @@ const OrderUser = ({ order }) => {
             ) : (
               <p>No food items found</p>
             )}
-            <p className={styles.innerCartTotal}>
-              Inner Cart Total:{" "}
+            <p className="ml-auto font-semibold">
+              Cart Total:{" "}
               {calculateInnerCartTotal(element.cartFoodList).toFixed(2)}$
             </p>
             <p className={element.activate ? styles.statusP : styles.statusD}>

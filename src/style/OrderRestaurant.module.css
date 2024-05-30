@@ -18,7 +18,7 @@
 
   border-radius: 15px;
   transition: all 0.5s ease;
-  border: #91db37 solid 3px;
+  border: #91db37 solid 2px;
 }
 .cartComponentR {
   display: flex;
@@ -33,7 +33,7 @@
 
   border-radius: 15px;
   transition: all 0.5s ease;
-  border: #db3747 solid 3px;
+  border: #db3747 solid 2px;
 }
 .cartComponentI {
   display: flex;
@@ -48,13 +48,14 @@
 
   border-radius: 15px;
   transition: all 0.5s ease;
-  border: #dbcb37 solid 3px;
+  border: #dbcb37 solid 2px;
 }
 .foodList {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 5px 0;
+  padding: 2rem 1rem;
+
 }
 .cartComponent:hover {
   transform: scale(1.015);
@@ -73,11 +74,12 @@
   height: 100%;
 }
 .mealTitle {
-  font-size: 30px;
+  font-size: 23px;
   font-weight: 600;
 }
 .price {
   font-weight: 500;
+  color: #787878;
 }
 .statusP {
   margin-right: 15px;
@@ -98,9 +100,9 @@
   display: flex;
   flex-direction: column;
   align-items: end;
-  gap: 4px;
+  gap: 8px;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: 15px;
 }
 .acceptButtonCont {
   display: flex;
@@ -111,9 +113,9 @@
   width: 5rem;
   color: #787878;
   border: #787878 solid 2px;
-  border-radius: 22px;
+  border-radius: 4px;
   font-weight: 500;
-  padding: 1px 3px;
+  padding: 0.3rem 1rem;
 }
 .acceptButtonCont:hover {
   color: #0f0f0f;
