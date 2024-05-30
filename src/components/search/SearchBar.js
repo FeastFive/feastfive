@@ -29,14 +29,24 @@ function SearchBar({ setResults, setSearch }) {
         console.log(response);
         if (response.status === 200) {
           const result = await response.json();
-
-          const filteredResults = result.filter(
+          console.log(result);
+          const filteredResults1 = result.byName.filter(
             (restaurant) =>
               restaurant.adress?.province === choosedAdress.province &&
               restaurant.adress?.district === choosedAdress.districts
           );
-
-          setResults(filteredResults);
+          const filteredResults2 = result.byLabel.filter(
+            (restaurant) =>
+              restaurant.adress?.province === choosedAdress.province &&
+              restaurant.adress?.district === choosedAdress.districts
+          );
+          const combinedResults = [
+            ...filteredResults1,
+            [],
+            ...filteredResults2,
+          ];
+          // console.log(combinedResults);
+          setResults(combinedResults);
         } else if (response.status === 404) {
           // setResults([]);
         } else {
