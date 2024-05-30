@@ -38,9 +38,9 @@ export default function RestaurantEditProfile() {
       email: restaurant.email,
       image: null,
       adress: {
-        province: restaurant.adress.province,
-        district: restaurant.adress.district,
-        addressDescp: restaurant.adress.addressDescp,
+        province: restaurant.adress?.province,
+        district: restaurant.adress?.district,
+        addressDescp: restaurant.adress?.addressDescp,
       },
     });
   }, []);
@@ -185,7 +185,7 @@ export default function RestaurantEditProfile() {
             <select
               className="border-2 border-gray-900 pl-2 py-2 rounded-sm w-[220px] focus:outline-none "
               id="address"
-              value={restaurantObj.adress.province ?? ""}
+              value={restaurantObj.adress?.province ?? ""}
               onChange={(e) => selectingProvince(e.target.value)}
             >
               <option value="text-xl font-semibold">Seçiniz</option>
