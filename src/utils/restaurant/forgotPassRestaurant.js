@@ -1,12 +1,14 @@
-const forgotPasswordRestaurant = async (rest) => {
+const forgotPassRestaurant = async (email) => {
   try {
     const url = "http://127.0.0.1:4000/api/restaurants/forgotPassRestaurant";
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/ json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(rest),
+      body: JSON.stringify({
+        email: email,
+      }),
     });
     return response;
   } catch (error) {
@@ -14,4 +16,4 @@ const forgotPasswordRestaurant = async (rest) => {
     throw error;
   }
 };
-export { forgotPasswordRestaurant };
+export { forgotPassRestaurant };

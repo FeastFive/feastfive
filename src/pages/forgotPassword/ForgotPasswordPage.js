@@ -52,6 +52,7 @@ const ForgotPasswordPage = () => {
           <input
             type="email"
             name="email"
+            placeholder="email@address.com"
             onChange={handleChange}
             value={formData.email}
             className={styles.inputFill}

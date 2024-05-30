@@ -2,7 +2,10 @@ const Restaurant = require("../models/restaurantModel");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { sendActivationRestaurantEmail } = require("./mailer");
+const {
+  sendActivationRestaurantEmail,
+  forgotPasswordRestaurantEmail,
+} = require("./mailer");
 
 //register as a new restaurant
 // route api/restaurant/
@@ -338,6 +341,7 @@ const updateLabel = asyncHandler(async (req, res) => {
 
 const forgotPassRestaurant = asyncHandler(async (req, res) => {
   const { email } = req.body;
+  console.log(req.body);
 
   if (!email) {
     res.status(400).json({ message: "Please include all fields" });
@@ -349,8 +353,12 @@ const forgotPassRestaurant = asyncHandler(async (req, res) => {
     if (!resExists) {
       res.status(404).json({ message: "User does not exist" });
       return;
+    } else if (!resExists.activated) {
+      res.status(401).json({ message: "Non-activated account" });
     }
-    await forgotPasswordEmail(resExists.uniqueId, resExists.email);
+
+    console.log(resExists.activated);
+    await forgotPasswordRestaurantEmail(resExists.uniqueId, resExists.email);
     res.status(200).json({ message: "Password reset email sent" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
