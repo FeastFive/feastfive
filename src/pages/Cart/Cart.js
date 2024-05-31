@@ -152,7 +152,7 @@ export default function Cart() {
               ))}
 
               <div className="absolute bottom-0 mb-2 font-semibold flex flex-row w-full pb-2 justify-between bg-[#FFFFFF] pt-3">
-                <button className="bg-red-400 w-full" onClick={()=> dispatch(resetAll())}>clear</button>
+                <button className="border-b-2 w-auto px-3 mr-2" onClick={()=> dispatch(resetAll())}>Clear</button>
                 <p className="w-full pt-1">Total: {cart.totalPrice} TL</p>
 
                 <button

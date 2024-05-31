@@ -134,7 +134,7 @@ export default function FoodHome() {
 
   return (
     <>
-      <div className="grid grid-cols-5 md:px-12 lg-px-24 gap-6 pt-12">
+      <div className="grid grid-cols-5 md:px-12 lg-px-24 gap-6 pt-12 pb-12">
         <div className="col-span-1 w-full h-screen sticky top-0 overflow-scroll px-3 pl-5 pt-6 bg-[#F9FCFB] border-2 rounded-md shadow-md border-slate-100 hidden md:hidden lg:block">
           <div className="flex flex-row justify-between">
             <h3 className="font-semibold text-xl">Filter</h3>
@@ -205,7 +205,7 @@ export default function FoodHome() {
             {filtered.length > 0 ? (
               <HomeGrid list={filtered} />
             ) : (
-              <h3>No restaurants</h3>
+              <></>
             )}
           </div>
         </div>

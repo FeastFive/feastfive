@@ -6,8 +6,10 @@ import { doneOrder } from "../utils/order/doneOrder";
 import { rejectOrder } from "../utils/order/rejectOrder";
 
 const OrderRestaurant = ({ order }) => {
-  console.log(order);
   const [choose, setChoose] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
   const calculateTotalPrice = (food) => {
     return (food.price / 100) * food.quantity;
   };
@@ -59,8 +61,10 @@ const OrderRestaurant = ({ order }) => {
   function handleClick(option) {
     if (option !== choose) {
       setChoose(option);
+      setCurrentPage(1); // Reset to first page on status change
     }
   }
+
   const getStatusToShow = (choose) => {
     switch (choose) {
       case 0:
@@ -75,6 +79,16 @@ const OrderRestaurant = ({ order }) => {
   };
 
   const statusToShow = getStatusToShow(choose);
+  const filteredOrders = order.orders?.filter(
+    (element) => element.status === statusToShow
+  ) || [];
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className={styles.orderContainer}>
       <div className="flex flex-row gap-4">
@@ -113,9 +127,8 @@ const OrderRestaurant = ({ order }) => {
         </button>
       </div>
       <div>
-        {order.orders
-          ?.filter((element) => element.status === statusToShow)
-          .map((element, index) => (
+        {currentItems.length > 0 ? (
+          currentItems.map((element, index) => (
             <div
               className={`${styles.cartComponent} ${
                 element.status === "Done"
@@ -191,7 +204,33 @@ const OrderRestaurant = ({ order }) => {
                 )}
               </p>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="flex justify-center items-center">
+            <h1 className="text-xl text-slate-800 font-bold">
+              No orders found.
+            </h1>
+          </div>
+        )}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center items-center mt-4">
+        {Array.from({
+          length: Math.ceil(filteredOrders.length / itemsPerPage),
+        }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`px-4 py-2 mx-1 border rounded-md shadow-sm font-semibold ${
+              currentPage === index + 1
+                ? "bg-[#DB3748] text-white"
+                : "bg-white text-[#DB3748]"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

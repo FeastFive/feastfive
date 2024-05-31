@@ -13,6 +13,7 @@ const OrderUser = ({ order }) => {
   const [textareaValue, setTextareaValue] = useState("");
   const [rating, setRating] = useState();
   const [choose, setChoose] = useState(1);
+  const itemsPerPage = 3;
 
   const [expanderStatus, setExpanderStatus] = useState(
     Array(orderLength).fill(false)
@@ -20,6 +21,7 @@ const OrderUser = ({ order }) => {
   const [ordersWithComments, setOrdersWithComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [delayOver, setDelayOver] = useState(Array(orderLength).fill(false));
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchCommentsForOrders = async () => {
@@ -132,6 +134,9 @@ const OrderUser = ({ order }) => {
     }
   };
 
+  // Pagination Controls
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   if (loading) {
     return (
       <div className={styles.loader}>
@@ -163,6 +168,15 @@ const OrderUser = ({ order }) => {
   };
 
   const statusToShow = getStatusToShow(choose);
+
+  // Pagination data
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const filteredOrders = order.orders?.filter(
+    (element) => element.status === statusToShow
+  ) || [];
+  const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div className={styles.orderContainer}>
       <Loader4sec />
@@ -201,9 +215,7 @@ const OrderUser = ({ order }) => {
           Rejected
         </button>
       </div>
-      {order.orders
-          ?.filter((element) => element.status === statusToShow)
-          .map((element, index) => (
+      {currentOrders.map((element, index) => (
         <div className={styles.cartComponent} key={index}>
           <div className={styles.innerCartComponent}>
             {Array.isArray(element.cartFoodList) ? (
@@ -282,8 +294,28 @@ const OrderUser = ({ order }) => {
           ) : null}
         </div>
       ))}
+      
+      {/* Pagination Controls */}
+      <div className="flex justify-center items-center mt-4">
+        {Array.from({
+          length: Math.ceil(filteredOrders.length / itemsPerPage),
+        }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`px-4 py-2 mx-1 border rounded-md shadow-sm font-semibold ${
+              currentPage === index + 1
+                ? "bg-[#DB3748] text-white"
+                : "bg-white text-[#DB3748]"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default OrderUser;
+
