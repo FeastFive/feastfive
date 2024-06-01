@@ -189,7 +189,7 @@ export default function Cart() {
                   className="bg-red-400 w-full"
                   onClick={() => dispatch(resetAll())}
                 >
-                  clear
+                  Clear
                 </button>
                 <p className="w-full pt-1">Total: {cart?.totalPrice} $</p>
 

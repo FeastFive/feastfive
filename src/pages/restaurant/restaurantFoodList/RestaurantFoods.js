@@ -176,12 +176,16 @@ export default function RestaurantFoods() {
       if (restaurandId != localStorage.getItem("restaurantId")) {
         ShowAlert(3, "Diğer restorandaki ürünleri silmelisiniz !");
       } else {
-        localStorage.setItem("restaurantId", restaurandId);
-        dispatch(addFoodToCard(foodObject));
+      
+          localStorage.setItem("restaurantId", restaurandId);
+          dispatch(addFoodToCard(foodObject));
+       
       }
     } else {
-      localStorage.setItem("restaurantId", restaurandId);
-      dispatch(addFoodToCard(foodObject));
+      
+        localStorage.setItem("restaurantId", restaurandId);
+        dispatch(addFoodToCard(foodObject));
+      
     }
   }
   function resetMultiple() {
@@ -256,7 +260,7 @@ export default function RestaurantFoods() {
                         {choosedFood.options.map((optionElement) => (
                           <div>
                             <h3 className="text-xl  font-semibold mb-4">
-                              {optionElement.option}
+                              {`${optionElement.option} ${optionElement.quantity === "multiple" ? " " : " *"}`}
                             </h3>
                             {optionElement.quantity == "multiple" ? (
                               <div className="flex flex-col">
@@ -355,11 +359,18 @@ export default function RestaurantFoods() {
             <h3 className="text-3xl font-semibold">
               {restaurant?.restaurantName}
             </h3>
-            <p className="text-gray-400">20.10.2021</p>
           </div>
           <p className="pb-4">
+            <div className="flex flex-row justify-between w-[200px]">
+            <div>
             <span className="font-semibold text-gray-700">{averageRating}</span>
             <span className="text-yellow-300 text-xl">★</span> {comments.length}
+            </div>
+            <p className="text-gray-400">{restaurant?.createdAt.slice(0,10)}</p>
+
+            </div>
+           
+
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             {foodList ? (
@@ -411,7 +422,7 @@ export default function RestaurantFoods() {
 
         <div
           className={
-            " flex flex-col pt-6 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md h-[540px]   overflow-y-scroll" +
+            " flex flex-col pt-6 mt-12  px-6 pb-12 w-[80%] lg:w-[30%] m-auto rounded-lg shadow-md max-h-[540px]   overflow-y-scroll" +
             (choosedFood ? " hidden " : " block ")
           }
         >
@@ -423,7 +434,9 @@ export default function RestaurantFoods() {
               {averageRating} <span className="text-yellow-300 text-xl">★</span>
             </p>
           </div>
-          {comments?.map((comment) => (
+          {comments?.length >0 ?
+        <>
+          {comments.map((comment) => (
             <div
               style={{ boxShadow: "0px 11px 10px -5px rgba(203,203,203,0.25)" }}
               className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20 "
@@ -445,6 +458,10 @@ export default function RestaurantFoods() {
               <p className="">{comment?.comment}</p>
             </div>
           ))}
+        </>  
+
+        :<h3>No comment yet.</h3>
+        }
         </div>
       </div>
     </>

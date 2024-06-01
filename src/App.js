@@ -123,8 +123,8 @@ function App() {
             element={
               <ProtectedRoute
                 element={CartPage}
-                redirectTo="/panel"
-                condition={!restaurant.isLogin}
+                redirectTo={`${!user.isLogin && !restaurant.isLogin ? "/login" : "/home"}`}
+                condition={!restaurant.isLogin && user.isLogin}
               />
             }
           />
