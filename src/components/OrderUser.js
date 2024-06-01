@@ -151,6 +151,7 @@ const OrderUser = ({ order }) => {
 
   function handleClick(option) {
     if (option !== choose) {
+      paginate(1)
       setChoose(option);
     }
   }

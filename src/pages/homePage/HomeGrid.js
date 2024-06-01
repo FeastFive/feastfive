@@ -106,50 +106,57 @@ export default function HomeGrid({ list }) {
   }, []);
 
   useEffect(() => {
-    let labelList = [];
-    let cookieLabelList = Cookies.get("labelList")
-      ? JSON.parse(Cookies.get("labelList"))
-      : [];
-
-    if (cookieLabelList.length > 0) {
-      foods?.forEach((element) => {
-        let value = 0;
-        if (element && element.labels) {
-          for (let index = 0; index < element.labels.length; index++) {
-            let checkLabel = cookieLabelList.find(
-              (e) => e.value === element.labels[index].label
-            );
-            if (checkLabel) {
-              value += checkLabel.count;
+    const cookieConsent = localStorage.getItem("cookieConsent");
+    if (cookieConsent && JSON.parse(cookieConsent) === true) {
+      let labelList = [];
+      let cookieLabelList = Cookies.get("labelList")
+        ? JSON.parse(Cookies.get("labelList"))
+        : [];
+  
+      if (cookieLabelList.length > 0) {
+        foods?.forEach((element) => {
+          let value = 0;
+          if (element && element.labels) {
+            for (let index = 0; index < element.labels.length; index++) {
+              let checkLabel = cookieLabelList.find(
+                (e) => e.value === element.labels[index].label
+              );
+              if (checkLabel) {
+                value += checkLabel.count;
+              }
+            }
+            let obj = {
+              _id: element._id,
+              RestaurantName: element.restaurantName,
+              labelValue: value,
+            };
+            labelList.push(obj);
+          }
+        });
+        let newList = labelList
+          .slice()
+          .sort((a, b) => b.labelValue - a.labelValue);
+  
+        if (newList.length > 0) {
+          const newRestaurantList = [];
+          for (let a = 0; a < newList.length; a++) {
+            const labelId = newList[a]._id;
+            const restaurantObj = foods.find((e) => e && e._id === labelId);
+            if (restaurantObj) {
+              newRestaurantList.push(restaurantObj);
             }
           }
-          let obj = {
-            _id: element._id,
-            RestaurantName: element.restaurantName,
-            labelValue: value,
-          };
-          labelList.push(obj);
-        }
-      });
-      let newList = labelList
-        .slice()
-        .sort((a, b) => b.labelValue - a.labelValue);
-
-      if (newList.length > 0) {
-        const newRestaurantList = [];
-        for (let a = 0; a < newList.length; a++) {
-          const labelId = newList[a]._id;
-          const restaurantObj = foods.find((e) => e && e._id === labelId);
-          if (restaurantObj) {
-            newRestaurantList.push(restaurantObj);
+  
+          if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
+            setFoods(newRestaurantList);
           }
         }
-
-        if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
-          setFoods(newRestaurantList);
-        }
+      }else{
+        console.log("false abi")
       }
     }
+
+    
   }, [foods]);
 
   function addFavorite(restaurantId) {

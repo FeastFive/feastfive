@@ -107,7 +107,9 @@ const FilterCuisine = () => {
           ) : filtered.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
-            <div>No restaurants found</div>
+            <h1 className="text-xl text-slate-800 font-bold">
+              Sorry, there is no restaurant.
+            </h1>
           )}
         </div>
       </div>
