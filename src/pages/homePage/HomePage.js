@@ -41,7 +41,6 @@ const HomePage = () => {
           <HomeGrid></HomeGrid>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

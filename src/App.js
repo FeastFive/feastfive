@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import FoodHome from "./pages/homePage/FoodHome.js/FoodHome";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Menu from "./pages/restaurant/menu/Menu";
 import UpdateMenu from "./pages/restaurant/updateMenu/UpdateMenu";
 import { useSelector } from "react-redux";
@@ -56,6 +57,7 @@ function App() {
               />
             }
           />
+
           <Route
             path="/home"
             element={
@@ -296,6 +298,7 @@ function App() {
           />
           <Route path="*" element={<NoPage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );

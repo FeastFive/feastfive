@@ -7,118 +7,150 @@ const { sendActivationEmail, forgotPasswordEmail } = require("./mailer");
 // register a new user
 // route /api/users
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, surname, email, password } = req.body;
-  //validation
-  if (!name || !surname || !email || !password) {
-    res.status(400);
-    console.log(name, surname, email, password);
-    throw new Error("Please include all fields");
-  }
-  //Find if user already exists
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(401);
-    throw new Error("User already exists");
-  }
-  const uniqueId = randString();
-  //Hash
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  try {
+    const { name, surname, email, password } = req.body;
 
-  //Create User
-  const user = await User.create({
-    name,
-    surname,
-    email,
-    loginDate: new Date(),
-    password: hashedPassword,
-    uniqueId: uniqueId,
-    role: "user",
-  });
+    // Validation
+    if (!name || !surname || !email || !password) {
+      console.log(name, surname, email, password);
+      return res
+        .status(400)
+        .json({ state: "fail", message: "Please include all fields" });
+    }
 
-  if (user) {
-    sendActivationEmail(user.uniqueId, user.email);
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      loginDate: user.loginDate,
-      uniqueId: user.uniqueId,
-      token: generateToken(user._id),
-      activated: false,
+    // Find if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res
+        .status(401)
+        .json({ state: "fail", message: "User already exists" });
+    }
+
+    const uniqueId = randString();
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create User
+    const user = await User.create({
+      name,
+      surname,
+      email,
+      loginDate: new Date(),
+      password: hashedPassword,
+      uniqueId: uniqueId,
+      role: "user",
     });
-  } else {
-    res.status(400);
-    throw new Error("Invalid user data");
-  }
-});
 
-const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  // Find user by email
-  const user = await User.findOne({ email });
-  if (user && (await bcrypt.compare(password, user.password))) {
-    if (user.activated) {
-      user.loginDate = new Date();
-      await user.save();
-
-      const responseData = {
+    if (user) {
+      sendActivationEmail(user.uniqueId, user.email);
+      res.status(201).json({
         _id: user._id,
         name: user.name,
         surname: user.surname,
         email: user.email,
-        address: user?.address || null,
-        createdAt: user.createdAt,
         loginDate: user.loginDate,
-        role: user.role,
-        logs: user.logs,
-        activated: user.activated,
-      };
-
-      res.status(200).json(responseData);
+        uniqueId: user.uniqueId,
+        token: generateToken(user._id),
+        activated: false,
+      });
     } else {
-      res.status(403).json({ state: "fail", message: "Non activated account" });
+      res.status(400).json({ state: "fail", message: "Invalid user data" });
     }
-  } else {
-    res.status(401).json({ state: "fail", message: "Invalid credentials" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ state: "fail", message: "Server error" });
+  }
+});
+
+const loginUser = asyncHandler(async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      if (user.activated) {
+        user.loginDate = new Date();
+        await user.save();
+
+        const responseData = {
+          _id: user._id,
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          address: user?.address || null,
+          createdAt: user.createdAt,
+          loginDate: user.loginDate,
+          role: user.role,
+          logs: user.logs,
+          activated: user.activated,
+        };
+
+        res.status(200).json(responseData);
+      } else {
+        res
+          .status(403)
+          .json({ state: "fail", message: "Non activated account" });
+      }
+    } else {
+      res.status(401).json({ state: "fail", message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ state: "fail", message: "Server error" });
   }
 });
 
 const editUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { id, name, surname, email } = req.body;
-  // Find user by ID
-  const user = await User.findById(id);
+  try {
+    console.log(req.body);
+    const { id, name, surname, email } = req.body;
 
-  if (user) {
-    user.name = name || user.name;
-    user.surname = surname || user.surname;
-    // user.image = image || user.image;
+    // Find user by ID
+    const user = await User.findById(id);
 
-    const updatedUser = await user.save();
+    console.log(user);
 
-    res
-      .status(200)
-      .json({ name: user.name, surname: user.surname, email: user.email });
-  } else {
-    res.status(404).json({ state: "fail", message: "User not found" });
+    if (user) {
+      user.name = name || user.name;
+      user.surname = surname || user.surname;
+      // user.image = image || user.image;
+
+      const updatedUser = await user.save();
+
+      res.status(200).json({
+        name: updatedUser.name,
+        surname: updatedUser.surname,
+        email: updatedUser.email,
+      });
+    } else {
+      res.status(404).json({ state: "fail", message: "User not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ state: "fail", message: "Server error" });
   }
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  try {
+    const { id } = req.body;
 
-  const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id);
 
-  if (deletedUser) {
-    res.status(200).json({
-      status: "success",
-      message: "User deleted successfully",
-    });
-  } else {
-    res.status(404).json({ status: "fail", message: "User not found" });
+    if (deletedUser) {
+      res.status(200).json({
+        status: "success",
+        message: "User deleted successfully",
+      });
+    } else {
+      res.status(404).json({ status: "fail", message: "User not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "fail", message: "Server error" });
   }
 });
 
@@ -168,8 +200,8 @@ const changePassword = asyncHandler(async (req, res) => {
   try {
     // const { uniqueId } = req.query;
     const { uniqueId, newPassword } = req.body;
-    console.log("uniqueId");
-    console.log(uniqueId);
+    // console.log("uniqueId");
+    // console.log(uniqueId);
 
     if (!newPassword) {
       return res.status(400).json({ error: "Password does not exist" });

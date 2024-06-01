@@ -4,6 +4,7 @@ import { addFoodToCard, removeFromCart } from "../../store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { loadStripe } from "@stripe/stripe-js";
+import { ShowAlert } from "../../components/alert/ShowAlert";
 
 export default function CartPage() {
   const [choosedAdress, setChoosedAdress] = useState(
@@ -17,39 +18,44 @@ export default function CartPage() {
   const user = useSelector((state) => state.user);
   const restaurant = useSelector((state) => state.restaurant);
   const navigate = useNavigate();
-
+  console.log(user.isLogin);
   const makePayment = async () => {
-    const stripe = await loadStripe(
-      "pk_test_51PExeqGnJMvlUc9LgwPfKGpos0O7NgiMLgaQpie7EeUiX8jAA6DrUAIj6N8tZwhXdr5NNVuiKcREwLlwlJfER0kB0043kuRa8x"
-    );
+    console.log(!user.isLogin);
+    if (user.isLogin) {
+      const stripe = await loadStripe(
+        "pk_test_51PExeqGnJMvlUc9LgwPfKGpos0O7NgiMLgaQpie7EeUiX8jAA6DrUAIj6N8tZwhXdr5NNVuiKcREwLlwlJfER0kB0043kuRa8x"
+      );
 
-    const body = {
-      products: cart.cartFoodList,
-      restaurantId: cart.restaurantId,
-      userId: user.id,
-      adress: choosedAdress,
+      const body = {
+        products: cart.cartFoodList,
+        restaurantId: cart.restaurantId,
+        userId: user.id,
+        adress: choosedAdress,
 
-      // price: cart.totalPrice,
-    };
-    const headers = {
-      "Content-type": "application/json",
-    };
-    const response = await fetch(
-      `http://127.0.0.1:4000/api/create-checkout-session`,
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
+        // price: cart.totalPrice,
+      };
+      const headers = {
+        "Content-type": "application/json",
+      };
+      const response = await fetch(
+        `http://127.0.0.1:4000/api/create-checkout-session`,
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body),
+        }
+      );
+      const session = await response.json();
+
+      const result = stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (result.error) {
+        console.log(result.error);
       }
-    );
-    const session = await response.json();
-
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      console.log(result.error);
+    } else {
+      ShowAlert(3, "Please, login first!");
     }
   };
   return (
@@ -57,27 +63,27 @@ export default function CartPage() {
       <div className="w-[90%] sm:w-[90%] md:w-[80%] lg:w-[65%] m-auto px-12 sm:px-12 md:px-6 lg:px-12 pt-12">
         <h3 className="font-semibold text-2xl pb-4"> Cart </h3>
 
-        {cart.cartFoodList.length > 0 ? (
+        {cart?.cartFoodList.length > 0 ? (
           <div ke={"cart"} className="pr-0 sm:pr-10 text-center sm:text-left">
-            {cart.cartFoodList.map((food, _index) => (
+            {cart?.cartFoodList.map((food, _index) => (
               <div key={_index} className="h-auto  pt-2 pb-4 ">
                 <div className="flex flex-col sm:flex-row ">
                   <img
                     className="w-full lg:w-40 h-auto rounded-md shadow-md"
-                    src={food.foodImage}
+                    src={food?.foodImage}
                   ></img>
 
                   <div className="flex flex-col pl-4 sm:pt-0 pt-4 ">
                     <a
                       href={`/restaurantFoods/${localStorage.getItem(
                         "restaurantId"
-                      )}/${food.foodName}`}
+                      )}/${food?.foodName}`}
                       key={"food"}
                       className="text-2xl sm:text-xl  font-semibold pb-1 w-auto pr-5 cursor-pointer hover:text-gray-500 duration-200 pt-2"
                     >
-                      {food.foodName}
+                      {food?.foodName}
                     </a>
-                    <p>{food.foodDescp}</p>
+                    <p>{food?.foodDescp}</p>
                   </div>
                 </div>
 
@@ -87,7 +93,7 @@ export default function CartPage() {
                       <div className="flex flex-col flex-wrap gap-1 w-full">
                         <div className="flex flex-row gap-2 flex-wrap">
                           <p className="font-semibold ">Seçenekler: </p>
-                          <div className="">{info.singleOption}</div>
+                          <div className="">{info?.singleOption}</div>
 
                           <div className="flex flex-row  flex-wrap gap-1">
                             {info.options.map((opt, index) => (
@@ -98,10 +104,10 @@ export default function CartPage() {
                           </div>
                         </div>
                         <div className="flex flex-row">
-                          <p>{info.count} Adet </p>
+                          <p>{info?.count} Adet </p>
                           <div className="pl-2 font-semibold">
                             {" "}
-                            {info.price} TL
+                            {info?.price} $
                           </div>
                         </div>
                       </div>
@@ -164,7 +170,7 @@ export default function CartPage() {
 
             <div className="flex flex-row justify-left gap-4 w-full">
               <p className="w-auto pt-1 font-semibold text-lg">
-                Total: {cart.totalPrice} TL
+                Total: {cart?.totalPrice} $
               </p>
 
               <button
