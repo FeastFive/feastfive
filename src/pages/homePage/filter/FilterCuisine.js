@@ -12,8 +12,10 @@ const FilterCuisine = () => {
       ? JSON.parse(localStorage.getItem("adress"))
       : {}
   );
+  const [restaurants, setRestaurants] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
   const { cuisine } = location.state || {};
@@ -27,47 +29,52 @@ const FilterCuisine = () => {
 
   useEffect(() => {
     const handleRestaurant = async () => {
+      setLoading(true);
       try {
         const response = await getRestaurant();
 
         if (response.status === 200) {
           const result = await response.json();
-          if (result.restaurants.length > 0) {
-            let filteredRestaurants = result.restaurants;
-
-            // Filter by selected categories
-            if (selectedCategories.length > 0) {
-              filteredRestaurants = filteredRestaurants.filter((restaurant) =>
-                restaurant.labels.some((label) =>
-                  selectedCategories.includes(label.value)
-                )
-              );
-            }
-
-            // Filter by address
-            if (choosedAdress.province && choosedAdress.districts) {
-              filteredRestaurants = filteredRestaurants.filter(
-                (restaurant) =>
-                  restaurant.adress?.province === choosedAdress.province &&
-                  restaurant.adress?.district === choosedAdress.districts
-              );
-            }
-
-            setFiltered(filteredRestaurants);
-          } else {
-            setFiltered([]);
-          }
+          setRestaurants(result.restaurants);
         } else {
           ShowAlert(3, "An error occurred while fetching restaurant");
         }
       } catch (error) {
         console.error("Error:", error);
         ShowAlert(3, "An error occurred while fetching restaurant");
+      } finally {
+        setLoading(false);
       }
     };
 
     handleRestaurant();
-  }, [selectedCategories, choosedAdress]);
+  }, []);
+
+  useEffect(() => {
+    if (restaurants.length > 0) {
+      let filteredRestaurants = restaurants;
+
+      // Filter by selected categories
+      if (selectedCategories.length > 0) {
+        filteredRestaurants = filteredRestaurants.filter((restaurant) =>
+          restaurant.labels.some((label) =>
+            selectedCategories.includes(label.value)
+          )
+        );
+      }
+
+      // Filter by address
+      if (choosedAdress.province && choosedAdress.districts) {
+        filteredRestaurants = filteredRestaurants.filter(
+          (restaurant) =>
+            restaurant.adress?.province === choosedAdress.province &&
+            restaurant.adress?.district === choosedAdress.districts
+        );
+      }
+
+      setFiltered(filteredRestaurants);
+    }
+  }, [restaurants, selectedCategories, choosedAdress]);
 
   useEffect(() => {
     if (!isEmpty) {
@@ -76,6 +83,7 @@ const FilterCuisine = () => {
       }, [1400]);
     }
   }, []);
+
   return (
     <div className="pb-24 overflow-x-hidden">
       <div className="pt-4 px-8 md:px-16 lg:px-32">
@@ -85,30 +93,30 @@ const FilterCuisine = () => {
             alt="cuisine"
             className="rounded-md shadow-lg h-[140px] w-auto"
           />
-          <h3 className="text-3xl font-bold  pt-1 pl-2">{cuisine?.name}</h3>
+          <h3 className="text-3xl font-bold pt-1 pl-2">{cuisine?.name}</h3>
         </div>
 
-        <div className=" pt-8 lg:pt-4 relative pb-12">
+        <div className="pt-8 lg:pt-4 relative pb-12">
           <h3 className="text-3xl font-semibold">
             Restaurants with{" "}
             <span className="text-[#DB3748]">{cuisine?.name}</span>
           </h3>
 
-          {filtered?.length > 0 ? (
+          {loading ? (
+            <div>Loading...</div>
+          ) : filtered.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
-            <>
-              {isEmpty && (
-                <div className="text-lg text-gray-500 pt-4">
-                  There is no restaurant with {cuisine?.name}...
-                </div>
-              )}
-            </>
+            <h1 className="text-xl text-slate-800 font-bold">
+              Sorry, there is no restaurant.
+            </h1>
           )}
         </div>
       </div>
     </div>
   );
 };
+
+
 
 export default FilterCuisine;
