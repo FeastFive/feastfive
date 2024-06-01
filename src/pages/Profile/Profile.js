@@ -86,7 +86,7 @@ const Profile = () => {
     }
   };
   const restaurantUser = (
-    <div>
+    <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-2 h-auto px-12 md:px-24 lg:px-32 py-12 border-b-2">
         <div className="w-full h-full col-span-1 ">
           <h1 className="pl-3 text-xl font-bold pb-2">
@@ -160,7 +160,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="pt-5 h-full pb-24 overflow-x-hidden">
+      <div className="pt-5 h-full pb-24">
         {choose === 0 && <RestaurantEditProfile></RestaurantEditProfile>}
         {choose === 1 && <RestaurantPanelPage></RestaurantPanelPage>}
         {choose === 2 && <GivenOrders></GivenOrders>}

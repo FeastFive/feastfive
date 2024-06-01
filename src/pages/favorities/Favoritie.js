@@ -40,6 +40,8 @@ export default function Favoritie() {
       <div className="px-32 pt-12">
         <h3 className="text-4xl font-semibold pb-4">Favorites</h3>
         <HomeGrid list={favoritedRestaurants}></HomeGrid>
+        <p className="h-[300px]"></p>
+
       </div>
     </>
   );

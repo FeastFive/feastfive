@@ -22,6 +22,7 @@ const OrderUser = ({ order }) => {
   const [loading, setLoading] = useState(true);
   const [delayOver, setDelayOver] = useState(Array(orderLength).fill(false));
   const [currentPage, setCurrentPage] = useState(1);
+  const [showNoOrders, setShowNoOrders] = useState(false);
 
   useEffect(() => {
     const fetchCommentsForOrders = async () => {
@@ -104,6 +105,16 @@ const OrderUser = ({ order }) => {
     }, 0);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!Array.isArray(order.orders) || order.orders.length === 0) {
+        setShowNoOrders(true);
+      }
+    }, 1000);
+
+    // Clear the timeout if the component unmounts
+    return () => clearTimeout(timer);
+  }, [order.orders]);
   const handleCommentSubmit = async (restaurantId, userId, orderId) => {
     try {
       if (!rating || !textareaValue) {
@@ -146,7 +157,9 @@ const OrderUser = ({ order }) => {
   }
 
   if (!Array.isArray(order.orders) || order.orders.length === 0) {
-    return <div>No orders found</div>;
+    if (showNoOrders) {
+      return <div>No orders found</div>;
+    }
   }
 
   function handleClick(option) {
@@ -314,6 +327,7 @@ const OrderUser = ({ order }) => {
           </button>
         ))}
       </div>
+      <p className="h-[300px]"></p>
     </div>
   );
 };

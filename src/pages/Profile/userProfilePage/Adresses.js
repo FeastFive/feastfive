@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getAddress } from "../../../utils/user/getAddress";
 import { addAdress } from "../../../utils/user/addAddress";
-import { setAdress } from "../../../store/slices/userSlice";
 
 export default function Adresses() {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -18,11 +16,7 @@ export default function Adresses() {
   const [selectedDistricts, setSelectesDistricts] = useState(null);
   const [adressName, setAdressName] = useState("");
   const [adressDescp, setAdressDescp] = useState("");
-  const [choosedAdress, setChoosedAdress] = useState(
-    localStorage.getItem("adress")
-      ? JSON.parse(localStorage.getItem("adress"))
-      : {}
-  );
+  const [choosedAdress, setChoosedAdress] = useState(localStorage.getItem("adress") ? JSON.parse(localStorage.getItem("adress")) : {})
   console.log(selectedProvinces, selectedDistricts, adressName, adressDescp);
 
   useEffect(() => {
@@ -73,7 +67,6 @@ export default function Adresses() {
         if (response.status === 200) {
           const result = await response.json();
           console.log(result);
-          dispatch(setAdress({ adress: add }));
           ShowAlert(1, "Succesfully added adress.");
         } else if (response.status === 404) {
           ShowAlert(3, "No user found by id");
@@ -113,10 +106,10 @@ export default function Adresses() {
     fetchAddress();
   }, []);
 
-  function chooseCurrentAdress(adress) {
-    console.log(adress);
-    setChoosedAdress(adress);
-    localStorage.setItem("adress", JSON.stringify(adress));
+  function chooseCurrentAdress(adress){
+    console.log(adress)
+    setChoosedAdress(adress)
+    localStorage.setItem("adress",JSON.stringify(adress))
   }
 
   return (
@@ -155,7 +148,7 @@ export default function Adresses() {
 
           {/* District */}
           <div className="flex flex-col">
-            <label className="font-semibold pb-1">Surname: </label>
+            <label className="font-semibold pb-1">District: </label>
             <select
               className="border-2 border-gray-900 pl-2 py-2 rounded-sm w-[220px] focus:outline-none"
               id="ilce"
@@ -197,18 +190,11 @@ export default function Adresses() {
           Your Adresses
         </h3>
         {add.map((item, index) => (
-          <div key={index} onClick={() => chooseCurrentAdress(item)}>
+          <div key={index} onClick={()=> chooseCurrentAdress(item)}>
             <h1 className="px-2 text-xl fontsemibold pb-2 font-semibold">
               {item.adressName}
             </h1>
-            <div
-              className={
-                `flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ` +
-                (choosedAdress?.addresDescp === item.addresDescp
-                  ? " border-green-300"
-                  : " ")
-              }
-            >
+            <div className={`flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ` + (choosedAdress?.addresDescp === item.addresDescp ? " border-green-300" : " ")} >
               <div className="flex flex-row">
                 <h3 className="-font-semibold text-lg mr-2">{item.province}</h3>
                 <h3 className="-font-semibold text-lg mr-2">

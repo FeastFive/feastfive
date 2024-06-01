@@ -103,7 +103,7 @@ const FilterCuisine = () => {
           </h3>
 
           {loading ? (
-            <div>Loading...</div>
+            <div className="h-screen"></div>
           ) : filtered.length > 0 ? (
             <HomeGrid list={filtered}></HomeGrid>
           ) : (
