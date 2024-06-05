@@ -104,14 +104,14 @@ export default function RestaurantCharts() {
       <h3 className=" px-24 lg:pl-28 text-4xl font-semibold py-4 border-t-2 pt-8 ">Charts</h3>
       <div className="flex flex-col lg:flex-row px-4 lg:px-24 gap-3">
         <div className="flex flex-col w-full lg:w-1/2 p-4">
-          <div className="w-full p-4">
+          <div className="w-full  lg:w-[550px] m-auto p-4">
             <BarChart chartData={barChartData} />
           </div>
-          <div className="w-full p-4">
+          <div className="w-full lg:w-[550px] m-auto p-4">
             <LineChart chartData={lineChartData} />
           </div>
         </div>
-        <div className="w-full lg:w-1/2 p-4">
+        <div className="w-full lg:w-[550px] m-auto p-4">
           <PieChart chartData={pieChartData} />
         </div>
       </div>

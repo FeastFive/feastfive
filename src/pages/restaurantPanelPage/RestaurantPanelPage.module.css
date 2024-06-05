@@ -42,11 +42,13 @@
   background-color: #db3748;
   color: #f0f0f0;
   font-size: 19px;
-  padding: 7px;
+  padding: 9px 15px;
   transition: all 0.3s ease;
+  border-radius: 0.4rem;
+
 }
 .addMenuButton:hover {
-  background-color: #b62e3c;
+  background-color: #bc2433;
 }
 
 .listContainer {
@@ -58,9 +60,11 @@
 .saveLableButton {
   border: #db3748 solid 2px;
   color: #db3748;
-  padding: 5px 12px;
+  padding: 7px 15px;
   transition: all 0.3s ease;
   font-weight: 600;
+  border-radius: 0.4rem;
+
 }
 .saveLableButton:hover {
   background-color: #db3748;

@@ -134,8 +134,8 @@ export default function FoodHome() {
 
   return (
     <>
-      <div className="grid grid-cols-5 md:px-12 lg-px-24 gap-6 pt-12 pb-12">
-        <div className="col-span-1 w-full h-screen sticky top-0 overflow-scroll px-3 pl-5 pt-6 bg-[#F9FCFB] border-2 rounded-md shadow-md border-slate-100 hidden md:hidden lg:block">
+      <div className="grid grid-cols-5 md:px-12 lg-px-12 gap-3 pt-12 pb-12">
+        <div className=" col-span-full lg:col-span-1 w-full h-auto lg:h-screen lg:sticky z-[3000] top-0 overflow-scroll lg:px-4 px-4 pl-5 pt-6 bg-[#F9FCFB] border-2 rounded-md shadow-md border-slate-100  lg:block">
           <div className="flex flex-row justify-between">
             <h3 className="font-semibold text-xl">Filter</h3>
             <p
@@ -145,8 +145,8 @@ export default function FoodHome() {
               Clear All
             </p>
           </div>
-          <h3 className="pt-4 text-sm">Ranking</h3>
-          <ul className="pt-1">
+          <h3 className="pt-4 text-sm  font-semibold">Ranking</h3>
+          <ul className="pt-1 flex flex-row lg:flex-col lg:gap-1 gap-4">
             {radioList.map((radio, index) => (
               <li key={index} className="flex flex-row gap-4 pt-1">
                 <input
@@ -161,16 +161,17 @@ export default function FoodHome() {
               </li>
             ))}
           </ul>
-          <ul className="pt-4">
-            <h3 className="pb-1 text-sm">Cuisine</h3>
-            <div className="mb-1 mt-1">
+          <ul className="pt-4 ">
+            <h3 className="pb-1 text-sm font-semibold">Cuisine</h3>
+            <div className="mb-1 mt-1 bg">
               <input
                 placeholder="Search Kitchens"
-                className="border-2 border-slate-200 shadow-md focus:outline-none rounded-lg pl-2 w-[90%] text-sm py-1 pb-2"
+                className="border-2 border-slate-200 shadow-md focus:outline-none rounded-lg pl-2 w-full lg:w-[90%] text-sm py-1 pb-2"
               ></input>
             </div>
+            <div className="flex lg:flex-col flex-row flex-wrap lg:gap-1 pt-4 gap-4">
             {categories.map((category) => (
-              <li key={category} className="flex flex-row gap-4 pt-2">
+              <li key={category} className="flex flex-row lg:gap-4 gap-2 pt-2">
                 <input
                   type="checkbox"
                   className="w-4 bg-none"
@@ -180,6 +181,8 @@ export default function FoodHome() {
                 <span className="font-medium text-sm">{category}</span>
               </li>
             ))}
+            </div>
+            
           </ul>
           {/* <div>
             <h3 className="mt-2 text-sm">Price</h3>
@@ -202,11 +205,7 @@ export default function FoodHome() {
         <div className="col-span-5 md:col-span-5 relative lg:col-span-4 w-full h-auto px-4 pt-6">
           <h3 className="text-2xl">Restaurants found</h3>
           <div>
-            {filtered.length > 0 ? (
-              <HomeGrid list={filtered} />
-            ) : (
-              <></>
-            )}
+            {filtered.length > 0 ? <HomeGrid list={filtered} /> : <></>}
           </div>
         </div>
       </div>

@@ -118,7 +118,7 @@ const Navbar = () => {
             onClick={() => setNavDropdownOpen(false)}
           />
         </div>
-        <div className={styles.iconMobileContainer}>
+        <div href className={styles.iconMobileContainer}>
           <img src={navIcon} alt="" className={styles.navMobilIcon} />
         </div>
         <div className={styles.mobileButtonContainer}>
@@ -248,9 +248,9 @@ const Navbar = () => {
             >
               {menu.button2}
             </button>
-            <div className={styles.iconContainer}>
+            <a  href="/home" className={styles.iconContainer}>
               <img src={navIconNoBack} alt="" className={styles.navIcon} />
-            </div>
+            </a>
             <button
               className={styles.navButton}
               onClick={() =>

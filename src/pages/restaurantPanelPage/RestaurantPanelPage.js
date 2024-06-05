@@ -114,7 +114,7 @@ const RestaurantPanelPage = () => {
               }}
             >
               <FaPlus />
-              <div>Add Menu</div>
+              <div className="">Add Menu</div>
             </button>
           </div>
           <ul className={styles.listContainer}>

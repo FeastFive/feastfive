@@ -260,7 +260,7 @@ export default function RestaurantFoods() {
                         {choosedFood.options.map((optionElement) => (
                           <div>
                             <h3 className="text-xl  font-semibold mb-4">
-                              {`${optionElement.option} ${optionElement.quantity === "multiple" ? " " : " *"}`}
+                              {optionElement.option}
                             </h3>
                             {optionElement.quantity == "multiple" ? (
                               <div className="flex flex-col">
@@ -372,6 +372,7 @@ export default function RestaurantFoods() {
            
 
           </p>
+          <div className="h-screen">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
             {foodList ? (
               <>
@@ -381,9 +382,9 @@ export default function RestaurantFoods() {
                     key={food}
                     className="w-[100%] h-auto self-center col-span-1 flex flex-row py-4 px-4 pt-4 border-2 rounded-lg shadow-lg hover:bg-gray-100 duration-200 cursor-pointer"
                   >
-                    <div className="w-[40%] rounded-md pt-2">
+                    <div className="h-[120px]  w-[200px] rounded-md pt-2 overflow-hidden">
                       <img
-                        className="object-cover rounded-md shadow-lg"
+                        className=" rounded-md shadow-lg w-auto object-cover"
                         src={food?.image}
                       ></img>
                     </div>
@@ -391,8 +392,7 @@ export default function RestaurantFoods() {
                       <h4 className="text-lg font-semibold">{food?.name}</h4>
                       <p>{food?.price} $</p>
                       <p className="text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Fusce varius gravida odio,{" "}
+                        {food?.description}
                       </p>
                       <div className="static z-100 mt-1">
                         {" "}
@@ -417,6 +417,7 @@ export default function RestaurantFoods() {
             ) : (
               <>Loading</>
             )}
+          </div>
           </div>
         </div>
 
