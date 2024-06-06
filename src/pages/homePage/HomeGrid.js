@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import { useSelector } from "react-redux";
 
 export default function HomeGrid({ list }) {
-  console.log(list)
+  console.log(list);
   const [choosedAdress, setChoosedAdress] = useState(
     localStorage.getItem("adress")
       ? JSON.parse(localStorage.getItem("adress"))
@@ -52,12 +52,18 @@ export default function HomeGrid({ list }) {
 
         if (response.status === 200) {
           const result = await response.json();
+          console.log(result.restaurants.restaurantName);
+          let filteredRestaurants;
 
-          const filteredRestaurants = result.restaurants.filter(
-            (restaurant) =>
-              restaurant.adress?.province === choosedAdress.province &&
-              restaurant.adress?.district === choosedAdress.districts
-          );
+          if (choosedAdress.province && choosedAdress.districts) {
+            filteredRestaurants = result.restaurants.filter(
+              (restaurant) =>
+                restaurant.adress?.province === choosedAdress.province &&
+                restaurant.adress?.district === choosedAdress.districts
+            );
+          } else {
+            filteredRestaurants = result.restaurants;
+          }
 
           setFoods(filteredRestaurants);
 
@@ -112,7 +118,7 @@ export default function HomeGrid({ list }) {
       let cookieLabelList = Cookies.get("labelList")
         ? JSON.parse(Cookies.get("labelList"))
         : [];
-  
+
       if (cookieLabelList.length > 0) {
         foods?.forEach((element) => {
           let value = 0;
@@ -136,7 +142,7 @@ export default function HomeGrid({ list }) {
         let newList = labelList
           .slice()
           .sort((a, b) => b.labelValue - a.labelValue);
-  
+
         if (newList.length > 0) {
           const newRestaurantList = [];
           for (let a = 0; a < newList.length; a++) {
@@ -146,17 +152,15 @@ export default function HomeGrid({ list }) {
               newRestaurantList.push(restaurantObj);
             }
           }
-  
+
           if (JSON.stringify(newRestaurantList) !== JSON.stringify(foods)) {
             setFoods(newRestaurantList);
           }
         }
-      }else{
-        console.log("false abi")
+      } else {
+        console.log("false abi");
       }
     }
-
-    
   }, [foods]);
 
   function addFavorite(restaurantId) {
@@ -191,84 +195,83 @@ export default function HomeGrid({ list }) {
         {currentItems.length > 0 ? (
           currentItems.map((element, index) => (
             <div
-            key={index}
-            className="w-full h-auto relative pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200 hover:scale-[103%] overflow-hidden"
-          >
-            {element && element._id && (
-              <button
-                onClick={() => addFavorite(element._id)}
-                className="absolute right-2 top-0 z-[300] text-slate-100 px-2 py-1 bg-[#DB3748] rounded-b-full bg-opacity-90"
-              >
-                {!isFavorited(element._id) ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-7 h-7"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-7 h-7"
-                  >
-                    <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-                  </svg>
-                )}
-              </button>
-            )}
-            <div className="h-[230px] overflow-hidden">
-              <img
-                src={
-                  element.image
-                    ? element.image
-                    : "    https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg"
-                }
-                alt="Delicious Food"
-                className="object-cover object-bottom md:h-[170px] lg:h-auto  overflow-hidden rounded-md"
-                onClick={() => goRestaurant(element)}
-
-              />
-            </div>
-            <div
-              className="flex flex-col px-2 pt-3"
-              onClick={() => goRestaurant(element)}
+              key={index}
+              className="w-full h-auto relative pb-3 pt-1 mt-1 rounded-md shadow-md flex flex-col cursor-pointer duration-200 hover:scale-[103%] overflow-hidden"
             >
-              <div className="flex flex-row w-full h-full justify-between">
-                <h3 className="text-md font-semibold">
-                  {element &&
-                    element.restaurantName &&
-                    element.restaurantName}
-                </h3>
-                <div className="flex flex-row">
-                  <span className="text-yellow-400 text-lg mt[-2px]">★</span>
-                  <p className="font-large pl-2">
-                    {ratings.find(
-                      (item) => item.restaurantName === element.restaurantName
-                    )?.rating || "0"}
-                  </p>
-                  <p className="font-large pl-2">
-                    ({element.comments.length}+)
-                  </p>
+              {element && element._id && (
+                <button
+                  onClick={() => addFavorite(element._id)}
+                  className="absolute right-2 top-0 z-[300] text-slate-100 px-2 py-1 bg-[#DB3748] rounded-b-full bg-opacity-90"
+                >
+                  {!isFavorited(element._id) ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-7 h-7"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-7 h-7"
+                    >
+                      <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                    </svg>
+                  )}
+                </button>
+              )}
+              <div className="h-[230px] overflow-hidden">
+                <img
+                  src={
+                    element.image
+                      ? element.image
+                      : "    https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg"
+                  }
+                  alt="Delicious Food"
+                  className="object-cover object-bottom md:h-[170px] lg:h-auto  overflow-hidden rounded-md"
+                  onClick={() => goRestaurant(element)}
+                />
+              </div>
+              <div
+                className="flex flex-col px-2 pt-3"
+                onClick={() => goRestaurant(element)}
+              >
+                <div className="flex flex-row w-full h-full justify-between">
+                  <h3 className="text-md font-semibold">
+                    {element &&
+                      element.restaurantName &&
+                      element.restaurantName}
+                  </h3>
+                  <div className="flex flex-row">
+                    <span className="text-yellow-400 text-lg mt[-2px]">★</span>
+                    <p className="font-large pl-2">
+                      {ratings.find(
+                        (item) => item.restaurantName === element.restaurantName
+                      )?.rating || "0"}
+                    </p>
+                    <p className="font-large pl-2">
+                      ({element.comments.length}+)
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-row w-full h-full text-xs font-medium text-gray-400 pb-1">
+                  150 $ minimum
+                </div>
+                <div className="flex flex-row w-full h-full text-sm font-medium">
+                  30 min <span className="text-pink-600 pl-2">Ücretsiz</span>
                 </div>
               </div>
-              <div className="flex flex-row w-full h-full text-xs font-medium text-gray-400 pb-1">
-                150 $ minimum
-              </div>
-              <div className="flex flex-row w-full h-full text-sm font-medium">
-                30 min <span className="text-pink-600 pl-2">Ücretsiz</span>
-              </div>
             </div>
-          </div>
           ))
         ) : (
           <div className="flex justify-center items-center">
@@ -300,8 +303,3 @@ export default function HomeGrid({ list }) {
     </div>
   );
 }
-
-
-/*
-
-*/
