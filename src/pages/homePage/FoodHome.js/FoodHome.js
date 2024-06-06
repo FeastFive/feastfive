@@ -60,12 +60,15 @@ export default function FoodHome() {
         const response = await getRestaurant();
         if (response.status === 200) {
           const result = await response.json();
+          let filteredRestaurants = result.restaurants;
 
-          const filteredRestaurants = result.restaurants.filter(
-            (restaurant) =>
-              restaurant.adress?.province === choosedAdress.province &&
-              restaurant.adress?.district === choosedAdress.districts
-          );
+          if (choosedAdress.province && choosedAdress.districts) {
+            filteredRestaurants = result.restaurants.filter(
+              (restaurant) =>
+                restaurant.adress?.province === choosedAdress.province &&
+                restaurant.adress?.district === choosedAdress.districts
+            );
+          }
 
           setRestaurants(filteredRestaurants);
           setFiltered(filteredRestaurants);
@@ -170,19 +173,21 @@ export default function FoodHome() {
               ></input>
             </div>
             <div className="flex lg:flex-col flex-row flex-wrap lg:gap-1 pt-4 gap-4">
-            {categories.map((category) => (
-              <li key={category} className="flex flex-row lg:gap-4 gap-2 pt-2">
-                <input
-                  type="checkbox"
-                  className="w-4 bg-none"
-                  onChange={() => handleCategoryChange(category)}
-                  checked={selectedCategories.includes(category)}
-                ></input>
-                <span className="font-medium text-sm">{category}</span>
-              </li>
-            ))}
+              {categories.map((category) => (
+                <li
+                  key={category}
+                  className="flex flex-row lg:gap-4 gap-2 pt-2"
+                >
+                  <input
+                    type="checkbox"
+                    className="w-4 bg-none"
+                    onChange={() => handleCategoryChange(category)}
+                    checked={selectedCategories.includes(category)}
+                  ></input>
+                  <span className="font-medium text-sm">{category}</span>
+                </li>
+              ))}
             </div>
-            
           </ul>
           {/* <div>
             <h3 className="mt-2 text-sm">Price</h3>
