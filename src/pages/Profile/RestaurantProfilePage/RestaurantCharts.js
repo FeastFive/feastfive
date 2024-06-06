@@ -79,40 +79,42 @@ export default function RestaurantCharts() {
 
   return (
     <div>
-      <h3 className=" px-24 lg:pl-28 text-4xl font-bold pt-8 pb-2 ">Dashboard</h3>
-      <div className="flex flex-row flex-wrap justify-center gap-6 pt-12 py-24">
-        <div className="bg-cyan-300 bg-opacity-40 w-[600px] lg:w-[470px] h-[200px] rounded-md shadow-md px-8 py-8">
+      <h3 className="px-24 lg:pl-28 text-4xl font-bold pt-8 pb-2">Dashboard</h3>
+      <div className="flex flex-row flex-wrap justify-center gap-10 pt-10 py-10">
+        <div className="bg-cyan-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8">
           <h3 className="text-right text-4xl font-semibold pr-2 py-1">
             {restaurant?.orders.length}
           </h3>
           <h3 className="text-right text-4xl font-bold">Total Orders</h3>
         </div>
-        
-        <div className="bg-violet-300 bg-opacity-40 w-[600px] lg:w-[470px] h-[200px] rounded-md shadow-md px-8 py-8">
+
+        <div className="bg-violet-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8">
           <h3 className="text-right text-4xl font-semibold pr-2 py-1">
             ${totalEarnings.toFixed(2)}
           </h3>
           <h3 className="text-right text-4xl font-bold">Total Earnings</h3>
         </div>
-        <div className="bg-orange-300 bg-opacity-40 w-[600px] lg:w-[470px] h-[200px] rounded-md shadow-md px-8 py-8">
+        <div className="bg-orange-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8">
           <h3 className="text-right text-4xl font-semibold pr-2 py-1">
             {uniqueUsers}
           </h3>
           <h3 className="text-right text-4xl font-bold">Unique Users</h3>
         </div>
       </div>
-      <h3 className=" px-24 lg:pl-28 text-4xl font-semibold py-4 border-t-2 pt-8 ">Charts</h3>
-      <div className="flex flex-col lg:flex-row px-4 lg:px-24 gap-3">
-        <div className="flex flex-col w-full lg:w-1/2 p-4">
-          <div className="w-full  lg:w-[550px] m-auto p-4">
+      <h3 className="px-24 lg:pl-28 text-4xl font-semibold py-4 border-t-2 pt-8">
+        Charts
+      </h3>
+      <div className="flex flex-row flex-wrap justify-center px-4 lg:px-24 gap-3">
+        <div className="flex flex-col lg:flex-row w-full lg:w-full p-4 gap-4">
+          <div className="w-full lg:w-2/5 p-4">
             <BarChart chartData={barChartData} />
           </div>
-          <div className="w-full lg:w-[550px] m-auto p-4">
+          <div className="w-full lg:w-2/5 p-4">
             <LineChart chartData={lineChartData} />
           </div>
-        </div>
-        <div className="w-full lg:w-[550px] m-auto p-4">
-          <PieChart chartData={pieChartData} />
+          <div className="w-full lg:w-1/5 p-4">
+            <PieChart chartData={pieChartData} />
+          </div>
         </div>
       </div>
     </div>

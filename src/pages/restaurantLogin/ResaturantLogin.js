@@ -32,9 +32,9 @@ const ResaturantLogin = () => {
 
       if (response.status === 200) {
         const result = await response.json();
-        dispatch(setActiveRestaurant(result));
         ShowAlert(1, "Logged in successfully");
         navigate("/home");
+        dispatch(setActiveRestaurant(result));
       } else if (response.status === 403) {
         ShowAlert(3, "Check your email to activate your account.");
       } else {

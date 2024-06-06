@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../style/Footer.module.css";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
   const currentPath = window.location.pathname;
-  const menuItems = [
-    { title: "Home", path: "/" },
-    { title: "Restaurants", path: "/restaurants" },
-    { title: "Cuisine", path: "/cuisine" },
-    { title: "Campaign", path: "/campaign" },
-  ];
+  const user = useSelector((state) => state.user);
+  const [menuItems, setMenuItems] = useState([]);
+
+  useEffect(() => {
+    if (user?.isLogin) {
+      setMenuItems([
+        { title: "Home" },
+        { title: "Restaurants" },
+        { title: "Cuisine" },
+        { title: "Favorites" },
+      ]);
+    } else {
+      setMenuItems([
+        { title: "Home" },
+        { title: "Menu" },
+        { title: "Orders" },
+        { title: "Profile" },
+      ]);
+    }
+  }, [user]);
 
   const isExcludedPath = () => {
     const excludedPaths = [
@@ -22,9 +37,9 @@ const Footer = () => {
       "/restaurantChangePassword",
       "/purchaseAccepted",
       "/purchaseRejected",
-      "/profile",
-      "/favorities",
-      "/orders",
+      // "/profile",
+      // "/favorities",
+      // "/orders",
     ];
     return !excludedPaths.includes(currentPath);
   };
