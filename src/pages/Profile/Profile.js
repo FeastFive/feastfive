@@ -164,7 +164,7 @@ const Profile = () => {
         {choose === 0 && <RestaurantEditProfile></RestaurantEditProfile>}
         {choose === 1 && <RestaurantPanelPage></RestaurantPanelPage>}
         {choose === 2 && <GivenOrders></GivenOrders>}
-                                  
+
         {choose === 3 && (
           <div className="w-full h-full pt-12 flex flex-col justfiy-center place-items-center">
             <h2 className="text-3xl font-semibold">
@@ -225,12 +225,12 @@ const Profile = () => {
                 <span className="pr-2 text-lg font-semibold">
                   Registration Date:
                 </span>
-                {user.created_at}{" "}
+                {formatDate(user.created_at)}{" "}
               </h3>
               <h3>
                 {" "}
                 <span className="pr-2 text-lg font-semibold">Last Login:</span>
-                {user.loginDate}{" "}
+                {formatDate(user.loginDate)}{" "}
               </h3>
             </div>
           </div>
