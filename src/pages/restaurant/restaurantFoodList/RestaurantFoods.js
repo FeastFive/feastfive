@@ -172,20 +172,23 @@ export default function RestaurantFoods() {
     console.log(foodObject);
     console.log(choosedFood);
 
-    if (localStorage.getItem("restaurantId")) {
-      if (restaurandId != localStorage.getItem("restaurantId")) {
-        ShowAlert(3, "Diğer restorandaki ürünleri silmelisiniz !");
-      } else {
-      
+    if (localStorage.getItem("address")) {
+      if (localStorage.getItem("restaurantId")) {
+        if (restaurandId != localStorage.getItem("restaurantId")) {
+          ShowAlert(
+            3,
+            "You should delete the items from the other restaurant!"
+          );
+        } else {
           localStorage.setItem("restaurantId", restaurandId);
           dispatch(addFoodToCard(foodObject));
-       
-      }
-    } else {
-      
+        }
+      } else {
         localStorage.setItem("restaurantId", restaurandId);
         dispatch(addFoodToCard(foodObject));
-      
+      }
+    } else {
+      ShowAlert(3, "First you need to choose address from profile");
     }
   }
   function resetMultiple() {
@@ -362,62 +365,62 @@ export default function RestaurantFoods() {
           </div>
           <p className="pb-4">
             <div className="flex flex-row justify-between w-[200px]">
-            <div>
-            <span className="font-semibold text-gray-700">{averageRating}</span>
-            <span className="text-yellow-300 text-xl">★</span> {comments.length}
+              <div>
+                <span className="font-semibold text-gray-700">
+                  {averageRating}
+                </span>
+                <span className="text-yellow-300 text-xl">★</span>{" "}
+                {comments.length}
+              </div>
+              <p className="text-gray-400">
+                {restaurant?.createdAt.slice(0, 10)}
+              </p>
             </div>
-            <p className="text-gray-400">{restaurant?.createdAt.slice(0,10)}</p>
-
-            </div>
-           
-
           </p>
           <div className="h-screen">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
-            {foodList ? (
-              <>
-                {foodList.map((food) => (
-                  <div
-                    onClick={() => setchoosedFood(food)}
-                    key={food}
-                    className="w-[100%] h-auto self-center col-span-1 flex flex-row py-4 px-4 pt-4 border-2 rounded-lg shadow-lg hover:bg-gray-100 duration-200 cursor-pointer"
-                  >
-                    <div className="h-[120px]  w-[200px] rounded-md pt-2 overflow-hidden">
-                      <img
-                        className=" rounded-md shadow-lg w-auto object-cover"
-                        src={food?.image}
-                      ></img>
-                    </div>
-                    <div className="w-full flex flex-col lg:pl-4 pl-2">
-                      <h4 className="text-lg font-semibold">{food?.name}</h4>
-                      <p>{food?.price} $</p>
-                      <p className="text-sm">
-                        {food?.description}
-                      </p>
-                      <div className="static z-100 mt-1">
-                        {" "}
-                        <div className=" w-[35%] text-sm text-gray-400">
-                          Add to Cart
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
+              {foodList ? (
+                <>
+                  {foodList.map((food) => (
+                    <div
+                      onClick={() => setchoosedFood(food)}
+                      key={food}
+                      className="w-[100%] h-auto self-center col-span-1 flex flex-row py-4 px-4 pt-4 border-2 rounded-lg shadow-lg hover:bg-gray-100 duration-200 cursor-pointer"
+                    >
+                      <div className="h-[120px]  w-[200px] rounded-md pt-2 overflow-hidden">
+                        <img
+                          className=" rounded-md shadow-lg w-auto object-cover"
+                          src={food?.image}
+                        ></img>
+                      </div>
+                      <div className="w-full flex flex-col lg:pl-4 pl-2">
+                        <h4 className="text-lg font-semibold">{food?.name}</h4>
+                        <p>{food?.price} $</p>
+                        <p className="text-sm">{food?.description}</p>
+                        <div className="static z-100 mt-1">
+                          {" "}
+                          <div className=" w-[35%] text-sm text-gray-400">
+                            Add to Cart
+                          </div>
+                          {order.find((e) => e.id == food) ? (
+                            <button
+                              onClick={() => removeFood(food)}
+                              className="bg-[#db3748] bg-opacity-35 px-[7.3px] pb-[2px]  rounded-sm shadow-sm text-sm aboslute z-100"
+                            >
+                              -
+                            </button>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                        {order.find((e) => e.id == food) ? (
-                          <button
-                            onClick={() => removeFood(food)}
-                            className="bg-[#db3748] bg-opacity-35 px-[7.3px] pb-[2px]  rounded-sm shadow-sm text-sm aboslute z-100"
-                          >
-                            -
-                          </button>
-                        ) : (
-                          <></>
-                        )}
                       </div>
                     </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>Loading</>
-            )}
-          </div>
+                  ))}
+                </>
+              ) : (
+                <>Loading</>
+              )}
+            </div>
           </div>
         </div>
 
@@ -435,34 +438,38 @@ export default function RestaurantFoods() {
               {averageRating} <span className="text-yellow-300 text-xl">★</span>
             </p>
           </div>
-          {comments?.length >0 ?
-        <>
-          {comments.map((comment) => (
-            <div
-              style={{ boxShadow: "0px 11px 10px -5px rgba(203,203,203,0.25)" }}
-              className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20 "
-            >
-              <div className="flex flex-row justify-between pb-2">
-                <h3 className="text-lg font-semibold">{comment?.username}</h3>
-                <ReactStars
-                  edit={false}
-                  count={5}
-                  size={24}
-                  isHalf={true}
-                  emptyIcon={<i className="far fa-star"></i>}
-                  halfIcon={<i className="fa fa-star-half-alt"></i>}
-                  fullIcon={<i className="fa fa-star"></i>}
-                  activeColor="#ffd700"
-                  value={comment?.rating}
-                />
-              </div>
-              <p className="">{comment?.comment}</p>
-            </div>
-          ))}
-        </>  
-
-        :<h3>No comment yet.</h3>
-        }
+          {comments?.length > 0 ? (
+            <>
+              {comments.map((comment) => (
+                <div
+                  style={{
+                    boxShadow: "0px 11px 10px -5px rgba(203,203,203,0.25)",
+                  }}
+                  className="flex flex-col pt-6 px-6 rounded-sm  border-gray-600 pb-4 border-b-[2px] border-slate-100 border-opacity-20 "
+                >
+                  <div className="flex flex-row justify-between pb-2">
+                    <h3 className="text-lg font-semibold">
+                      {comment?.username}
+                    </h3>
+                    <ReactStars
+                      edit={false}
+                      count={5}
+                      size={24}
+                      isHalf={true}
+                      emptyIcon={<i className="far fa-star"></i>}
+                      halfIcon={<i className="fa fa-star-half-alt"></i>}
+                      fullIcon={<i className="fa fa-star"></i>}
+                      activeColor="#ffd700"
+                      value={comment?.rating}
+                    />
+                  </div>
+                  <p className="">{comment?.comment}</p>
+                </div>
+              ))}
+            </>
+          ) : (
+            <h3>No comment yet.</h3>
+          )}
         </div>
       </div>
     </>
