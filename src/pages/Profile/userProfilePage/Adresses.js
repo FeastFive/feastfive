@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ShowAlert } from "../../../components/alert/ShowAlert";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAddress } from "../../../utils/user/getAddress";
 import { addAdress } from "../../../utils/user/addAddress";
 
@@ -16,7 +16,11 @@ export default function Adresses() {
   const [selectedDistricts, setSelectesDistricts] = useState(null);
   const [adressName, setAdressName] = useState("");
   const [adressDescp, setAdressDescp] = useState("");
-  const [choosedAdress, setChoosedAdress] = useState(localStorage.getItem("adress") ? JSON.parse(localStorage.getItem("adress")) : {})
+  const [choosedAdress, setChoosedAdress] = useState(
+    localStorage.getItem("adress")
+      ? JSON.parse(localStorage.getItem("adress"))
+      : {}
+  );
   console.log(selectedProvinces, selectedDistricts, adressName, adressDescp);
 
   useEffect(() => {
@@ -68,6 +72,7 @@ export default function Adresses() {
           const result = await response.json();
           console.log(result);
           ShowAlert(1, "Succesfully added adress.");
+          window.location.reload();
         } else if (response.status === 404) {
           ShowAlert(3, "No user found by id");
         } else {
@@ -106,10 +111,10 @@ export default function Adresses() {
     fetchAddress();
   }, []);
 
-  function chooseCurrentAdress(adress){
-    console.log(adress)
-    setChoosedAdress(adress)
-    localStorage.setItem("adress",JSON.stringify(adress))
+  function chooseCurrentAdress(adress) {
+    console.log(adress);
+    setChoosedAdress(adress);
+    localStorage.setItem("adress", JSON.stringify(adress));
   }
 
   return (
@@ -190,11 +195,18 @@ export default function Adresses() {
           Your Adresses
         </h3>
         {add.map((item, index) => (
-          <div key={index} onClick={()=> chooseCurrentAdress(item)}>
+          <div key={index} onClick={() => chooseCurrentAdress(item)}>
             <h1 className="px-2 text-xl fontsemibold pb-2 font-semibold">
               {item.adressName}
             </h1>
-            <div className={`flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ` + (choosedAdress?.addresDescp === item.addresDescp ? " border-green-300" : " ")} >
+            <div
+              className={
+                `flex flex-col border-2 px-4 py-2 rounded-md border-gray-800 hover:bg-gray-100 duration-200 ease cursor-pointer ` +
+                (choosedAdress?.addresDescp === item.addresDescp
+                  ? " border-green-300"
+                  : " ")
+              }
+            >
               <div className="flex flex-row">
                 <h3 className="-font-semibold text-lg mr-2">{item.province}</h3>
                 <h3 className="-font-semibold text-lg mr-2">
