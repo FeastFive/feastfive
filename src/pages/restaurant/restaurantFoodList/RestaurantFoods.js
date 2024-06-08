@@ -170,9 +170,8 @@ export default function RestaurantFoods() {
 
   function orderMeal() {
     console.log(foodObject);
-    console.log(choosedFood);
 
-    if (localStorage.getItem("address")) {
+    if (localStorage.getItem("adress")) {
       if (localStorage.getItem("restaurantId")) {
         if (restaurandId != localStorage.getItem("restaurantId")) {
           ShowAlert(
