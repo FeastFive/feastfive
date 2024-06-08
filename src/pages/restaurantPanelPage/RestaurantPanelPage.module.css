@@ -15,7 +15,7 @@
 }
 .addLabelDiv {
   font-weight: 600;
-  font-size: 36px;
+  font-size: 26px;
 }
 .labelContainer {
   margin-top: 10px;
@@ -45,7 +45,6 @@
   padding: 9px 15px;
   transition: all 0.3s ease;
   border-radius: 0.4rem;
-
 }
 .addMenuButton:hover {
   background-color: #bc2433;
@@ -64,7 +63,6 @@
   transition: all 0.3s ease;
   font-weight: 600;
   border-radius: 0.4rem;
-
 }
 .saveLableButton:hover {
   background-color: #db3748;

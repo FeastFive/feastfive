@@ -6,7 +6,6 @@ import SearchResultList from "../../components/search/SearchResultList";
 export default function HomeEntry() {
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState(false);
-  
 
   return (
     <div className="w-screen px-12 pb-12 sm:px-24 h-full sm:h-[600px] md:h-[400px] lg:h-[380px] flex flex-col  flex-col-reverse	 sm:flex-col md:flex-row lg:flex-row md:justify-between  pt-12 bg-[#F9FCFB] mt-[-20px] border-2 border-slate-100 shadow-sm">
@@ -16,7 +15,7 @@ export default function HomeEntry() {
           href="/food"
           className="text-2xl m-auto sm:text-4xl sm:m-0 pl-8 sm:pl-0 pt-3  text-[#db3748] w-fit pr-6 flex flex-row border-b-2 border-[#db3748] border-opacity-40 cursor-pointer	  pb-2 hover:text-orange-500 duration-200"
         >
-          Lets Order food{" "}
+          Let's Order Food{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

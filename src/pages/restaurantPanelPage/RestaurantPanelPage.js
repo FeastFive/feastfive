@@ -85,7 +85,7 @@ const RestaurantPanelPage = () => {
     <div>
       <div className={styles.mainContainer}>
         <div className={styles.headCont}>
-          <div className={styles.addLabelDiv}>Add Label</div>
+          <div className={styles.addLabelDiv}>Labels of Restaurant</div>
           <div className={styles.labelContainer}>
             {/* {restaurantData.restaurantName} */}
             <Select

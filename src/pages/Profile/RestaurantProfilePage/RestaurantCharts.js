@@ -79,26 +79,50 @@ export default function RestaurantCharts() {
 
   return (
     <div>
-      <h3 className="px-24 lg:pl-28 text-4xl font-bold pt-8 pb-2">Dashboard</h3>
-      <div className="flex flex-row flex-wrap justify-center gap-10 pt-10 py-10">
+      <h3 className="px-24 lg:pl-28 text-4xl font-bold pt-4 pb-2">Dashboard</h3>
+      <div className="flex flex-row flex-wrap justify-center gap-10 pt-4 py-10">
         <div className="bg-cyan-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8">
-          <h3 className="text-right text-4xl font-semibold pr-2 py-1">
+          <h3
+            className="text-right text-4xl font-semibold pr-2 py-1"
+            style={{ color: "#fbfbfb", textShadow: "2px 2px 4px #000000" }}
+          >
             {restaurant?.orders.length}
           </h3>
-          <h3 className="text-right text-4xl font-bold">Total Orders</h3>
+          <h3
+            className="text-right text-4xl font-bold"
+            style={{ color: "#fbfbfb", textShadow: "2px 2px 4px #000000" }}
+          >
+            Total Orders
+          </h3>
         </div>
 
-        <div className="bg-violet-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8">
+        <div
+          className="bg-violet-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8"
+          style={{ color: "#fbfbfb", textShadow: "2px 2px 4px #000000" }}
+        >
           <h3 className="text-right text-4xl font-semibold pr-2 py-1">
             ${totalEarnings.toFixed(2)}
           </h3>
-          <h3 className="text-right text-4xl font-bold">Total Earnings</h3>
+          <h3
+            className="text-right text-4xl font-bold"
+            style={{ color: "#fbfbfb", textShadow: "2px 2px 4px #000000" }}
+          >
+            Total Earnings
+          </h3>
         </div>
-        <div className="bg-orange-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8">
+        <div
+          className="bg-orange-300 bg-opacity-40 w-[500px] lg:w-[370px] h-[180px] rounded-md shadow-md px-8 py-8"
+          style={{ color: "#fbfbfb", textShadow: "2px 2px 4px #000000" }}
+        >
           <h3 className="text-right text-4xl font-semibold pr-2 py-1">
             {uniqueUsers}
           </h3>
-          <h3 className="text-right text-4xl font-bold">Unique Users</h3>
+          <h3
+            className="text-right text-4xl font-bold"
+            style={{ color: "#fbfbfb", textShadow: "2px 2px 4px #000000" }}
+          >
+            Unique Users
+          </h3>
         </div>
       </div>
       <h3 className="px-24 lg:pl-28 text-4xl font-semibold py-4 border-t-2 pt-8">
