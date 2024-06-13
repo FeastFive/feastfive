@@ -30,16 +30,28 @@ function SearchBar({ setResults, setSearch }) {
         if (response.status === 200) {
           const result = await response.json();
           console.log(result);
-          const filteredResults1 = result.byName.filter(
-            (restaurant) =>
-              restaurant.adress?.province === choosedAdress.province &&
-              restaurant.adress?.district === choosedAdress.districts
-          );
-          const filteredResults2 = result.byLabel.filter(
-            (restaurant) =>
-              restaurant.adress?.province === choosedAdress.province &&
-              restaurant.adress?.district === choosedAdress.districts
-          );
+          let filteredResults1;
+
+          if (choosedAdress.province && choosedAdress.districts) {
+            filteredResults1 = result.restaurants.filter(
+              (restaurant) =>
+                restaurant.adress?.province === choosedAdress.province &&
+                restaurant.adress?.district === choosedAdress.districts
+            );
+          } else {
+            filteredResults1 = result.byName;
+          }
+          let filteredResults2;
+
+          if (choosedAdress.province && choosedAdress.districts) {
+            filteredResults2 = result.restaurants.filter(
+              (restaurant) =>
+                restaurant.adress?.province === choosedAdress.province &&
+                restaurant.adress?.district === choosedAdress.districts
+            );
+          } else {
+            filteredResults2 = result.byLabel;
+          }
           const combinedResults = [
             ...filteredResults1,
             [],

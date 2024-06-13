@@ -126,6 +126,7 @@ const RestaurantPanelPage = () => {
           </ul>
         </div>
       </div>
+      <p className="h-[500px]"></p>
     </div>
   );
 };
